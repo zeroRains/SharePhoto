@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">SharePhoto</string>
+    <string name="AppTitle">Share Photo</string>
+    <string name="main_email_hint">请输入帐号</string>
+    <string name="main_password_hint">请输入密码</string>
+    <string name="login">登录</string>
+</resources>
