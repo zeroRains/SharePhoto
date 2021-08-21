@@ -36,3 +36,10 @@
 4. 初步成果图(后期图片会更换)
 
    ![image-20210821123342521](https://gitee.com/zeroRains/drawing-bed/raw/master/20210821123344image-20210821123342521.png)
+
+5. 工具栏界面制作完成，如图下图
+
+   ![image-20210821220512332](https://gitee.com/zeroRains/drawing-bed/raw/master/20210821220515image-20210821220512332.png)
+
+6. 工具栏点击逻辑制作完成(主要是动画切换部分，点中下面的图标会进行一定的颜色变化，这里用了select的xml类型)
+
