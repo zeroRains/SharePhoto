@@ -1,0 +1,44 @@
+package com.example.sharephoto;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+public class Login extends AppCompatActivity {
+    String account_text;
+    String password_text;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+        EditText account = findViewById(R.id.account);
+        EditText password = findViewById(R.id.password);
+        Button submit = findViewById(R.id.commit);
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                account_text = account.getText().toString();
+                password_text = password.getText().toString();
+                if(check()){
+                    Toast.makeText(Login.this, "登录成功，欢迎您" + account_text, Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(Login.this,MainActivity.class);
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(Login.this,"登录失败，请检查好用户名和密码",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private boolean check() {
+        if(account_text.equals("admin") && password_text.equals("123456"))
+            return true;
+        return false;
+    }
+}
