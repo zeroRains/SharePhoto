@@ -68,6 +68,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.tab_profile:
                 iv_profile.setSelected(true);
                 current_position = iv_profile;
+                Intent intent = new Intent(MainActivity.this,Login.class);
+                startActivity(intent);
                 break;
             case R.id.addImage:
                 current_position.setSelected(true);

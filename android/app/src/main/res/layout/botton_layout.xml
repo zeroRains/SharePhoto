@@ -63,6 +63,19 @@
         android:layout_weight="1"
         android:gravity="center"
         android:orientation="vertical">
+        <ImageView
+
+            android:layout_width="32dp"
+            android:layout_height="32dp">
+
+        </ImageView>
+
+        <TextView
+
+            android:layout_width="32dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="发布" />
 
     </LinearLayout>
 

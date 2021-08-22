@@ -4,4 +4,6 @@
     <string name="main_email_hint">请输入帐号</string>
     <string name="main_password_hint">请输入密码</string>
     <string name="login">登录</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
