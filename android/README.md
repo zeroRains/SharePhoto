@@ -46,5 +46,15 @@
 ## 2021.8.22
 
 1. 完成了四个内容的Fragment切换关系
+
 2. 在首页中添加了tabLayout+viewpage+fragment的形式，并解决了从首页到频道再切换成首页时，tabLayout+viewpage+fragment显示不正常的问题(解决方案，在首页fragment中使用一个ViewHolder，然后存储好第一次配置好的tabLayout和fragments)
 
+3. 完成RecycleView Item设计
+
+4. 完成了在viewpager+fragment的内容中使用RecycleView实现图片内容加载
+
+5. 使用CardView显示内容
+
+   ![image-20210822205114200](https://gitee.com/zeroRains/drawing-bed/raw/master/20210822205115image-20210822205114200.png)
+
+   
