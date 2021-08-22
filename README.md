@@ -4,7 +4,7 @@
 
 ## Important!!!!
 ```
-版权所有（c）2021 ZeroRains
+版权所有（c）2021 ZeroRains，pommespeter
 
 反课设抄袭许可证-version 0.6
 

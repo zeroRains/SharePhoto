@@ -2,12 +2,12 @@
 
 # SharePhoto Docx
 
-- 开发者：1900300819卢林军
+- 开发者：1900300819卢林军，1900301236谢浚霖
 
 ## Important!!!!
 
 ```
-版权所有（c）2021 ZeroRains
+版权所有（c）2021 ZeroRains，pommespeter
 
 反课设抄袭许可证-version 0.6
 

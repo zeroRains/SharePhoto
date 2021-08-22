@@ -2,12 +2,12 @@
 
 # SharePhoto APP
 
-- 开发者：1900300819卢林军、1900301236谢浚霖.
+- 开发者：1900300819卢林军，1900301236谢浚霖
 
 ## Important!!!!
 
 ```
-版权所有（c）2021 ZeroRains
+版权所有（c）2021 ZeroRains，pommespeter
 
 反课设抄袭许可证-version 0.6
 
@@ -55,9 +55,15 @@
 
 5. 使用CardView显示内容
 
-   ![image-20210822205431823](https://gitee.com/zeroRains/drawing-bed/raw/master/20210822205433image-20210822205431823.png)
+6. 完成h自适应显示图像，利用瀑布布局获得更好的效果
+
+7. 实现了itema点击和status点击的简单逻辑
+
+   ![image-20210822213853049](https://gitee.com/zeroRains/drawing-bed/raw/master/20210822213854image-20210822213853049.png)
 
    
 
+   
+   
    
 
