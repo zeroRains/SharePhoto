@@ -47,7 +47,10 @@ public class HomePhotoFragment extends Fragment {
         for (int i = 0; i < 50; i++) {
             HomePhoto item = new HomePhoto();
             item.setIcon_id(R.drawable.icon);
-            item.setPhoto_id(R.drawable.nmsl);
+            if(i%2==0)
+                item.setPhoto_id(R.drawable.nmsl);
+            else
+                item.setPhoto_id(R.drawable.icon);
             item.setStart(true);
             item.setStart_num(666);
             item.setTag("#休闲时光#");
