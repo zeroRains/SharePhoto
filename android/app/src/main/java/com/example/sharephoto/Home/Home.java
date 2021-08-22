@@ -5,6 +5,8 @@ import android.os.Build;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.viewpager.widget.ViewPager;
 
 import android.util.Log;
@@ -27,6 +29,7 @@ public class Home extends Fragment {
     View home_view;
     String title[] = {"生活", "动漫"};
 
+
     public Home() {
         // Required empty public constructor
     }
@@ -45,17 +48,21 @@ public class Home extends Fragment {
                 vh.tableLayout.addTab(vh.tableLayout.newTab());
                 vh.tableLayout.getTabAt(i).setText(title[i]);
             }
-            HomePhotoFragementAdapter adapter = new HomePhotoFragementAdapter(getActivity().getSupportFragmentManager(), fragments, title);
-            vh.viewPager.setAdapter(adapter);
+            HomePhotoFragementAdapter adpter = new HomePhotoFragementAdapter(getActivity().getSupportFragmentManager(),fragments,title);
+            vh.viewPager.setAdapter(adpter);
         }
         vh.tableLayout.setupWithViewPager(vh.viewPager, false);
+
         return home_view;
     }
+
+
 
 
     class ViewHolder {
         TabLayout tableLayout;
         ViewPager viewPager;
+
     }
 
 
