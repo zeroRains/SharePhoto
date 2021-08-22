@@ -1,0 +1,63 @@
+
+
+# SharePhoto APP
+
+- 开发者：1900300819卢林军
+
+## Important!!!!
+
+```
+版权所有（c）2021 ZeroRains
+
+反课设抄袭许可证-version 0.6
+
+1、如果你想使用本项目的代码来交课设，
+那么请尽可能在完善本项目的基础上进行使用，
+因为本项目其实还有部分模块写得比较懒需要继续完善。(BUG还很多）
+因为本项目代码比较乱，复用性太差，可读性不强，稳定性太差，所以参考价值不大。
+
+2、一行不改甚至只改个100-200行代码就加上学号和名字说是你做的，
+这种情况是是不被允许的！
+
+3、上文所指的课设，包括诸如毕设，课程设计，课程结束考核等，
+诸如此类情况而违反上述条例使用该程序的代码，都是不被允许的。
+```
+
+# work summary
+
+##  2021.8.21
+
+1. 完成了基本的登录界面搭建
+
+2. 完成帐号，密码输入
+
+3. 检查，点击，跳转事件设置完成
+
+4. 初步成果图(后期图片会更换)
+
+   ![image-20210821123342521](https://gitee.com/zeroRains/drawing-bed/raw/master/20210821123344image-20210821123342521.png)
+
+5. 工具栏界面制作完成，如图下图
+
+   ![image-20210821220512332](https://gitee.com/zeroRains/drawing-bed/raw/master/20210821220515image-20210821220512332.png)
+
+6. 工具栏点击逻辑制作完成(主要是动画切换部分，点中下面的图标会进行一定的颜色变化，这里用了select的xml类型)
+
+## 2021.8.22
+
+1. 完成了四个内容的Fragment切换关系
+
+2. 在首页中添加了tabLayout+viewpage+fragment的形式，并解决了从首页到频道再切换成首页时，tabLayout+viewpage+fragment显示不正常的问题(解决方案，在首页fragment中使用一个ViewHolder，然后存储好第一次配置好的tabLayout和fragments)
+
+3. 完成RecycleView Item设计
+
+4. 完成了在viewpager+fragment的内容中使用RecycleView实现图片内容加载
+
+5. 使用CardView显示内容
+
+   ![image-20210822205431823](https://gitee.com/zeroRains/drawing-bed/raw/master/20210822205433image-20210822205431823.png)
+
+   
+
+   
+
