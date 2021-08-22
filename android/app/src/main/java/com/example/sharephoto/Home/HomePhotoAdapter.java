@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,10 +17,26 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class HomePhotoAdapter extends RecyclerView.Adapter<HomePhotoAdapter.ViewHolder> {
+public class HomePhotoAdapter extends RecyclerView.Adapter<HomePhotoAdapter.ViewHolder> implements View.OnClickListener {
     private Context context;
     private List<HomePhoto> photos;
     private int resourceId;
+    private OnItemClickListener onItemClickListener;
+
+
+    @Override
+    public void onClick(View v) {
+        if(onItemClickListener != null){
+            onItemClickListener.onItemClick(v,(int)v.getTag());
+        }
+    }
+    public void setOnItemClickListener(OnItemClickListener listener){
+        this.onItemClickListener = listener;
+    }
+
+    public static interface OnItemClickListener {
+        void onItemClick(View view, int position);
+    }
 
     public HomePhotoAdapter(Context context, List<HomePhoto> photos, int resourceId) {
         this.context = context;
@@ -32,6 +49,7 @@ public class HomePhotoAdapter extends RecyclerView.Adapter<HomePhotoAdapter.View
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(resourceId, parent, false);
         ViewHolder holder = new ViewHolder(view);
+        view.setOnClickListener(this);
         return holder;
     }
 
@@ -42,8 +60,16 @@ public class HomePhotoAdapter extends RecyclerView.Adapter<HomePhotoAdapter.View
         holder.img_tag.setText(item.getTag());
         holder.img_icon.setImageResource(item.getIcon_id());
         holder.img_username.setText(item.getUsername());
-        holder.img_star_num.setText(item.getStart_num()+"");
+        holder.img_star_num.setText(item.getStart_num() + "");
         holder.img_status.setSelected(item.isStart());
+        holder.img_status.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean flag = !holder.img_status.isSelected();
+                holder.img_status.setSelected(flag);
+                Toast.makeText(v.getContext(), "click" + flag, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

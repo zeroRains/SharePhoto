@@ -55,6 +55,9 @@
 
 5. 使用CardView显示内容
 
-   ![image-20210822205114200](https://gitee.com/zeroRains/drawing-bed/raw/master/20210822205115image-20210822205114200.png)
+   ![image-20210822205431823](https://gitee.com/zeroRains/drawing-bed/raw/master/20210822205433image-20210822205431823.png)
 
    
+
+   
+

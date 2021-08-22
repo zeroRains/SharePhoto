@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.sharephoto.R;
 
@@ -32,14 +33,19 @@ public class HomePhotoFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home_photo, container, false);
-//        TextView textView = view.findViewById(R.id.name);
-//        textView.setText(status);
         initData();
         RecyclerView recyclerView = view.findViewById(R.id.home_photo_show);
         HomePhotoAdapter photoAdapter = new HomePhotoAdapter(getContext(), photos, R.layout.home_photo_item);
+        photoAdapter.setOnItemClickListener(new HomePhotoAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Toast.makeText(getContext(),""+position,Toast.LENGTH_SHORT).show();
+            }
+        });
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(staggeredGridLayoutManager);
         recyclerView.setAdapter(photoAdapter);
+
         return view;
     }
 
