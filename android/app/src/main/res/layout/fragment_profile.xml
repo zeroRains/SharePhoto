@@ -216,14 +216,16 @@
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/profile_tab"
-                android:layout_height="wrap_content"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/upper_rounded_backgroud"
+                android:paddingBottom="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 app:tabIndicatorColor="@color/white"
                 app:tabIndicatorHeight="5dp"
                 app:tabTextColor="@color/white"
-                android:paddingBottom="10dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 tools:ignore="MissingConstraints" />
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/profile_view_pager"
