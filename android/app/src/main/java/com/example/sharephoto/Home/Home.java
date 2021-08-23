@@ -27,7 +27,7 @@ import java.util.List;
 public class Home extends Fragment {
     ViewHolder vh;
     View home_view;
-    String title[] = {"生活", "动漫"};
+    String title[] = {"推荐", "关注"};
 
 
     public Home() {
