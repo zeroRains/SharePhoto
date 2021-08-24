@@ -108,7 +108,8 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
             remark.setUsername("ZeroRains");
             remark.setContent("这是很多中肯的评论集合，这是很多中肯的评论集合，这是很多中肯的评论集合，这是很多中肯的评论集合");
             remark.setDate("2021-8-24");
-            remark.setStatus(true);
+            remark.setNum(666);
+            remark.setStatus(false);
             remarks.add(remark);
         }
     }

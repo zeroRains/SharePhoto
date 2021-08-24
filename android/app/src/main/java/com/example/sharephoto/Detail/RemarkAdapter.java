@@ -45,10 +45,21 @@ public class RemarkAdapter extends RecyclerView.Adapter<RemarkAdapter.ViewHolder
         holder.remark_content.setText(remark.getContent());
         holder.remark_date.setText(remark.getDate());
         holder.remark_status.setSelected(remark.isStatus());
+        holder.remark_zan_num.setText("" + remark.getNum());
         holder.remark_status.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                holder.remark_status.setSelected(!holder.remark_status.isSelected());
+                if (holder.remark_status.isSelected()) {
+                    holder.remark_status.setSelected(false);
+                    int num = Integer.parseInt(holder.remark_zan_num.getText().toString());
+                    num -= 1;
+                    holder.remark_zan_num.setText("" + num);
+                } else {
+                    holder.remark_status.setSelected(true);
+                    int num = Integer.parseInt(holder.remark_zan_num.getText().toString());
+                    num += 1;
+                    holder.remark_zan_num.setText("" + num);
+                }
             }
         });
     }
@@ -65,6 +76,7 @@ public class RemarkAdapter extends RecyclerView.Adapter<RemarkAdapter.ViewHolder
         TextView remark_date;
         ImageView remark_status;
         TextView remark_content;
+        TextView remark_zan_num;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -73,6 +85,7 @@ public class RemarkAdapter extends RecyclerView.Adapter<RemarkAdapter.ViewHolder
             remark_date = itemView.findViewById(R.id.remark_date);
             remark_status = itemView.findViewById(R.id.remark_status);
             remark_content = itemView.findViewById(R.id.remark_content);
+            remark_zan_num = itemView.findViewById(R.id.remark_zan_num);
         }
     }
 }

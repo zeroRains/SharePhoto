@@ -3,9 +3,18 @@ package com.example.sharephoto.Detail;
 public class Remark {
     private int icon;
     private String username;
+    private int num;
     private String content;
     private String date;
     private boolean status;
+
+    public int getNum() {
+        return num;
+    }
+
+    public void setNum(int num) {
+        this.num = num;
+    }
 
     public int getIcon() {
         return icon;
