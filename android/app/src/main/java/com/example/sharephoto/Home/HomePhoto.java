@@ -6,7 +6,7 @@ public class HomePhoto {
     private int iconId;
     private String username;
     private int starNum;
-    private boolean start;
+    private boolean star;
     private String thumbsnail;
 
 
@@ -50,12 +50,12 @@ public class HomePhoto {
         this.starNum = starNum;
     }
 
-    public boolean isStart() {
-        return start;
+    public boolean isStar() {
+        return star;
     }
 
-    public void setStart(boolean start) {
-        this.start = start;
+    public void setStar(boolean star) {
+        this.star = star;
     }
 
     public String getThumbsnail() {

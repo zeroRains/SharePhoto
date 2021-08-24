@@ -217,7 +217,8 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/bottom_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:background="@color/white">
 
                     <com.google.android.material.tabs.TabLayout
                         android:id="@+id/profile_tab"
@@ -225,8 +226,9 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/upper_rounded_backgroud"
                         android:overScrollMode="never"
+                        app:tabPaddingStart="40dp"
+                        app:tabPaddingEnd="40dp"
                         app:tabGravity="center"
-                        app:tabMinWidth="50dp"
                         app:layout_constraintBottom_toTopOf="@id/profile_view_pager"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -234,7 +236,7 @@
                         app:tabIndicatorColor="#333333"
                         app:tabSelectedTextColor="#333333"
                         app:tabTextColor="#AFAFAF"
-                        />
+                         />
 
                     <androidx.viewpager.widget.ViewPager
                         android:id="@+id/profile_view_pager"
