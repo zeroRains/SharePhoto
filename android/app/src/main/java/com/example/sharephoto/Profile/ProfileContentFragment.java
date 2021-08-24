@@ -25,10 +25,10 @@ import java.util.List;
 public class ProfileContentFragment extends Fragment {
 
     private String label;
+    private Profile item;
     private List<Profile> contentList;
     private static final String ARG_PARAM1 = "ARG_LABEL";
 
-    private TextView tv;
     private RecyclerView recyclerView;
     private View profileContentView;
 
@@ -60,26 +60,32 @@ public class ProfileContentFragment extends Fragment {
         initData();
         // Inflate the layout for this fragment
         profileContentView = inflater.inflate(R.layout.fragment_profile_content, container, false);
-        tv = profileContentView.findViewById(R.id.test_tv);
         recyclerView = profileContentView.findViewById(R.id.content_list);
 
         contentAdapter = new ProfileContentAdapter(getContext(), contentList, R.layout.item_profile_content);
         contentAdapter.setOnItemClickListener(new ProfileContentAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Toast.makeText(getContext(),""+position,Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "" + position, Toast.LENGTH_SHORT).show();
             }
         });
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(staggeredGridLayoutManager);
         recyclerView.setAdapter(contentAdapter);
 
-        tv.setText("这个是" + label + "标签页");
         return profileContentView;
     }
 
     private void initData() {
         contentList = new ArrayList<>();
-
+        for (int i = 0; i < 20; i++) {
+            item = new Profile();
+            if (i % 2 == 0) {
+                item.setImageid(R.drawable.nmsl);
+            } else {
+                item.setImageid(R.drawable.icon);
+            }
+            contentList.add(item);
+        }
     }
 }

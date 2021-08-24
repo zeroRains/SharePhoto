@@ -1,7 +1,6 @@
 package com.example.sharephoto.Home;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +11,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.sharephoto.Detail.DetailActivity;
-import com.example.sharephoto.MainActivity;
 import com.example.sharephoto.R;
 
 import java.util.List;
@@ -63,9 +60,9 @@ public class HomePhotoAdapter extends RecyclerView.Adapter<HomePhotoAdapter.View
         holder.home_photo.setTag(position);
         holder.home_photo.setImageResource(item.getId());
         holder.itemView.setTag(position);
-        holder.img_icon.setImageResource(item.getIcon_id());
+        holder.img_icon.setImageResource(item.getIconId());
         holder.img_username.setText(item.getUsername());
-        holder.img_star_num.setText(item.getStart_num() + "");
+        holder.img_star_num.setText(item.getStarNum() + "");
         holder.img_status.setSelected(item.isStart());
         holder.img_status.setOnClickListener(new View.OnClickListener() {
             @Override
