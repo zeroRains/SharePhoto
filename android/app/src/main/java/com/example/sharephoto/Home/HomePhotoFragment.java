@@ -35,7 +35,7 @@ public class HomePhotoFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home_photo, container, false);
         initData();
         RecyclerView recyclerView = view.findViewById(R.id.home_photo_show);
-        HomePhotoAdapter photoAdapter = new HomePhotoAdapter(getContext(), photos, R.layout.home_photo_item);
+        HomePhotoAdapter photoAdapter = new HomePhotoAdapter(getContext(), photos, R.layout.item_home_photo);
         photoAdapter.setOnItemClickListener(new HomePhotoAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {

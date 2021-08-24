@@ -12,8 +12,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.sharephoto.Home.HomePhoto;
-import com.example.sharephoto.Home.HomePhotoAdapter;
 import com.example.sharephoto.R;
 
 import java.util.ArrayList;
@@ -65,7 +63,7 @@ public class ProfileContentFragment extends Fragment {
         tv = profileContentView.findViewById(R.id.test_tv);
         recyclerView = profileContentView.findViewById(R.id.content_list);
 
-        contentAdapter = new ProfileContentAdapter(getContext(), contentList, R.layout.profile_content_item);
+        contentAdapter = new ProfileContentAdapter(getContext(), contentList, R.layout.item_profile_content);
         contentAdapter.setOnItemClickListener(new ProfileContentAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
