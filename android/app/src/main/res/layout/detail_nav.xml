@@ -3,12 +3,13 @@
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/primary"
-    android:layout_height="57dp">
+    android:layout_height="40dp">
     <ImageView
         android:id="@+id/back"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:src="@drawable/back"
+        android:onClick="back"
         android:adjustViewBounds="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

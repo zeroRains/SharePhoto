@@ -17,9 +17,9 @@
         <!-- 点击时背景变灰-->
         <shape>
             <!--背景-->
-            <solid android:color="#7E222323" />
+            <solid android:color="#48ae89" />
             <!--梯度-->
-            <gradient android:endColor="#7E222323" android:startColor="#7E222323" />
+            <gradient android:endColor="#48ae89" android:startColor="#48ae89" />
             <!--边框-->
             <stroke android:width="2dp" android:color="#7E222323" />
             <!--圆角-->

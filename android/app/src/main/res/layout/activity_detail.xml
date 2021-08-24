@@ -123,37 +123,42 @@
 
                 <LinearLayout
                     android:id="@+id/detail_zan"
-                    android:layout_width="70dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="parent">
 
                     <ImageView
+                        android:id="@+id/detail_zan_status"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:adjustViewBounds="true"
-                        android:src="@drawable/zan1" />
+                        android:src="@drawable/detail_zan" />
 
                     <TextView
+                        android:id="@+id/detail_zan_num"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="666"
+                        android:text="6666"
                         android:textSize="16dp" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/detail_love"
-                    android:layout_width="70dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@id/detail_zan">
 
                     <ImageView
+                        android:id="@+id/detail_love_status"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:adjustViewBounds="true"
-                        android:src="@drawable/star" />
+                        android:src="@drawable/detail_start" />
 
                     <TextView
+                        android:id="@+id/detail_love_num"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:text="666"
@@ -226,12 +231,13 @@
                 app:layout_constraintTop_toBottomOf="@+id/detail_remark_title" />
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/detail_remark"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="7dp"
                 android:scrollbars="none"
-                app:layout_constraintTop_toBottomOf="@id/detail_remark_title"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/detail_remark_title" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
@@ -242,31 +248,33 @@
 
         android:background="@color/gray"
         app:layout_constraintBottom_toBottomOf="parent">
+
         <EditText
             android:id="@+id/detail_remark_content"
             android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:layout_marginLeft="20dp"
-            android:layout_height="match_parent"
-            android:hint="发表评论..."
             android:background="@drawable/rounded_background"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/detail_remark_submit"/>
+            android:hint="发表评论..."
+            app:layout_constraintEnd_toStartOf="@id/detail_remark_submit"
+            app:layout_constraintStart_toStartOf="parent" />
+
         <Button
             android:id="@+id/detail_remark_submit"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/send_button"
             android:text="发 送"
             android:textColor="@color/white"
             android:textSize="18sp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="20dp"
-            app:layout_constraintStart_toEndOf="@id/detail_remark_content"
-            android:background="@drawable/send_button"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/detail_remark_content" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
