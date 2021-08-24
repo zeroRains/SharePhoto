@@ -1,6 +1,7 @@
 package com.example.sharephoto.Home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.sharephoto.Detail.DetailActivity;
+import com.example.sharephoto.MainActivity;
 import com.example.sharephoto.R;
 
 import java.util.List;
@@ -67,9 +70,19 @@ public class HomePhotoAdapter extends RecyclerView.Adapter<HomePhotoAdapter.View
         holder.img_status.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean flag = !holder.img_status.isSelected();
-                holder.img_status.setSelected(flag);
-                Toast.makeText(v.getContext(), "click" + flag, Toast.LENGTH_SHORT).show();
+                if (holder.img_status.isSelected()) {
+                    // 收藏点击
+                    holder.img_status.setSelected(false);
+                    int num = Integer.parseInt(holder.img_star_num.getText().toString());
+                    num -= 1;
+                    holder.img_star_num.setText("" + num);
+                } else {
+                    holder.img_status.setSelected(true);
+                    int num = Integer.parseInt(holder.img_star_num.getText().toString());
+                    num += 1;
+                    holder.img_star_num.setText("" + num);
+                }
+                Toast.makeText(v.getContext(), "click", Toast.LENGTH_SHORT).show();
             }
         });
     }
