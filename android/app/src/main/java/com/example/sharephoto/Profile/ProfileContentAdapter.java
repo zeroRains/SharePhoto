@@ -33,6 +33,21 @@ class ProfileContentAdapter extends RecyclerView.Adapter<ProfileContentAdapter.V
         this.resourceId = resourceId;
     }
 
+    @Override
+    public void onClick(View v) {
+        if (onItemClickListener != null) {
+            onItemClickListener.onItemClick(v, (int) v.getTag());
+        }
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(View view, int position);
+    }
+
+    public void setOnItemClickListener(ProfileContentAdapter.OnItemClickListener listener) {
+        this.onItemClickListener = listener;
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -47,27 +62,16 @@ class ProfileContentAdapter extends RecyclerView.Adapter<ProfileContentAdapter.V
         item = contentList.get(position);
         holder.profilePhoto.setImageResource(item.getImageid());
 
+        holder.profilePhoto.setTag(position);
+
     }
+
 
     @Override
     public int getItemCount() {
         return contentList.size();
     }
 
-    @Override
-    public void onClick(View v) {
-        if (onItemClickListener != null) {
-            onItemClickListener.onItemClick(v, (int) v.getTag());
-        }
-    }
-
-    public void setOnItemClickListener(ProfileContentAdapter.OnItemClickListener listener) {
-        this.onItemClickListener = listener;
-    }
-
-    public interface OnItemClickListener {
-        void onItemClick(View view, int position);
-    }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
