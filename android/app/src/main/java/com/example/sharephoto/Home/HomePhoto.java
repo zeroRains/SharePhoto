@@ -1,21 +1,19 @@
 package com.example.sharephoto.Home;
 
 public class HomePhoto {
-    private int id;
+    private int photo_id;
     private String tag;
     private int icon_id;
     private String username;
     private int start_num;
     private boolean start;
-    private String thumbsnail;
 
-
-    public int getId() {
-        return id;
+    public int getPhoto_id() {
+        return photo_id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setPhoto_id(int photo_id) {
+        this.photo_id = photo_id;
     }
 
     public String getTag() {
@@ -56,13 +54,5 @@ public class HomePhoto {
 
     public void setStart(boolean start) {
         this.start = start;
-    }
-
-    public String getThumbsnail() {
-        return thumbsnail;
-    }
-
-    public void setThumbsnail(String thumbsnail) {
-        this.thumbsnail = thumbsnail;
     }
 }

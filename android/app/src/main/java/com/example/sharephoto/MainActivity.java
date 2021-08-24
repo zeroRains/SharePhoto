@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -14,8 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.example.sharephoto.Home.HomeFragment;
-import com.example.sharephoto.Profile.ProfileFragment;
+import com.example.sharephoto.Home.Home;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -53,10 +53,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tab_profile.setOnClickListener(this);
         tab_channel.setOnClickListener(this);
 
-        home = new HomeFragment();
-        channel = new ChannelFragment();
-        message = new MessageFragment();
-        profile = new ProfileFragment();
+        home = new Home();
+        channel = new Channel();
+        message = new Message();
+        profile = new Profile();
 
         current_position = iv_home;
         current_position.setSelected(true);

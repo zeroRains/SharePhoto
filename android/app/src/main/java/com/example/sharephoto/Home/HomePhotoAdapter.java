@@ -61,7 +61,7 @@ public class HomePhotoAdapter extends RecyclerView.Adapter<HomePhotoAdapter.View
     public void onBindViewHolder(@NonNull HomePhotoAdapter.ViewHolder holder, int position) {
         HomePhoto item = photos.get(position);
         holder.home_photo.setTag(position);
-        holder.home_photo.setImageResource(item.getId());
+        holder.home_photo.setImageResource(item.getPhoto_id());
         holder.itemView.setTag(position);
         holder.img_icon.setImageResource(item.getIcon_id());
         holder.img_username.setText(item.getUsername());

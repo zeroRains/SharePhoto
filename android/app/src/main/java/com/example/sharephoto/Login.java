@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class LoginActivity extends AppCompatActivity {
+public class Login extends AppCompatActivity {
     String account_text;
     String password_text;
 
@@ -28,11 +28,11 @@ public class LoginActivity extends AppCompatActivity {
                 account_text = account.getText().toString();
                 password_text = password.getText().toString();
                 if(check()){
-                    Toast.makeText(LoginActivity.this, "登录成功，欢迎您" + account_text, Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                    Toast.makeText(Login.this, "登录成功，欢迎您" + account_text, Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(Login.this,MainActivity.class);
                     startActivity(intent);
                 }else{
-                    Toast.makeText(LoginActivity.this,"登录失败，请检查好用户名和密码",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Login.this,"登录失败，请检查好用户名和密码",Toast.LENGTH_SHORT).show();
                 }
             }
         });
