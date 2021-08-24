@@ -122,6 +122,10 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         detail_remark_submit.setOnClickListener(this);
     }
 
+    public void detail_back(View view) {
+        ((Activity) view.getContext()).finish();
+    }
+
 
     @Override
     public void onClick(View v) {
