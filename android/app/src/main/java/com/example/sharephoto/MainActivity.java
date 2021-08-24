@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -103,7 +104,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.addImage:
                 current_position.setSelected(true);
-                Toast.makeText(MainActivity.this, "click the add image", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainActivity.this, PublishActivity.class);
+                startActivity(intent);
                 break;
         }
     }
