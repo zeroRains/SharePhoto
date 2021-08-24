@@ -1,242 +1,265 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Profile">
-    <LinearLayout
+    tools:context=".Profile.ProfileFragment">
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="300dp"
+        android:fitsSystemWindows="true"
+        android:background="@color/white"
+        >
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/top_layout"
+        <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/profile_grad_color_bg"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <Button
-                android:layout_width="86dp"
-                android:layout_height="30dp"
-                android:background="@drawable/gray_background"
-                android:text="编辑资料"
-                android:textColor="@color/white"
-                android:textSize="15sp"
-                android:layout_marginTop="46dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/linearLayout3"
-                app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="300dp"
+            android:fitsSystemWindows="true"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <LinearLayout
-                android:id="@+id/linearLayout3"
-                android:layout_width="150dp"
-                android:layout_height="100dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="35dp"
-                android:orientation="vertical"
-                app:layout_constraintStart_toEndOf="@+id/avatar_icon"
-                app:layout_constraintTop_toTopOf="parent">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/profile_user_name"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/top_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Umbrella"
-                    android:textColor="@color/white"
-                    android:textSize="25sp" />
+                    android:background="@drawable/profile_grad_color_bg"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-                <TextView
-                    android:id="@+id/profile_user_id"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="id:20201008"
-                    android:textColor="@color/white"
-                    android:textSize="15sp" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="20dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="35dp"
-                        android:layout_height="match_parent"
+                    <Button
+                        android:layout_width="86dp"
+                        android:layout_height="30dp"
                         android:background="@drawable/gray_background"
-                        android:src="@drawable/ic_vector_female" />
+                        android:text="编辑资料"
+                        android:textColor="@color/white"
+                        android:textSize="15sp"
+                        android:layout_marginTop="46dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/linearLayout3"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <LinearLayout
+                        android:id="@+id/linearLayout3"
+                        android:layout_width="150dp"
+                        android:layout_height="100dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="35dp"
+                        android:orientation="vertical"
+                        app:layout_constraintStart_toEndOf="@+id/avatar_icon"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:id="@+id/profile_user_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="Umbrella"
+                            android:textColor="@color/white"
+                            android:textSize="25sp" />
+
+                        <TextView
+                            android:id="@+id/profile_user_id"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="id:20201008"
+                            android:textColor="@color/white"
+                            android:textSize="15sp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="20dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="35dp"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/gray_background"
+                                android:src="@drawable/ic_vector_female" />
+
+                            <TextView
+                                android:layout_width="45dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginLeft="10dp"
+                                android:background="@drawable/gray_background"
+                                android:gravity="center"
+                                android:text="lv 4"
+                                android:textColor="@color/white"
+                                android:textSize="16sp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/avatar_icon"
+                        android:layout_width="90dp"
+                        android:layout_height="90dp"
+                        android:layout_margin="35dp"
+                        android:src="@drawable/icon"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:layout_width="45dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginLeft="10dp"
-                        android:background="@drawable/gray_background"
-                        android:gravity="center"
-                        android:text="lv 4"
+                        android:id="@+id/textView"
+                        android:layout_width="350dp"
+                        android:layout_height="30dp"
+                        android:layout_marginStart="35dp"
+                        android:layout_marginLeft="35dp"
+                        android:layout_marginTop="20dp"
+                        android:text="这个人很懒，什么都没留下"
                         android:textColor="@color/white"
-                        android:textSize="16sp" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/avatar_icon" />
 
-                </LinearLayout>
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="336dp"
+                        android:layout_height="90dp"
+                        android:layout_marginBottom="10dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView">
 
+
+                        <TextView
+                            android:id="@+id/subscription_number"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:gravity="center"
+                            android:text="50"
+                            android:textColor="@color/white"
+                            android:textSize="20sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            android:layout_marginStart="10dp" />
+
+                        <TextView
+                            android:id="@+id/carings_label"
+                            android:layout_width="25dp"
+                            android:layout_height="15dp"
+                            android:layout_marginLeft="22dp"
+                            android:layout_marginBottom="10dp"
+                            android:gravity="center"
+                            android:text="关注"
+                            android:textColor="@color/white"
+                            android:textSize="10sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/subscription_number"
+                            android:layout_marginStart="22dp" />
+
+                        <TextView
+                            android:id="@+id/fan_number"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginLeft="84dp"
+                            android:gravity="center"
+                            android:text="4"
+                            android:textColor="@color/white"
+                            android:textSize="20sp"
+                            app:layout_constraintStart_toEndOf="@+id/subscription_number"
+                            app:layout_constraintTop_toTopOf="parent"
+                            android:layout_marginStart="84dp" />
+
+                        <TextView
+                            android:id="@+id/fan_label"
+                            android:layout_width="25dp"
+                            android:layout_height="15dp"
+                            android:layout_marginLeft="110dp"
+                            android:layout_marginBottom="10dp"
+                            android:gravity="center"
+                            android:text="粉丝"
+                            android:textColor="@color/white"
+                            android:textSize="10sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/carings_label"
+                            app:layout_constraintTop_toBottomOf="@+id/fan_number"
+                            android:layout_marginStart="110dp" />
+
+                        <TextView
+                            android:id="@+id/thumbsup_number"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginLeft="84dp"
+                            android:gravity="center"
+                            android:text="200"
+                            android:textColor="@color/white"
+                            android:textSize="20sp"
+                            app:layout_constraintStart_toEndOf="@+id/fan_number"
+                            app:layout_constraintTop_toTopOf="parent"
+                            android:layout_marginStart="84dp" />
+
+                        <TextView
+                            android:id="@+id/thumbsup_label"
+                            android:layout_width="25dp"
+                            android:layout_height="15dp"
+                            android:layout_marginBottom="10dp"
+                            android:gravity="center"
+                            android:text="获赞"
+                            android:textColor="@color/white"
+                            android:textSize="10sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/fan_label"
+                            app:layout_constraintTop_toBottomOf="@+id/thumbsup_number"
+                            android:layout_marginStart="108dp"
+                            android:layout_marginLeft="108dp" />
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/bottom_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/profile_tab"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/upper_rounded_backgroud"
+                        app:layout_constraintBottom_toTopOf="@id/profile_view_pager"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tabIndicatorColor="@color/gray"
+                        app:tabIndicatorHeight="5dp"
+                        app:tabTextColor="@color/gray" />
+                    <androidx.viewpager.widget.ViewPager
+                        android:id="@+id/profile_view_pager"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:scrollbars="none"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/profile_tab"
+                        />
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/avatar_icon"
-                android:layout_width="90dp"
-                android:layout_height="90dp"
-                android:layout_margin="35dp"
-                android:src="@drawable/icon"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="350dp"
-                android:layout_height="30dp"
-                android:layout_marginStart="35dp"
-                android:layout_marginLeft="35dp"
-                android:layout_marginTop="20dp"
-                android:text="这个人很懒，什么都没留下"
-                android:textColor="@color/white"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/avatar_icon" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="336dp"
-                android:layout_height="90dp"
-                android:layout_marginBottom="10dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView">
 
 
-                <TextView
-                    android:id="@+id/subscription_number"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:gravity="center"
-                    android:text="50"
-                    android:textColor="@color/white"
-                    android:textSize="20sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginStart="10dp" />
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
 
-                <TextView
-                    android:id="@+id/carings_label"
-                    android:layout_width="25dp"
-                    android:layout_height="15dp"
-                    android:layout_marginLeft="22dp"
-                    android:layout_marginBottom="10dp"
-                    android:gravity="center"
-                    android:text="关注"
-                    android:textColor="@color/white"
-                    android:textSize="10sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/subscription_number"
-                    android:layout_marginStart="22dp" />
 
-                <TextView
-                    android:id="@+id/fan_number"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginLeft="84dp"
-                    android:gravity="center"
-                    android:text="4"
-                    android:textColor="@color/white"
-                    android:textSize="20sp"
-                    app:layout_constraintStart_toEndOf="@+id/subscription_number"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginStart="84dp" />
+    </com.google.android.material.appbar.AppBarLayout>
 
-                <TextView
-                    android:id="@+id/fan_label"
-                    android:layout_width="25dp"
-                    android:layout_height="15dp"
-                    android:layout_marginLeft="110dp"
-                    android:layout_marginBottom="10dp"
-                    android:gravity="center"
-                    android:text="粉丝"
-                    android:textColor="@color/white"
-                    android:textSize="10sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/carings_label"
-                    app:layout_constraintTop_toBottomOf="@+id/fan_number"
-                    android:layout_marginStart="110dp" />
-
-                <TextView
-                    android:id="@+id/thumbsup_number"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginLeft="84dp"
-                    android:gravity="center"
-                    android:text="200"
-                    android:textColor="@color/white"
-                    android:textSize="20sp"
-                    app:layout_constraintStart_toEndOf="@+id/fan_number"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginStart="84dp" />
-
-                <TextView
-                    android:id="@+id/thumbsup_label"
-                    android:layout_width="25dp"
-                    android:layout_height="15dp"
-                    android:layout_marginBottom="10dp"
-                    android:gravity="center"
-                    android:text="获赞"
-                    android:textColor="@color/white"
-                    android:textSize="10sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/fan_label"
-                    app:layout_constraintTop_toBottomOf="@+id/thumbsup_number"
-                    android:layout_marginStart="108dp"
-                    android:layout_marginLeft="108dp" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/bottom_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/profile_tab"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/upper_rounded_backgroud"
-                android:paddingBottom="10dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:tabIndicatorColor="@color/white"
-                app:tabIndicatorHeight="5dp"
-                app:tabTextColor="@color/white"
-                tools:ignore="MissingConstraints" />
-            <androidx.viewpager.widget.ViewPager
-                android:id="@+id/profile_view_pager"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:scrollbars="none"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/profile_tab"
-                />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

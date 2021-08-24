@@ -3,14 +3,12 @@ package com.example.sharephoto.Home;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.sharephoto.R;
@@ -54,9 +52,9 @@ public class HomePhotoFragment extends Fragment {
             HomePhoto item = new HomePhoto();
             item.setIcon_id(R.drawable.icon);
             if(i%2==0)
-                item.setPhoto_id(R.drawable.nmsl);
+                item.setId(R.drawable.nmsl);
             else
-                item.setPhoto_id(R.drawable.icon);
+                item.setId(R.drawable.icon);
             item.setStart(true);
             item.setStart_num(666);
             item.setTag("#休闲时光#");
