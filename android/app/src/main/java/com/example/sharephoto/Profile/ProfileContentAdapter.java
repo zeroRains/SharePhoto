@@ -60,9 +60,8 @@ class ProfileContentAdapter extends RecyclerView.Adapter<ProfileContentAdapter.V
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         item = contentList.get(position);
-        holder.profilePhoto.setImageResource(item.getImageid());
-
         holder.profilePhoto.setTag(position);
+        holder.profilePhoto.setImageResource(item.getImageid());
 
     }
 

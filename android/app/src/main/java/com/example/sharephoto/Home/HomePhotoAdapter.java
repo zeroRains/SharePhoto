@@ -63,7 +63,7 @@ public class HomePhotoAdapter extends RecyclerView.Adapter<HomePhotoAdapter.View
         holder.img_icon.setImageResource(item.getIconId());
         holder.img_username.setText(item.getUsername());
         holder.img_star_num.setText(item.getStarNum() + "");
-        holder.img_status.setSelected(item.isStart());
+        holder.img_status.setSelected(item.isStar());
         holder.img_status.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
