@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent">
 
-        <include layout="@layout/detail_nav" />
+        <include layout="@layout/nav_detail" />
     </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout

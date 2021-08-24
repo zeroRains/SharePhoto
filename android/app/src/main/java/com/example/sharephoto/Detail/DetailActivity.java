@@ -1,12 +1,10 @@
 package com.example.sharephoto.Detail;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -91,7 +89,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         detail_remark.setLayoutManager(staggeredGridLayoutManager);
         initData();
-        RemarkAdapter adapter = new RemarkAdapter(DetailActivity.this, remarks, R.layout.remark_item);
+        RemarkAdapter adapter = new RemarkAdapter(DetailActivity.this, remarks, R.layout.item_remark);
         detail_remark.setAdapter(adapter);
 
 //        发表评论
