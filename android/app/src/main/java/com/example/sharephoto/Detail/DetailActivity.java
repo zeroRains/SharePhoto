@@ -3,6 +3,7 @@ package com.example.sharephoto.Detail;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.app.Activity;
 import android.content.Context;
@@ -18,6 +19,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.sharephoto.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DetailActivity extends AppCompatActivity implements View.OnClickListener {
     //    作者栏
@@ -42,6 +46,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
     //    评论区
     RecyclerView detail_remark;
+    List<Remark> remarks = new ArrayList<>();
 
     //    发表评论区
     EditText detail_remark_content;
@@ -83,12 +88,29 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
 //        评论
         detail_remark = findViewById(R.id.detail_remark);
+        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
+        detail_remark.setLayoutManager(staggeredGridLayoutManager);
+        initData();
+        RemarkAdapter adapter = new RemarkAdapter(DetailActivity.this, remarks, R.layout.remark_item);
+        detail_remark.setAdapter(adapter);
 
 //        发表评论
         detail_remark_content = findViewById(R.id.detail_remark_content);
         detail_remark_submit = findViewById(R.id.detail_remark_submit);
 
         setClickEvent();
+    }
+
+    private void initData() {
+        for (int i = 0; i < 10; i++) {
+            Remark remark = new Remark();
+            remark.setIcon(R.drawable.icon);
+            remark.setUsername("ZeroRains");
+            remark.setContent("这是很多中肯的评论集合，这是很多中肯的评论集合，这是很多中肯的评论集合，这是很多中肯的评论集合");
+            remark.setDate("2021-8-24");
+            remark.setStatus(true);
+            remarks.add(remark);
+        }
     }
 
     private void setClickEvent() {
