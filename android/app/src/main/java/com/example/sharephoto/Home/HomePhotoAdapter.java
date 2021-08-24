@@ -26,11 +26,12 @@ public class HomePhotoAdapter extends RecyclerView.Adapter<HomePhotoAdapter.View
 
     @Override
     public void onClick(View v) {
-        if(onItemClickListener != null){
-            onItemClickListener.onItemClick(v,(int)v.getTag());
+        if (onItemClickListener != null) {
+            onItemClickListener.onItemClick(v, (int) v.getTag());
         }
     }
-    public void setOnItemClickListener(OnItemClickListener listener){
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
         this.onItemClickListener = listener;
     }
 

@@ -3,13 +3,21 @@ package com.example.sharephoto.Profile;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.sharephoto.Home.HomePhoto;
+import com.example.sharephoto.Home.HomePhotoAdapter;
 import com.example.sharephoto.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -18,11 +26,15 @@ import com.example.sharephoto.R;
  */
 public class ProfileContentFragment extends Fragment {
 
-    private static final String ARG_PARAM1 = "ARG_LABEL";
     private String label;
+    private List<Profile> contentList;
+    private static final String ARG_PARAM1 = "ARG_LABEL";
 
-    private View profileContentView;
     private TextView tv;
+    private RecyclerView recyclerView;
+    private View profileContentView;
+
+    private ProfileContentAdapter contentAdapter;
 
     public ProfileContentFragment() {
         // Required empty public constructor
@@ -47,10 +59,29 @@ public class ProfileContentFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        initData();
         // Inflate the layout for this fragment
         profileContentView = inflater.inflate(R.layout.fragment_profile_content, container, false);
         tv = profileContentView.findViewById(R.id.test_tv);
+        recyclerView = profileContentView.findViewById(R.id.content_list);
+
+        contentAdapter = new ProfileContentAdapter(getContext(), contentList, R.layout.profile_content_item);
+        contentAdapter.setOnItemClickListener(new ProfileContentAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Toast.makeText(getContext(),""+position,Toast.LENGTH_SHORT).show();
+            }
+        });
+        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, RecyclerView.VERTICAL);
+        recyclerView.setLayoutManager(staggeredGridLayoutManager);
+        recyclerView.setAdapter(contentAdapter);
+
         tv.setText("这个是" + label + "标签页");
         return profileContentView;
+    }
+
+    private void initData() {
+        contentList = new ArrayList<>();
+
     }
 }
