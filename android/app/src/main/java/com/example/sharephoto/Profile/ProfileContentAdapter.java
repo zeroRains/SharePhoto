@@ -4,12 +4,14 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sharephoto.Home.HomePhoto;
 import com.example.sharephoto.Home.HomePhotoAdapter;
+import com.example.sharephoto.R;
 
 import java.util.List;
 import java.util.PrimitiveIterator;
@@ -18,6 +20,7 @@ class ProfileContentAdapter extends RecyclerView.Adapter<ProfileContentAdapter.V
     private Context context;
     private int resourceId;
     private List<Profile> contentList;
+    private Profile item;
 
     private View view;
     private ViewHolder vh;
@@ -41,6 +44,8 @@ class ProfileContentAdapter extends RecyclerView.Adapter<ProfileContentAdapter.V
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        item = contentList.get(position);
+        holder.profilePhoto.setImageResource(item.getImageid());
 
     }
 
@@ -64,10 +69,13 @@ class ProfileContentAdapter extends RecyclerView.Adapter<ProfileContentAdapter.V
         void onItemClick(View view, int position);
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
+
+        ImageView profilePhoto;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            profilePhoto = itemView.findViewById(R.id.profile_photo);
         }
     }
 }
