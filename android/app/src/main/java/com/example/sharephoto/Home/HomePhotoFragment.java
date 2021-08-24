@@ -1,5 +1,6 @@
 package com.example.sharephoto.Home;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.sharephoto.Detail.DetailActivity;
 import com.example.sharephoto.R;
 
 
@@ -40,6 +42,8 @@ public class HomePhotoFragment extends Fragment {
             @Override
             public void onItemClick(View view, int position) {
                 Toast.makeText(getContext(),""+position,Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(view.getContext(), DetailActivity.class);
+                startActivity(intent);
             }
         });
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, RecyclerView.VERTICAL);

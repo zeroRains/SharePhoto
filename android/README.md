@@ -67,5 +67,142 @@
 
 1. 完成了点击图片查看详细页面的界面结构，设计完成(除了回复栏)
 
+```xml
+<ImageView
+                android:id="@+id/detail_photo"
+                android:layout_width="wrap_content"
+                android:layout_height="400dp"
+                android:layout_marginTop="10dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/icon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="parent" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/detail_status"
+                android:layout_width="0dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+
+                app:layout_constraintTop_toBottomOf="@id/detail_photo">
+
+                <LinearLayout
+                    android:id="@+id/detail_zan"
+                    android:layout_width="90dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/zan1" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="666"
+                        android:textSize="26dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/detail_love"
+                    android:layout_width="90dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/detail_zan">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/star" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="666"
+                        android:textSize="26dp" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/detail_transition"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="5dp"
+                    android:src="@drawable/transition"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:id="@+id/detail_divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:background="#aaa"
+                app:layout_constraintTop_toBottomOf="@id/detail_status" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/detail_description_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="20dp"
+                app:layout_constraintTop_toBottomOf="@id/detail_divider">
+
+                <TextView
+                    android:id="@+id/detail_description_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="描述"
+                    android:textSize="36sp"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/detail_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="描述性语言描述性语言描述性语言描述性语言描述性语言描述性语言描述性语言描述性语言"
+                    android:textSize="28sp"
+                    app:layout_constraintTop_toBottomOf="@id/detail_description_title" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/detail_remark_title"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="20dp"
+                android:text="评论"
+                android:textColor="#aaaaaa"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@+id/detail_description_container" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:background="#aaa"
+                app:layout_constraintTop_toBottomOf="@+id/detail_remark_title" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:scrollbars="none"
+                app:layout_constraintTop_toBottomOf="@id/detail_remark_title" />
+```
+
 
 
