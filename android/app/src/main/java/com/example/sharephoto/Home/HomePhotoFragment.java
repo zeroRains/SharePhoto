@@ -39,7 +39,7 @@ public class HomePhotoFragment extends Fragment {
         photoAdapter.setOnItemClickListener(new HomePhotoAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Toast.makeText(getContext(),""+position,Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "" + position, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(view.getContext(), DetailActivity.class);
                 startActivity(intent);
             }
@@ -54,13 +54,13 @@ public class HomePhotoFragment extends Fragment {
     private void initData() {
         for (int i = 0; i < 50; i++) {
             HomePhoto item = new HomePhoto();
-            item.setIcon_id(R.drawable.icon);
-            if(i%2==0)
+            item.setIconId(R.drawable.icon);
+            if (i % 2 == 0)
                 item.setId(R.drawable.nmsl);
             else
                 item.setId(R.drawable.icon);
             item.setStart(true);
-            item.setStart_num(666);
+            item.setStarNum(666);
             item.setTag("#休闲时光#");
             item.setUsername("ZeroRains");
             photos.add(item);

@@ -3,9 +3,9 @@ package com.example.sharephoto.Home;
 public class HomePhoto {
     private int id;
     private String tag;
-    private int icon_id;
+    private int iconId;
     private String username;
-    private int start_num;
+    private int starNum;
     private boolean start;
     private String thumbsnail;
 
@@ -26,12 +26,12 @@ public class HomePhoto {
         this.tag = tag;
     }
 
-    public int getIcon_id() {
-        return icon_id;
+    public int getIconId() {
+        return iconId;
     }
 
-    public void setIcon_id(int icon_id) {
-        this.icon_id = icon_id;
+    public void setIconId(int iconId) {
+        this.iconId = iconId;
     }
 
     public String getUsername() {
@@ -42,12 +42,12 @@ public class HomePhoto {
         this.username = username;
     }
 
-    public int getStart_num() {
-        return start_num;
+    public int getStarNum() {
+        return starNum;
     }
 
-    public void setStart_num(int start_num) {
-        this.start_num = start_num;
+    public void setStarNum(int starNum) {
+        this.starNum = starNum;
     }
 
     public boolean isStart() {
