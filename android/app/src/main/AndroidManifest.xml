@@ -11,7 +11,7 @@
         android:theme="@style/Theme.SharePhoto">
 
         <activity
-            android:name=".PublishActivity"
+            android:name=".Publication.PublishActivity"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".Detail.DetailActivity" />
 

@@ -1,11 +1,12 @@
-package com.example.sharephoto;
+package com.example.sharephoto.Publication;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 
 import android.app.Activity;
-import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -14,24 +15,33 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
+
+import com.example.sharephoto.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class PublishActivity extends AppCompatActivity implements View.OnClickListener {
     //    图像选择
-    RecyclerView publish_photo;
-    ImageView publish_add;
+    private RecyclerView publish_photo;
+    private ImageView publish_add;
 
     //    标题
-    EditText publish_title;
+    private EditText publish_title;
     //    正文
-    EditText publish_content;
+    private EditText publish_content;
     //    话题
-    EditText publish_topic;
+    private EditText publish_topic;
 
     //    提交栏
-    Button publish_submit;
-    ImageView publish_cancel;
+    private Button publish_submit;
+    private ImageView publish_cancel;
+
+    //    候选图片
+    private List<PublishPhoto> photos = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,9 +69,24 @@ public class PublishActivity extends AppCompatActivity implements View.OnClickLi
         publish_submit = findViewById(R.id.publish_submit);
         publish_cancel = findViewById(R.id.publish_cancel);
 
+//        添加点击事件
         publish_add.setOnClickListener(this);
         publish_cancel.setOnClickListener(this);
         publish_submit.setOnClickListener(this);
+
+        initData();
+        PublishPhotoAdapter adapter = new PublishPhotoAdapter(PublishActivity.this, photos, R.layout.item_publication_photo);
+        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(1, RecyclerView.HORIZONTAL);
+        publish_photo.setAdapter(adapter);
+        publish_photo.setLayoutManager(staggeredGridLayoutManager);
+    }
+
+    private void initData() {
+        for (int i = 0; i < 7; i++) {
+            PublishPhoto photo = new PublishPhoto();
+            photo.setId(R.drawable.icon);
+            photos.add(photo);
+        }
     }
 
     public void publish_back(View v) {

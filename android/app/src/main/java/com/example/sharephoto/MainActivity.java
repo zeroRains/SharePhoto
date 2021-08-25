@@ -13,10 +13,10 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.example.sharephoto.Home.HomeFragment;
 import com.example.sharephoto.Profile.ProfileFragment;
+import com.example.sharephoto.Publication.PublishActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
