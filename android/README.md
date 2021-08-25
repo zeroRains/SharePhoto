@@ -82,3 +82,12 @@
 7. ![image-20210824191616362](https://gitee.com/zeroRains/drawing-bed/raw/master/20210824191617image-20210824191616362.png)
 8. 完成个人主页基本逻辑设计
 9. 完成RecyclerView使用的Adapter设计以及item布局
+
+## 2021.8.25
+
+1. 发布页面设计完成
+2. 修复了输入法遮挡了EditView内容的bug
+3. 可以使用Recyclview在发布页面中展示图片
+4. 可以点击加号添加图片，并展示在发布页面中
+5. 发布页面逻辑设计完成
+6. ![image-20210825162035350](https://gitee.com/zeroRains/drawing-bed/raw/master/20210825162036image-20210825162035350.png)![image-20210825162149559](https://gitee.com/zeroRains/drawing-bed/raw/master/20210825162150image-20210825162149559.png)
