@@ -59,7 +59,7 @@ public class HomePhotoFragment extends Fragment {
                 item.setId(R.drawable.nmsl);
             else
                 item.setId(R.drawable.icon);
-            item.setStart(true);
+            item.setStar(true);
             item.setStarNum(666);
             item.setTag("#休闲时光#");
             item.setUsername("ZeroRains");
