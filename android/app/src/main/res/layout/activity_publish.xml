@@ -137,6 +137,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="20dp"
                 android:hint="请输入话题"
+                android:textColor="@color/primary"
                 android:background="@android:color/transparent"
                 android:singleLine="true"
                 android:textSize="20sp"
