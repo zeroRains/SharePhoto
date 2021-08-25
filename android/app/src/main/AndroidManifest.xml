@@ -10,10 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SharePhoto">
 
-        <activity android:name=".PublishActivity"></activity>
+        <activity
+            android:name=".PublishActivity"
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".Detail.DetailActivity" />
 
-        <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".LoginActivity" />
 
         <activity android:name=".MainActivity">
             <intent-filter>

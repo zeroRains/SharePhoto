@@ -80,6 +80,7 @@
             android:background="@android:color/transparent"
             android:hint="标题"
             android:textColorHint="#aaa"
+            android:singleLine="true"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -97,28 +98,26 @@
             android:layout_marginVertical="10dp"
             android:id="@+id/publish_content"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="200dp"
             android:background="@android:color/transparent"
             android:hint="编辑你的文本吧~"
             android:gravity="start"
             android:textColorHint="#aaa"
-            app:layout_constraintBottom_toBottomOf="@+id/publish_content_end"
             app:layout_constraintTop_toTopOf="@+id/publish_content_start" />
-
         <View
             android:id="@+id/publish_content_end"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#aaa"
-            android:layout_marginBottom="10dp"
-            app:layout_constraintBottom_toTopOf="@+id/publish_topic_container" />
+            android:layout_marginVertical="10dp"
+            app:layout_constraintTop_toBottomOf="@+id/publish_content" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/publish_topic_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
-            app:layout_constraintBottom_toTopOf="@+id/publish_submit_container">
+            android:layout_marginVertical="30dp"
+            app:layout_constraintTop_toBottomOf="@+id/publish_content">
 
             <TextView
                 android:id="@+id/publish_topic_title"
@@ -149,14 +148,16 @@
             android:layout_height="1dp"
             android:layout_marginBottom="15dp"
             android:background="#aaa"
-            app:layout_constraintBottom_toTopOf="@id/publish_submit_container" />
+            android:layout_marginTop="15dp"
+            app:layout_constraintTop_toBottomOf="@+id/publish_topic_container" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/publish_submit_container"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:paddingVertical="5dp"
-            app:layout_constraintBottom_toBottomOf="parent">
+            android:layout_marginTop="100dp"
+            app:layout_constraintTop_toBottomOf="@id/publish_topic_container">
 
             <Button
                 android:id="@+id/publish_submit"
