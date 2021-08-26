@@ -1,41 +1,46 @@
-package com.example.sharephoto.Home;
+package com.example.sharephoto.Channels;
 
-import android.content.Intent;
-import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
-import android.view.LayoutInflater;
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.sharephoto.Detail.DetailActivity;
+import com.example.sharephoto.Home.HomePhoto;
+import com.example.sharephoto.Home.HomePhotoAdapter;
 import com.example.sharephoto.R;
-
 
 import java.util.ArrayList;
 import java.util.List;
 
-
-public class HomePhotoFragment extends Fragment {
+public class ChannelDetailActivity extends AppCompatActivity {
+    String title;
+    TextView channel_detail_nav_title;
+    RecyclerView channel_detail;
     List<HomePhoto> photos = new ArrayList<>();
-    private String status;
-
-    public HomePhotoFragment(String status) {
-        this.status = status;
-    }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_home_photo, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_channel_detail);
+        title = getIntent().getStringExtra(ChannelFragment.ACTIVITY_NAME);
+        initView();
+    }
+
+    private void initView() {
+        channel_detail_nav_title = findViewById(R.id.channel_detail_nav_text);
+        channel_detail = findViewById(R.id.channel_detail);
+
+        channel_detail_nav_title.setText(title);
+
         initData();
-        RecyclerView recyclerView = view.findViewById(R.id.home_photo_show);
-        HomePhotoAdapter photoAdapter = new HomePhotoAdapter(getContext(), photos, R.layout.item_home_photo);
+        HomePhotoAdapter photoAdapter = new HomePhotoAdapter(ChannelDetailActivity.this, photos, R.layout.item_home_photo);
         photoAdapter.setOnItemClickListener(new HomePhotoAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -45,10 +50,12 @@ public class HomePhotoFragment extends Fragment {
             }
         });
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, RecyclerView.VERTICAL);
-        recyclerView.setLayoutManager(staggeredGridLayoutManager);
-        recyclerView.setAdapter(photoAdapter);
+        channel_detail.setLayoutManager(staggeredGridLayoutManager);
+        channel_detail.setAdapter(photoAdapter);
+    }
 
-        return view;
+    public void channel_back(View v) {
+        ((Activity) v.getContext()).finish();
     }
 
     private void initData() {

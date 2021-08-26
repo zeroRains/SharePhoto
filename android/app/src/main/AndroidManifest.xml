@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.sharephoto">
+    package="com.example.sharephoto" >
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
 
     <application
         android:allowBackup="true"
@@ -13,16 +12,15 @@
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@drawable/icon"
         android:supportsRtl="true"
-        android:theme="@style/Theme.SharePhoto">
-
+        android:theme="@style/Theme.SharePhoto" >
+        <activity android:name=".Channels.ChannelDetailActivity" >
+        </activity>
         <activity
             android:name=".Publication.PublishActivity"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".Detail.DetailActivity" />
-
         <activity android:name=".LoginActivity" />
-
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
