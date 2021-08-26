@@ -161,6 +161,8 @@ public class PublishActivity extends AppCompatActivity implements View.OnClickLi
         switch (requestCode) {
             case CHOOSE_PHOTO:
                 String photo = null;
+                if(data ==null)
+                    break;
                 if (requestCode == RESULT_OK) {
                     if (Build.VERSION.SDK_INT >= 19) {
                         photo = handleImageOnKitKat(data);

@@ -57,7 +57,6 @@ public class HomePhotoAdapter extends RecyclerView.Adapter<HomePhotoAdapter.View
     @Override
     public void onBindViewHolder(@NonNull HomePhotoAdapter.ViewHolder holder, int position) {
         HomePhoto item = photos.get(position);
-        holder.home_photo.setTag(position);
         holder.home_photo.setImageResource(item.getId());
         holder.itemView.setTag(position);
         holder.img_icon.setImageResource(item.getIconId());
