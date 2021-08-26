@@ -1,18 +1,21 @@
-package com.example.sharephoto;
+package com.example.sharephoto.Channel;
 
+import android.app.Activity;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ChannelFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.example.sharephoto.R;
+
+
 public class ChannelFragment extends Fragment {
 
 
@@ -27,5 +30,10 @@ public class ChannelFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_channel, container, false);
+
+    }
+
+    public void channel_back(View v) {
+        ((Activity) v.getContext()).finish();
     }
 }

@@ -14,6 +14,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.example.sharephoto.Channel.ChannelFragment;
 import com.example.sharephoto.Home.HomeFragment;
 import com.example.sharephoto.Profile.ProfileFragment;
 import com.example.sharephoto.Publication.PublishActivity;
@@ -99,8 +100,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 iv_profile.setSelected(true);
                 current_position = iv_profile;
                 changePage(profile);
-//                Intent intent = new Intent(MainActivity.this, Login.class);
-//                startActivity(intent);
+//                Intent intents = new Intent(MainActivity.this, LoginActivity.class);
+//                startActivity(intents);
                 break;
             case R.id.addImage:
                 current_position.setSelected(true);
