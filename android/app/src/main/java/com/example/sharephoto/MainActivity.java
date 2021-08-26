@@ -14,7 +14,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.example.sharephoto.Channel.ChannelFragment;
+import com.example.sharephoto.Channels.ChannelFragment;
 import com.example.sharephoto.Home.HomeFragment;
 import com.example.sharephoto.Profile.ProfileFragment;
 import com.example.sharephoto.Publication.PublishActivity;
