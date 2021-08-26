@@ -3,16 +3,17 @@
     <!-- 第一层阴影 -->
     <item>
         <shape>
-            <corners
-                android:bottomLeftRadius="19dp"
-                android:bottomRightRadius="19dp"/>
             <solid android:color="@color/profile_end_green" />
+
         </shape>
     </item>
     <!--第二层前景 -->
     <item>
         <shape>
-            <corners android:radius="10dp" />
+            <corners
+                android:topLeftRadius="10dp"
+                android:topRightRadius="10dp"
+                />
             <solid android:color="@android:color/white" />
         </shape>
     </item>
