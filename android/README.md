@@ -91,3 +91,13 @@
 4. 可以点击加号添加图片，并展示在发布页面中
 5. 发布页面逻辑设计完成
 6. ![image-20210825162035350](https://gitee.com/zeroRains/drawing-bed/raw/master/20210825162036image-20210825162035350.png)![image-20210825162149559](https://gitee.com/zeroRains/drawing-bed/raw/master/20210825162150image-20210825162149559.png)
+
+## 2021.8.26
+
+1. 完成频道页面的设计
+2. 完成频道单个项目的设计
+3. 可以使用recyvleView显示每个频道
+4. 完成每个频道的点击事件
+5. 单击频道后可以进入一个Activity详细展示频道内容
+6. 频道内容的事物可以被点击且可以进入详细页面
+7. ![image-20210826113530183](https://gitee.com/zeroRains/drawing-bed/raw/master/20210826113531image-20210826113530183.png)![image-20210826113856785](https://gitee.com/zeroRains/drawing-bed/raw/master/20210826113859image-20210826113856785.png)
