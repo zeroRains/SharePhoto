@@ -12,14 +12,20 @@
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@drawable/icon"
         android:supportsRtl="true"
-        android:theme="@style/Theme.SharePhoto" >
+        android:theme="@style/Theme.SharePhoto">
+        <activity
+            android:name=".SplashActivity"
+            android:exported="true" />
+
         <activity android:name=".Channels.ChannelDetailActivity" >
         </activity>
+
         <activity
             android:name=".Publication.PublishActivity"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".Detail.DetailActivity" />
         <activity android:name=".LoginActivity" />
+
         <activity android:name=".MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,5 +34,8 @@
             </intent-filter>
         </activity>
     </application>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
 </manifest>
