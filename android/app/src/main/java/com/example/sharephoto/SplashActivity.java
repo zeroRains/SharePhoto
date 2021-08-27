@@ -7,6 +7,12 @@ import android.os.Bundle;
 
 import java.io.IOException;
 
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
 public class SplashActivity extends AppCompatActivity {
 
     public OkHttpClient okHttpClient = new OkHttpClient();
@@ -32,7 +38,7 @@ public class SplashActivity extends AppCompatActivity {
                 // 请求成功
                 String ret = response.body().string();
                 // 访问UI线程
-                ToastUtil.ShortToast("连接服务器成功");
+//                ToastUtil.ShortToast("连接服务器成功");
                 startActivity(new Intent(SplashActivity.this, LoginActivity.class));
             }
         });
