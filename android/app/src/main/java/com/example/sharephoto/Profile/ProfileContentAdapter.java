@@ -62,8 +62,6 @@ class ProfileContentAdapter extends RecyclerView.Adapter<ProfileContentAdapter.V
         item = contentList.get(position);
         holder.profilePhoto.setTag(position);
         holder.profilePhoto.setImageResource(item.getImageid());
-
-
         holder.itemView.setTag(position);
     }
 
