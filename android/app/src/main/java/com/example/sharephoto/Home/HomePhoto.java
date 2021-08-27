@@ -7,7 +7,7 @@ public class HomePhoto {
     private String username;
     private int starNum;
     private boolean star;
-    private String thumbsnail;
+    private String thumbSnail;
 
 
     public int getId() {
@@ -58,11 +58,11 @@ public class HomePhoto {
         this.star = star;
     }
 
-    public String getThumbsnail() {
-        return thumbsnail;
+    public String getThumbSnail() {
+        return thumbSnail;
     }
 
-    public void setThumbsnail(String thumbsnail) {
-        this.thumbsnail = thumbsnail;
+    public void setThumbSnail(String thumbSnail) {
+        this.thumbSnail = thumbSnail;
     }
 }
