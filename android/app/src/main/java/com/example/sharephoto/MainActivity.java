@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 
 import com.example.sharephoto.Channels.ChannelFragment;
 import com.example.sharephoto.Home.HomeFragment;
+import com.example.sharephoto.Message.MessageFragment;
 import com.example.sharephoto.Profile.ProfileFragment;
 import com.example.sharephoto.Publication.PublishActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
