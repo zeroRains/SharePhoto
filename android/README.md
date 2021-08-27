@@ -103,3 +103,4 @@
 6. 频道内容的事物可以被点击且可以进入详细页面
 7. ![image-20210826113530183](https://gitee.com/zeroRains/drawing-bed/raw/master/20210826113531image-20210826113530183.png)![image-20210826113856785](https://gitee.com/zeroRains/drawing-bed/raw/master/20210826113859image-20210826113856785.png)
 8. 修复白条bug
+9. 添加app开启画面
