@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="titles">
+        <item>影视</item>
+        <item>美食</item>
+        <item>科技</item>
+        <item>摄影</item>
+        <item>汽车</item>
+        <item>风景</item>
+        <item>娱乐</item>
+        <item>生活</item>
+        <item>绘画</item>
+        <item>舞蹈</item>
+        <item>运动</item>
+    </string-array>
+    <string-array name="icon">
+        <item>@drawable/tv1</item>
+        <item>@drawable/food</item>
+        <item>@drawable/technology</item>
+        <item>@drawable/takephoto</item>
+        <item>@drawable/car</item>
+        <item>@drawable/scan</item>
+        <item>@drawable/entertainment</item>
+        <item>@drawable/life</item>
+        <item>@drawable/draw</item>
+        <item>@drawable/dance</item>
+        <item>@drawable/sport</item>
+    </string-array>
+</resources>

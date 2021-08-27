@@ -2,9 +2,11 @@ package com.example.sharephoto.Channels;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
@@ -47,27 +49,25 @@ public class ChannelFragment extends Fragment {
 //                    Toast.makeText(getContext(), "" + position, Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getContext(), ChannelDetailActivity.class);
                     TextView temp = view.findViewById(R.id.channel_text);
-                    intent.putExtra(ACTIVITY_NAME,temp.getText().toString());
+                    intent.putExtra(ACTIVITY_NAME, temp.getText().toString());
                     startActivity(intent);
                 }
             });
-            StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(1, RecyclerView.VERTICAL);
-            recyclerView.setLayoutManager(staggeredGridLayoutManager);
+            GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3);
+            recyclerView.setLayoutManager(gridLayoutManager);
         }
         return channel_view;
     }
 
 
     private void initData() {
-        for (int i = 0; i < 10; i++) {
+        String[] title = getResources().getStringArray(R.array.titles);
+        TypedArray images = getResources().obtainTypedArray(R.array.icon);
+        int length = Math.min(title.length, images.length());
+        for (int i = 0; i < length; i++) {
             Channel item = new Channel();
-            if (i % 2 == 0) {
-                item.setPhoto(R.drawable.channel_eat);
-                item.setTitle("美食");
-            } else {
-                item.setPhoto(R.drawable.channel_photo);
-                item.setTitle("摄影");
-            }
+            item.setTitle(title[i]);
+            item.setPhoto(images.getResourceId(i, 0));
             channel_list.add(item);
         }
     }
