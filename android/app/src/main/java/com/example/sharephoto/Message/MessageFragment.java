@@ -1,14 +1,28 @@
 package com.example.sharephoto.Message;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.sharephoto.R;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.PrimitiveIterator;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -17,33 +31,47 @@ import com.example.sharephoto.R;
  */
 public class MessageFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
     private String mParam1;
-    private String mParam2;
+    private String chatContent;
+    private List<Chator> chatorList;
+    private static final String ARG_PARAM1 = "message";
+
+    private View messageView;
+    private TextView chatText;
+    private Button sendBtn;
+    private RecyclerView recyclerView;
+
+    private Chator chator;
+    private MessageAdapter adapter;
+    private LinearLayoutManager layoutManager;
+
+    @SuppressLint("HandlerLeak")
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 1:
+                    Toast.makeText(requireContext().getApplicationContext(), "连接服务器成功", Toast.LENGTH_SHORT).show();
+                    break;
+                case 2:
+                    recyclerView.scrollToPosition(chatorList.size() - 1);
+                    break;
+            }
+
+        }
+    };
+
 
     public MessageFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Message.
-     */
     // TODO: Rename and change types and number of parameters
     public static MessageFragment newInstance(String param1, String param2) {
         MessageFragment fragment = new MessageFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -53,7 +81,6 @@ public class MessageFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
@@ -61,6 +88,31 @@ public class MessageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_message, container, false);
+        messageView = inflater.inflate(R.layout.fragment_message, container, false);
+        chatText = messageView.findViewById(R.id.chat_text);
+        sendBtn = messageView.findViewById(R.id.send_button);
+        recyclerView = messageView.findViewById(R.id.chat_content);
+
+        chatorList = new ArrayList<>();
+        adapter = new MessageAdapter(getContext(), R.layout.item_chat_box);
+        layoutManager = new LinearLayoutManager(requireContext().getApplicationContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
+
+        sendBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                chatContent = chatText.getText().toString();
+                if (chatContent.length() == 0) {
+                    Toast.makeText(requireContext().getApplicationContext(), "发送消息不能为空", Toast.LENGTH_SHORT).show();
+                } else {
+                    chator = new Chator();
+                    // todo: init chator var value ...
+                    chatorList.add(chator);
+                }
+            }
+        });
+
+        return messageView;
     }
 }
