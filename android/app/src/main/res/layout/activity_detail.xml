@@ -146,16 +146,16 @@
                     android:id="@+id/detail_love"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="10dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/detail_zan">
+                    app:layout_constraintStart_toEndOf="@+id/detail_zan">
 
                     <ImageView
                         android:id="@+id/detail_love_status"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:adjustViewBounds="true"
-                        android:src="@drawable/detail_start" />
+                        android:src="@drawable/detail_star" />
 
                     <TextView
                         android:id="@+id/detail_love_num"
