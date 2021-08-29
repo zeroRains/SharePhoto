@@ -3,7 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Workspace/Android/PhotograhicSharing/android/app/src/main/res/drawable/detail_zan.xml" value="0.25677083333333334" />
         <entry key="..\:/Workspace/Android/PhotograhicSharing/android/app/src/main/res/drawable/gray_background.xml" value="0.43333333333333335" />
+        <entry key="..\:/Workspace/Android/PhotograhicSharing/android/app/src/main/res/drawable/home_selected.xml" value="0.25677083333333334" />
         <entry key="..\:/Workspace/Android/PhotograhicSharing/android/app/src/main/res/drawable/ic_vector_female.xml" value="0.43333333333333335" />
         <entry key="..\:/Workspace/Android/PhotograhicSharing/android/app/src/main/res/drawable/ic_vetor_male.xml" value="0.43333333333333335" />
         <entry key="..\:/Workspace/Android/PhotograhicSharing/android/app/src/main/res/drawable/indicator.xml" value="0.43333333333333335" />
@@ -12,14 +14,16 @@
         <entry key="..\:/Workspace/Android/PhotograhicSharing/android/app/src/main/res/drawable/profile_grad_color_bg.xml" value="0.43333333333333335" />
         <entry key="..\:/Workspace/Android/PhotograhicSharing/android/app/src/main/res/drawable/rounded_background.xml" value="0.43333333333333335" />
         <entry key="..\:/Workspace/Android/PhotograhicSharing/android/app/src/main/res/drawable/rounded_background_primary.xml" value="0.43333333333333335" />
+        <entry key="..\:/Workspace/Android/PhotograhicSharing/android/app/src/main/res/drawable/send_button.xml" value="0.25677083333333334" />
         <entry key="..\:/Workspace/Android/PhotograhicSharing/android/app/src/main/res/drawable/start_photo.xml" value="0.43333333333333335" />
         <entry key="..\:/Workspace/Android/PhotograhicSharing/android/app/src/main/res/drawable/upper_rounded_backgroud.xml" value="0.25677083333333334" />
         <entry key="..\:/Workspace/Android/PhotograhicSharing/android/app/src/main/res/layout-v21/fragment_home.xml" value="0.4171875" />
         <entry key="..\:/Workspace/Android/PhotograhicSharing/android/app/src/main/res/layout-v21/fragment_profile.xml" value="0.26614583333333336" />
         <entry key="..\:/Workspace/Android/PhotograhicSharing/android/app/src/main/res/layout/activity_channel_detail.xml" value="0.24739583333333334" />
+        <entry key="..\:/Workspace/Android/PhotograhicSharing/android/app/src/main/res/layout/activity_detail.xml" value="0.4" />
         <entry key="..\:/Workspace/Android/PhotograhicSharing/android/app/src/main/res/layout/activity_login.xml" value="0.4171875" />
         <entry key="..\:/Workspace/Android/PhotograhicSharing/android/app/src/main/res/layout/activity_main.xml" value="0.31567028985507245" />
-        <entry key="..\:/Workspace/Android/PhotograhicSharing/android/app/src/main/res/layout/activity_publish.xml" value="0.11702127659574468" />
+        <entry key="..\:/Workspace/Android/PhotograhicSharing/android/app/src/main/res/layout/activity_publish.xml" value="0.2" />
         <entry key="..\:/Workspace/Android/PhotograhicSharing/android/app/src/main/res/layout/botton_layout.xml" value="0.31567028985507245" />
         <entry key="..\:/Workspace/Android/PhotograhicSharing/android/app/src/main/res/layout/fragment_channel.xml" value="0.1" />
         <entry key="..\:/Workspace/Android/PhotograhicSharing/android/app/src/main/res/layout/fragment_home.xml" value="0.264" />

@@ -20,14 +20,14 @@
         android:id="@+id/detail_info"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="6dp"
         app:layout_constraintTop_toBottomOf="@+id/detail_nav">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/detail_icon"
             android:layout_width="30dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="12dp"
             android:src="@drawable/icon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -37,7 +37,7 @@
             android:id="@+id/detail_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="8dp"
             android:text="ZeroRains"
             android:textSize="16sp"
             app:layout_constraintStart_toEndOf="@id/detail_icon" />
@@ -213,7 +213,7 @@
             <TextView
                 android:id="@+id/detail_remark_title"
                 android:layout_width="match_parent"
-                android:layout_height="22dp"
+                android:layout_height="24dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginRight="20dp"
@@ -226,7 +226,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="8dp"
                 android:background="#aaa"
                 app:layout_constraintTop_toBottomOf="@+id/detail_remark_title" />
 
@@ -235,7 +235,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="false"
-                android:layout_marginTop="7dp"
+                android:layout_marginTop="8dp"
                 android:scrollbars="none"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/detail_remark_title" />
@@ -245,20 +245,22 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/detail_do_remark"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-
-        android:background="@color/gray"
+        android:layout_height="46dp"
+        android:paddingBottom="4dp"
+        android:background="#ECEDF1"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <EditText
             android:id="@+id/detail_remark_content"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="2dp"
             android:background="@drawable/rounded_background"
             android:hint="发表评论..."
+            android:textSize="18sp"
+            android:singleLine="false"
             app:layout_constraintEnd_toStartOf="@id/detail_remark_submit"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -270,12 +272,14 @@
             android:layout_marginTop="5dp"
             android:layout_marginRight="5dp"
             android:layout_marginBottom="5dp"
-            android:background="@drawable/send_button"
+            android:background="@drawable/send_button_background"
+            android:clickable="true"
             android:text="发 送"
             android:textColor="@color/white"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/detail_remark_content" />
+            app:layout_constraintStart_toEndOf="@id/detail_remark_content"
+            android:focusable="true" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
