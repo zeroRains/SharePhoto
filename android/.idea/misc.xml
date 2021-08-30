@@ -42,6 +42,14 @@
         <entry key="..\:/Workspace/Android/PhotograhicSharing/android/app/src/main/res/layout/profile_content_item.xml" value="0.11144883485309018" />
         <entry key="..\:/Workspace/Android/SharePhoto/android/app/src/main/res/layout/fragment_home_photo.xml" value="0.240625" />
         <entry key="..\:/Workspace/Android/SharePhoto/android/app/src/main/res/layout/home_photo_item.xml" value="0.4171875" />
+        <entry key="app/src/main/res/layout/activity_detail.xml" value="0.24682971014492755" />
+        <entry key="app/src/main/res/layout/activity_profile_edit.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_publish.xml" value="0.24682971014492755" />
+        <entry key="app/src/main/res/layout/activity_splash.xml" value="0.271875" />
+        <entry key="app/src/main/res/layout/fragment_channel.xml" value="0.24682971014492755" />
+        <entry key="app/src/main/res/layout/fragment_message.xml" value="0.24682971014492755" />
+        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/nav_publish.xml" value="0.24682971014492755" />
       </map>
     </option>
   </component>

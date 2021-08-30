@@ -1,5 +1,6 @@
 package com.example.sharephoto.Profile;
 
+import android.media.Image;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -8,6 +9,10 @@ import androidx.viewpager.widget.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.sharephoto.R;
 import com.google.android.material.tabs.TabLayout;
@@ -15,6 +20,8 @@ import com.google.android.material.tabs.TabLayout;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileFragment extends Fragment {
 
@@ -60,6 +67,26 @@ public class ProfileFragment extends Fragment {
             }
             adapter = new ProfileContentFragmentAdapter(requireActivity().getSupportFragmentManager(), fragmentList, tabTitle);
             vh.viewPager.setAdapter(adapter);
+
+//            个人资料绑定
+            vh.profile_user_name = profileView.findViewById(R.id.profile_user_name);
+            vh.profile_user_id = profileView.findViewById(R.id.profile_user_id);
+            vh.profile_sex = profileView.findViewById(R.id.profile_sex);
+            vh.profile_avatar_icon = profileView.findViewById(R.id.avatar_icon);
+
+//            关注，点赞和粉丝
+            vh.profile_subscription_number = profileView.findViewById(R.id.subscription_number);
+            vh.profile_fan_number = profileView.findViewById(R.id.fan_number);
+            vh.profile_thumb_sub_number = profileView.findViewById(R.id.thumbsup_number);
+
+//            编辑资料
+            vh.profile_edit = profileView.findViewById(R.id.profile_edit);
+            vh.profile_edit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getContext(), "点击这个编辑资料", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
         vh.profileTab.setupWithViewPager(vh.viewPager, false);
         return profileView;
@@ -68,5 +95,20 @@ public class ProfileFragment extends Fragment {
     static class ViewHolder {
         TabLayout profileTab;
         ViewPager viewPager;
+
+        //    用户信息
+        CircleImageView profile_avatar_icon;
+        TextView profile_user_name;
+        TextView profile_user_id;
+        ImageView profile_sex;
+        TextView profile_personal_description;
+
+        //        关注点赞粉丝
+        TextView profile_subscription_number;
+        TextView profile_fan_number;
+        TextView profile_thumb_sub_number;
+
+        //        资料编辑
+        Button profile_edit;
     }
 }
