@@ -53,7 +53,7 @@ public class ChannelFragment extends Fragment {
                     startActivity(intent);
                 }
             });
-            GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3);
+            GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 4);
             recyclerView.setLayoutManager(gridLayoutManager);
         }
         return channel_view;

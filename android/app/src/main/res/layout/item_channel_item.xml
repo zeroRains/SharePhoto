@@ -9,7 +9,7 @@
         android:layout_marginTop="10dp"
         android:id="@+id/channel_icon"
         android:layout_width="wrap_content"
-        android:layout_height="80dp"
+        android:layout_height="50dp"
         android:adjustViewBounds="true"
         android:src="@drawable/food"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,7 +23,7 @@
         android:singleLine="true"
         android:text="美食"
         android:layout_marginTop="5dp"
-        android:textSize="22dp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/channel_icon" />
