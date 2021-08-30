@@ -1,5 +1,6 @@
 package com.example.sharephoto.Home;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,7 +36,7 @@ public class HomePhotoAdapter extends RecyclerView.Adapter<HomePhotoAdapter.View
         this.onItemClickListener = listener;
     }
 
-    public static interface OnItemClickListener {
+    public interface OnItemClickListener {
         void onItemClick(View view, int position);
     }
 
@@ -54,6 +55,7 @@ public class HomePhotoAdapter extends RecyclerView.Adapter<HomePhotoAdapter.View
         return holder;
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull HomePhotoAdapter.ViewHolder holder, int position) {
         HomePhoto item = photos.get(position);

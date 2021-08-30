@@ -25,6 +25,8 @@
         <entry key="..\:/Workspace/Android/PhotograhicSharing/android/app/src/main/res/layout/activity_login.xml" value="0.4171875" />
         <entry key="..\:/Workspace/Android/PhotograhicSharing/android/app/src/main/res/layout/activity_main.xml" value="0.31567028985507245" />
         <entry key="..\:/Workspace/Android/PhotograhicSharing/android/app/src/main/res/layout/activity_publish.xml" value="0.2" />
+        <entry key="..\:/Workspace/Android/PhotograhicSharing/android/app/src/main/res/layout/activity_register.xml" value="0.27395833333333336" />
+        <entry key="..\:/Workspace/Android/PhotograhicSharing/android/app/src/main/res/layout/activity_splash.xml" value="0.240625" />
         <entry key="..\:/Workspace/Android/PhotograhicSharing/android/app/src/main/res/layout/botton_layout.xml" value="0.31567028985507245" />
         <entry key="..\:/Workspace/Android/PhotograhicSharing/android/app/src/main/res/layout/fragment_channel.xml" value="0.1" />
         <entry key="..\:/Workspace/Android/PhotograhicSharing/android/app/src/main/res/layout/fragment_home.xml" value="0.264" />
@@ -36,6 +38,7 @@
         <entry key="..\:/Workspace/Android/PhotograhicSharing/android/app/src/main/res/layout/item_chat_box.xml" value="0.11778115501519756" />
         <entry key="..\:/Workspace/Android/PhotograhicSharing/android/app/src/main/res/layout/item_home_photo.xml" value="0.6" />
         <entry key="..\:/Workspace/Android/PhotograhicSharing/android/app/src/main/res/layout/item_profile_content.xml" value="0.26614583333333336" />
+        <entry key="..\:/Workspace/Android/PhotograhicSharing/android/app/src/main/res/layout/nav_bottom.xml" value="0.13323201621073963" />
         <entry key="..\:/Workspace/Android/PhotograhicSharing/android/app/src/main/res/layout/nav_channel.xml" value="0.11702127659574468" />
         <entry key="..\:/Workspace/Android/PhotograhicSharing/android/app/src/main/res/layout/nav_detail.xml" value="0.26614583333333336" />
         <entry key="..\:/Workspace/Android/PhotograhicSharing/android/app/src/main/res/layout/nav_publish.xml" value="0.26614583333333336" />
