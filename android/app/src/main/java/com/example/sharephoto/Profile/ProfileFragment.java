@@ -1,11 +1,16 @@
 package com.example.sharephoto.Profile;
 
+import static android.app.Activity.RESULT_OK;
+
+import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +31,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class ProfileFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "label";
+    public static final int EDIT_INFO = 1;
     private String[] tabTitle = {"动态", "收藏", "赞过"};
     private ViewHolder vh;
     private View profileView;
@@ -73,6 +79,7 @@ public class ProfileFragment extends Fragment {
             vh.profile_user_id = profileView.findViewById(R.id.profile_user_id);
             vh.profile_sex = profileView.findViewById(R.id.profile_sex);
             vh.profile_avatar_icon = profileView.findViewById(R.id.avatar_icon);
+            vh.profile_personal_description = profileView.findViewById(R.id.personal_description);
 
 //            关注，点赞和粉丝
             vh.profile_subscription_number = profileView.findViewById(R.id.subscription_number);
@@ -84,12 +91,36 @@ public class ProfileFragment extends Fragment {
             vh.profile_edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(getContext(), "点击这个编辑资料", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getContext(), ProfileEditActivity.class);
+                    startActivityForResult(intent, EDIT_INFO);
                 }
             });
         }
         vh.profileTab.setupWithViewPager(vh.viewPager, false);
         return profileView;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        switch (requestCode) {
+            case EDIT_INFO:
+                if (resultCode == RESULT_OK) {
+                    assert data != null;
+                    int icon = data.getIntExtra(ProfileEditActivity.ICON, R.drawable.icon);
+                    String username = data.getStringExtra(ProfileEditActivity.USERNAME);
+                    String sex = data.getStringExtra(ProfileEditActivity.SEX);
+                    String info = data.getStringExtra(ProfileEditActivity.INFO);
+
+                    vh.profile_avatar_icon.setImageResource(icon);
+                    vh.profile_user_name.setText(username);
+                    vh.profile_personal_description.setText(info);
+                    Toast.makeText(getContext(), sex, Toast.LENGTH_SHORT).show();
+                }
+                break;
+            default:
+                break;
+        }
+
     }
 
     static class ViewHolder {
