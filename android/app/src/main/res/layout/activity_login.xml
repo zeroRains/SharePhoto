@@ -29,7 +29,7 @@
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:id="@+id/imageIcon"
+        android:id="@+id/register_icon"
         android:src="@drawable/icon"
         app:layout_constraintTop_toBottomOf="@id/APPTile"
         android:layout_marginTop="40dp"
@@ -43,13 +43,13 @@
         android:textSize="30sp"
         android:textColor="@color/white"
         android:id="@+id/statue"
-        app:layout_constraintTop_toBottomOf="@id/imageIcon"
+        app:layout_constraintTop_toBottomOf="@id/register_icon"
         android:layout_marginTop="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <EditText
-        android:id="@+id/account"
+        android:id="@+id/register_account"
         android:layout_width="match_parent"
         android:layout_height="44dp"
         android:layout_marginStart="32dp"
@@ -64,7 +64,7 @@
         app:layout_constraintTop_toBottomOf="@id/statue" />
 
     <EditText
-        android:id="@+id/password"
+        android:id="@+id/register_password"
         android:layout_width="match_parent"
         android:inputType="textPassword"
         android:layout_height="44dp"
@@ -77,10 +77,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/account" />
+        app:layout_constraintTop_toBottomOf="@+id/register_account" />
 
     <Button
-        android:id="@+id/commit"
+        android:id="@+id/register_button"
         android:layout_width="match_parent"
         android:layout_height="44dp"
         android:layout_marginStart="32dp"
@@ -92,7 +92,7 @@
         android:paddingLeft="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password"/>
+        app:layout_constraintTop_toBottomOf="@+id/register_password"/>
 
 
 
