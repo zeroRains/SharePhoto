@@ -101,12 +101,13 @@
 4. 完成每个频道的点击事件
 5. 单击频道后可以进入一个Activity详细展示频道内容
 6. 频道内容的事物可以被点击且可以进入详细页面
-7. ![image-20210826113530183](https://gitee.com/zeroRains/drawing-bed/raw/master/20210826113531image-20210826113530183.png)![image-20210826113856785](https://gitee.com/zeroRains/drawing-bed/raw/master/20210826113859image-20210826113856785.png)
+7. ![image-20210826113856785](/run/media/zerorains/Data/tempMarkdown/drawing-bed/20210830214432image-20210830214429149-16303310863231.png)![image-20210826113856785](https://gitee.com/zeroRains/drawing-bed/raw/master/20210826113859image-20210826113856785.png)
 8. 修复白条bug
 9. 添加app开启画面
 
 ## 2021.8.29
 
+<<<<<<< HEAD
 1. 完成聊天室页面设计
 2. 完成聊天室代码逻辑设计
 3. 微调出现错位的界面
@@ -119,3 +120,12 @@
 1. 添加注册页面
 2. 完成注册逻辑
 3. UI细节微调
+=======
+1. 修改之前页面的小BUG
+
+## 2021.8.30
+
+1. 编辑资料页面设计完成
+2. 可以在编辑资料页面修改后在个人信息页进行同步
+3. 完成退出登录功能
+>>>>>>> fc1c466af36909f6680014bdce928e49a0f30b9d
