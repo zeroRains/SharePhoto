@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.HasDefaultViewModelProviderFactory;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.sharephoto.R;
+import com.example.sharephoto.Utils.ChatTools;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +44,7 @@ public class MessageFragment extends Fragment {
     private RecyclerView recyclerView;
 
     private Chator chator;
+    private ChatTools chatTools;
     private MessageAdapter adapter;
     private LinearLayoutManager layoutManager;
 
@@ -67,8 +70,7 @@ public class MessageFragment extends Fragment {
         // Required empty public constructor
     }
 
-    // TODO: Rename and change types and number of parameters
-    public static MessageFragment newInstance(String param1, String param2) {
+    public static MessageFragment newInstance(String param1) {
         MessageFragment fragment = new MessageFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
@@ -94,7 +96,8 @@ public class MessageFragment extends Fragment {
         recyclerView = messageView.findViewById(R.id.chat_content);
 
         chatorList = new ArrayList<>();
-        adapter = new MessageAdapter(getContext(), R.layout.item_chat_box);
+        chatTools = new ChatTools(this, "");
+        adapter = new MessageAdapter(getContext(), chatorList, R.layout.item_chat_box);
         layoutManager = new LinearLayoutManager(requireContext().getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
@@ -106,13 +109,23 @@ public class MessageFragment extends Fragment {
                 if (chatContent.length() == 0) {
                     Toast.makeText(requireContext().getApplicationContext(), "发送消息不能为空", Toast.LENGTH_SHORT).show();
                 } else {
-                    chator = new Chator();
-                    // todo: init chator var value ...
+                    chator = new Chator(chatContent, R.drawable.nmsl, false);
                     chatorList.add(chator);
+                    chatTools.sendMessage(chatContent);
+                    chatText.setText(null);
+                    recyclerView.scrollToPosition(chatorList.size() - 1);
                 }
             }
         });
 
         return messageView;
+    }
+
+    public List<Chator> getChatorList() {
+        return this.chatorList;
+    }
+
+    public Handler getHandler() {
+        return handler;
     }
 }

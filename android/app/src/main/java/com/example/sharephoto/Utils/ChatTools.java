@@ -3,7 +3,9 @@ package com.example.sharephoto.Utils;
 import android.os.Message;
 import android.util.Log;
 
+import com.example.sharephoto.Message.Chator;
 import com.example.sharephoto.Message.MessageFragment;
+import com.example.sharephoto.R;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -12,7 +14,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 
-class ChatTools implements Runnable {
+public class ChatTools implements Runnable {
 
     private MessageFragment messageFragment;
     private Socket socket;
@@ -32,7 +34,7 @@ class ChatTools implements Runnable {
             //服务器连接成功的话则发一个Message给UI线程 跳到ChatActivity.java的第37行
             Message msg = new Message();
             msg.what = 1;
-//            messageFragment.hand.sendMessage(msg);
+            messageFragment.getHandler().sendMessage(msg);
         } catch (IOException e) {
             e.printStackTrace();
             return;
@@ -49,11 +51,11 @@ class ChatTools implements Runnable {
                 //第三个参数显示在左边还是右边，没有第三个参数的话默认显示在左边
                 //事先准备了两张头像
                 //最后将他添加到list里
-//                messageFragment.list.add(new xx(s, R.mipmap.dui_fang));
+                messageFragment.getChatorList().add(new Chator(s, R.drawable.icon));
                 //收到消息后就要更新RecyclerView将他们显示出来，跳到MainActivity.java的第37行
                 Message msg = new Message();
                 msg.what = 2;
-//                messageFragment.hand.sendMessage(msg);
+                messageFragment.getHandler().sendMessage(msg);
             }
         } catch (IOException e) {
             e.printStackTrace();
