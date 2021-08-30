@@ -32,6 +32,7 @@ public class ProfileEditActivity extends AppCompatActivity {
     public static final String USERNAME = "username";
     public static final String SEX = "sex";
     public static final String INFO = "info";
+    public static final int LOGOUT = 886;
 
 
     @Override
@@ -52,6 +53,15 @@ public class ProfileEditActivity extends AppCompatActivity {
         edit_sex = findViewById(R.id.profile_edit_sex);
         edit_info = findViewById(R.id.profile_edit_info);
         logout = findViewById(R.id.logout);
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                setResult(LOGOUT, intent);
+                ((Activity) v.getContext()).finish();
+            }
+        });
 
         edit_sex.setSelection(0, true);
     }

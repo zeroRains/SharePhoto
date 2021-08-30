@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.sharephoto.LoginActivity;
 import com.example.sharephoto.R;
 import com.google.android.material.tabs.TabLayout;
 
@@ -115,6 +116,9 @@ public class ProfileFragment extends Fragment {
                     vh.profile_user_name.setText(username);
                     vh.profile_personal_description.setText(info);
                     Toast.makeText(getContext(), sex, Toast.LENGTH_SHORT).show();
+                } else if (resultCode == ProfileEditActivity.LOGOUT) {
+                    Intent intent = new Intent(getContext(), LoginActivity.class);
+                    startActivity(intent);
                 }
                 break;
             default:
