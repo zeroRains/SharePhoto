@@ -21,6 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="6dp"
+        android:background="#FFFFFF"
         app:layout_constraintTop_toBottomOf="@+id/detail_nav">
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -89,6 +90,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
+            android:background="#FFFFFF"
             android:layout_height="match_parent">
 
             <LinearLayout
@@ -96,6 +98,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:gravity="center_horizontal"
+                android:background="#FFFFFF"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -106,7 +109,6 @@
                     android:layout_height="300dp"
                     android:layout_marginTop="5dp"
                     android:adjustViewBounds="true"
-                    android:background="@color/gray"
                     android:src="@drawable/icon" />
             </LinearLayout>
 
@@ -178,7 +180,7 @@
             <View
                 android:id="@+id/detail_divider"
                 android:layout_width="match_parent"
-                android:layout_height="0.5dp"
+                android:layout_height="1dp"
                 android:layout_marginTop="8dp"
                 android:background="#F8F7F7"
                 app:layout_constraintTop_toBottomOf="@id/detail_status" />
@@ -224,12 +226,10 @@
                 app:layout_constraintTop_toBottomOf="@+id/detail_description_container" />
 
             <View
-                android:layout_width="380dp"
-                android:layout_height="0.5dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
                 android:layout_marginTop="8dp"
                 android:background="#F8F7F7"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/detail_remark_title" />
 
             <androidx.recyclerview.widget.RecyclerView
