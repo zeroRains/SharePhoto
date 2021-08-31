@@ -71,11 +71,11 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#aaaaaa"
-        app:layout_constraintTop_toBottomOf="@id/detail_info" />
+<!--    <View-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="0.5dp"-->
+<!--        android:background="#F8F7F7"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/detail_info" />-->
 
     <ScrollView
         android:layout_width="match_parent"
@@ -178,9 +178,9 @@
             <View
                 android:id="@+id/detail_divider"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="0.5dp"
                 android:layout_marginTop="8dp"
-                android:background="#aaa"
+                android:background="#F8F7F7"
                 app:layout_constraintTop_toBottomOf="@id/detail_status" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -224,10 +224,12 @@
                 app:layout_constraintTop_toBottomOf="@+id/detail_description_container" />
 
             <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_width="380dp"
+                android:layout_height="0.5dp"
                 android:layout_marginTop="8dp"
-                android:background="#aaa"
+                android:background="#F8F7F7"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/detail_remark_title" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -254,7 +256,7 @@
             android:id="@+id/detail_remark_content"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="6dp"
+            android:layout_marginLeft="12dp"
             android:layout_marginTop="6dp"
             android:layout_marginBottom="2dp"
             android:background="@drawable/rounded_background"
@@ -270,7 +272,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="5dp"
-            android:layout_marginRight="5dp"
+            android:layout_marginRight="16dp"
             android:layout_marginBottom="5dp"
             android:background="@drawable/send_button_background"
             android:clickable="true"
