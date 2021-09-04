@@ -1,12 +1,12 @@
 import pymysql
 
 server_info = {
-    "url": "",
+    "db_url": "pan.kexie.space",
     "port": 9090,
-    "dbuser": "",
-    "passwd": "",
-    "dbname": ""
+    "db_user": "root",
+    "passwd": "bassword",
+    "db_name": "sharingphoto"
 }
 
-database_object = pymysql.connect(server_info["url"], server_info["dbuser"], server_info["passwd"],
-                                  server_info["dbname"])
+database_object = pymysql.connect(server_info["db_url"], server_info["db_user"], server_info["passwd"],
+                                  server_info["db_name"])

@@ -20,7 +20,7 @@ def get_usernickname(bit: int):
     return salt
 
 
-@user_opt.route("/user/login")
+@user_opt.route("/user/login", methods=["POST"])
 def login():
     data = json.loads(request.get_data())
     cursor = db.cursor()
@@ -37,7 +37,7 @@ def login():
         return {"msg": "request failed", "data": []}
 
 
-@user_opt.route("/user/register")
+@user_opt.route("/user/register", methods=["POST"])
 def register():
     data = json.loads(request.get_data())
     cursor = db.cursor()
@@ -54,6 +54,33 @@ def register():
         return {"msg": "request failed", "data": []}
 
 
-@user_opt.route("")
-def res():
-    pass
+@user_opt.route("/user/show_user_info", methods=["GET"])
+def show_user_info():
+    data_args = request.args
+    cursor = db.cursor()
+
+    cursor.execute(
+        f"select sex, great, concern, fan, username, introduction, url from users where id={data_args.get('id')}")
+    res = cursor.fetchone()
+    if res is not None:
+        return {"msg": "request success",
+                "data": [{"sex": res[0], "great": res[1], "concern": res[2], "fan": res[3], "username": res[4],
+                          "introduction": res[5], "url": res[6]}]}
+    else:
+        return {"msg": "request failed", "data": []}
+
+
+@user_opt.route("/user/modify_user_info", methods=["POST"])
+def modify():
+    data = json.loads(request.get_data())
+    cursor = db.cursor()
+
+    cursor.execute(
+        f"update users set username={data['username']}, sex={data['sex']}, introduction={data['introduction']} where id={data['id']}")
+
+    try:
+        db.commit()
+        return {"msg": "request success", "data": []}
+    except:
+        db.rollback()
+        return {"msg": "request failed", "data": []}
