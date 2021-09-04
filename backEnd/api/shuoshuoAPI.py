@@ -56,10 +56,11 @@ def show_follow_page():
     else:
         return {"msg": "failed", "data": []}
 
+
 @shuoshuo_opt.route("/shuoshuo/detail", methods=["GET"])
 def show_shuoshuo_detail():
     data = request.args
     cursor = db.cursor()
 
-    cursor.execute()
+    cursor.execute(f"")
 
