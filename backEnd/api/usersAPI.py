@@ -24,17 +24,17 @@ def get_usernickname(bit: int):
 def login():
     data = json.loads(request.get_data())
     cursor = db.cursor()
-    cursor.execute(f"select passwd from users where id={data['id']}")
+    cursor.execute(f"select passwd from users where uid={data['id']}")
     selected_data = cursor.fetchone()[0]
     m.update(selected_data.encode("utf-8"))
     if selected_data is not None:
         isAuthorized = True if m.hexdigest() == data["passwd"] else False
         if isAuthorized:
-            return {"msg": "request success", "data": []}
+            return {"msg": "success", "data": []}
         else:
-            return {"msg": "request failed", "data": []}
+            return {"msg": "failed", "data": []}
     else:
-        return {"msg": "request failed", "data": []}
+        return {"msg": "failed", "data": []}
 
 
 @user_opt.route("/user/register", methods=["POST"])
@@ -48,10 +48,10 @@ def register():
     cursor.execute(f"insert into users(id, passwd, username) values ({data['id']}, {m.hexdigest()}, {nickname})")
     try:
         db.commit()
-        return {"msg": "request success", "data": []}
+        return {"msg": "success", "data": []}
     except:
         db.rollback()
-        return {"msg": "request failed", "data": []}
+        return {"msg": "failed", "data": []}
 
 
 @user_opt.route("/user/show_user_info", methods=["GET"])
@@ -60,14 +60,14 @@ def show_user_info():
     cursor = db.cursor()
 
     cursor.execute(
-        f"select sex, great, concern, fan, username, introduction, url from users where id={data_args.get('id')}")
+        f"select sex, great, concern, fan, username, introduction, url from users where uid={data_args.get('id')}")
     res = cursor.fetchone()
     if res is not None:
-        return {"msg": "request success",
+        return {"msg": "success",
                 "data": [{"sex": res[0], "great": res[1], "concern": res[2], "fan": res[3], "username": res[4],
                           "introduction": res[5], "url": res[6]}]}
     else:
-        return {"msg": "request failed", "data": []}
+        return {"msg": "failed", "data": []}
 
 
 @user_opt.route("/user/modify_user_info", methods=["POST"])
@@ -76,11 +76,11 @@ def modify():
     cursor = db.cursor()
 
     cursor.execute(
-        f"update users set username={data['username']}, sex={data['sex']}, introduction={data['introduction']} where id={data['id']}")
+        f"update users set username={data['username']}, sex={data['sex']}, introduction={data['introduction']} where uid={data['id']}")
 
     try:
         db.commit()
-        return {"msg": "request success", "data": []}
+        return {"msg": "success", "data": []}
     except:
         db.rollback()
-        return {"msg": "request failed", "data": []}
+        return {"msg": "failed", "data": []}
