@@ -55,9 +55,9 @@ def thumbsup_comments():
     data = json.loads(request.get_data())
     cursor = db.cursor()
     if data['add']:
-        cursor.execute(f"select great from sharingphoto.favor where shuoshuoId={data['id']}")
+        cursor.execute(f"select great from sharingphoto.thumbsup_comments where commentsId={data['id']}")
         if cursor.fetchone() is None:
-            cursor.execute(f"insert into sharingphoto.favor value ({data['user']}, {data['id']}, 'F', {data['add']})")
+            cursor.execute(f"insert into sharingphoto.thumbsup_comments value ({data['user']}, {data['id']}, {data['add']})")
         else:
             cursor.execute(f"update sharingphoto.favor set great={data['add']} where shuoshuoId={data['id']}")
         cursor.execute(f"update sharingphoto.shuoshuo set great=great+1 where shuoshuo.id={data['id']}")
