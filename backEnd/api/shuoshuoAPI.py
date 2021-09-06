@@ -1,4 +1,5 @@
 import json
+import time
 
 from flask import Blueprint, request
 
@@ -151,7 +152,11 @@ def thumbsup_shuoshuo():
     data = json.loads(request.get_data())
     cursor = db.cursor()
     if data['add']:
-        cursor.execute(f"update sharingphoto.favor set great={data['add']} where shuoshuoId={data['id']}")
+        cursor.execute(f"select great from sharingphoto.favor where shuoshuoId={data['id']}")
+        if cursor.fetchone() is None:
+            cursor.execute(f"insert into sharingphoto.favor value ({data['user']}, {data['id']}, 'F', {data['add']})")
+        else:
+            cursor.execute(f"update sharingphoto.favor set great={data['add']} where shuoshuoId={data['id']}")
         cursor.execute(f"update sharingphoto.shuoshuo set great=great+1 where shuoshuo.id={data['id']}")
         cursor.execute(f"update sharingphoto.users set thumbsup=thumbsup+1 where uid={data['user']}")
     else:
@@ -171,12 +176,69 @@ def thumbsup_shuoshuo():
 def follow_person():
     data = json.loads(request.get_data())
     cursor = db.cursor()
+    if data['user'] == data['author']:
+        return {"msg": "You can't follow yourself.", "data": []}
 
     if data["add"]:
-        cursor.execute(f"")
+        cursor.execute(f"select * from sharingphoto.concern where user={data['user']} and followed={data['author']}")
+        if cursor.fetchone() is None:
+            cursor.execute(f"insert into sharingphoto.concern values ({data['user']}, {data['author']})")
+            cursor.execute(f"update sharingphoto.users set fan=fan+1 where uid={data['user']}")
+        else:
+            return {"msg": "You can't follow again.", "data": []}
     else:
-        cursor.execute(f"")
+        cursor.execute(f"delete from sharingphoto.concern where user={data['user']} and followed={data['author']}")
+        cursor.execute(f"update sharingphoto.users set fan=fan-1 where uid={data['user']}")
 
+    try:
+        db.commit()
+        return {"msg": "success", "data": []}
+    except:
+        db.rollback()
+        return {"msg": "failed", "data": []}
+
+
+@shuoshuo_opt.route("/shuoshuo/favor", methods=["POST"])
+def star_shuoshuo():
+    data = json.loads(request.get_data())
+    cursor = db.cursor()
+    if data['add']:
+        cursor.execute(f"select star from sharingphoto.favor where shuoshuoId={data['id']}")
+        if cursor.fetchone() is None:
+            cursor.execute(f"insert into sharingphoto.favor value ({data['user']}, {data['id']}, {data['add']}, 'F')")
+        else:
+            cursor.execute(f"update sharingphoto.favor set star={data['add']} where shuoshuoId={data['id']}")
+        cursor.execute(f"update sharingphoto.shuoshuo set star=star+1 where shuoshuo.id={data['id']}")
+        cursor.execute(f"update sharingphoto.users set star=star+1 where uid={data['user']}")
+    else:
+        cursor.execute(f"update sharingphoto.favor set star={data['add']} where shuoshuoId={data['id']}")
+        cursor.execute(f"update sharingphoto.shuoshuo set star=star-1 where shuoshuo.id={data['id']}")
+        cursor.execute(f"update sharingphoto.users set star=star-1 where uid={data['user']}")
+
+
+@shuoshuo_opt.route("/shuoshuo/publish", methods=["POST"])
+def publish_shuoshuo():
+    data = json.loads(request.get_data())
+    cursor = db.cursor()
+
+    time_stamp = time.time()
+    formated_time_stamp = time.localtime(time_stamp)
+    formated_time_stamp = time.strftime("%Y-%m-%d %H:%M:%S", formated_time_stamp)
+
+    image_list = list(data['photo'])
+
+    cursor.execute(
+        f"insert into sharingphoto.shuoshuo values ({data['category']}, {data['topic']}, 0, 0, {data['title']}, {data['description']}, {formated_time_stamp}, {data['id']})")
+    try:
+        db.commit()
+    except:
+        print("insert failed")
+        db.rollback()
+
+    cursor.execute(f"select id from sharingphoto.shuoshuo where author={data['id']}")
+    shuoshuoId = cursor.fetchone()[0]
+    for img in image_list:
+        cursor.execute(f"insert into sharingphoto.photo values ({img}, {shuoshuoId})")
     try:
         db.commit()
         return {"msg": "success", "data": []}
