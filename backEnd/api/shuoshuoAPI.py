@@ -195,3 +195,21 @@ def follow_person():
     except:
         db.rollback()
         return {"msg": "failed", "data": []}
+
+
+@shuoshuo_opt.route("/shuoshuo/favor", methods=["POST"])
+def star_shuoshuo():
+    data = json.loads(request.get_data())
+    cursor = db.cursor()
+    if data['add']:
+        cursor.execute(f"select star from sharingphoto.favor where shuoshuoId={data['id']}")
+        if cursor.fetchone() is None:
+            cursor.execute(f"insert into sharingphoto.favor value ({data['user']}, {data['id']}, {data['add']}, 'F')")
+        else:
+            cursor.execute(f"update sharingphoto.favor set star={data['add']} where shuoshuoId={data['id']}")
+        cursor.execute(f"update sharingphoto.shuoshuo set star=star+1 where shuoshuo.id={data['id']}")
+        cursor.execute(f"update sharingphoto.users set star=star+1 where uid={data['user']}")
+    else:
+        cursor.execute(f"update sharingphoto.favor set star={data['add']} where shuoshuoId={data['id']}")
+        cursor.execute(f"update sharingphoto.shuoshuo set star=star-1 where shuoshuo.id={data['id']}")
+        cursor.execute(f"update sharingphoto.users set star=star-1 where uid={data['user']}")
