@@ -151,7 +151,11 @@ def thumbsup_shuoshuo():
     data = json.loads(request.get_data())
     cursor = db.cursor()
     if data['add']:
-        cursor.execute(f"update sharingphoto.favor set great={data['add']} where shuoshuoId={data['id']}")
+        cursor.execute(f"select great from sharingphoto.favor where shuoshuoId={data['id']}")
+        if cursor.fetchone() is None:
+            cursor.execute(f"insert into sharingphoto.favor value ({data['user']}, {data['id']}, 'F', {data['add']})")
+        else:
+            cursor.execute(f"update sharingphoto.favor set great={data['add']} where shuoshuoId={data['id']}")
         cursor.execute(f"update sharingphoto.shuoshuo set great=great+1 where shuoshuo.id={data['id']}")
         cursor.execute(f"update sharingphoto.users set thumbsup=thumbsup+1 where uid={data['user']}")
     else:
@@ -171,11 +175,19 @@ def thumbsup_shuoshuo():
 def follow_person():
     data = json.loads(request.get_data())
     cursor = db.cursor()
+    if data['user'] == data['author']:
+        return {"msg": "You can't follow yourself.", "data": []}
 
     if data["add"]:
-        cursor.execute(f"")
+        cursor.execute(f"select * from sharingphoto.concern where user={data['user']} and followed={data['author']}")
+        if cursor.fetchone() is None:
+            cursor.execute(f"insert into sharingphoto.concern values ({data['user']}, {data['author']})")
+            cursor.execute(f"update sharingphoto.users set fan=fan+1 where uid={data['user']}")
+        else:
+            return {"msg": "You can't follow again.", "data": []}
     else:
-        cursor.execute(f"")
+        cursor.execute(f"delete from sharingphoto.concern where user={data['user']} and followed={data['author']}")
+        cursor.execute(f"update sharingphoto.users set fan=fan-1 where uid={data['user']}")
 
     try:
         db.commit()
