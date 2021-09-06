@@ -84,3 +84,18 @@ def modify():
     except:
         db.rollback()
         return {"msg": "failed", "data": []}
+
+
+@user_opt.route("/user/modify_avatar", methods=["POST"])
+def modify_avatar():
+    data = json.loads(request.get_data())
+    cursor = db.cursor()
+
+    cursor.execute(f"update sharingphoto.users set url={data['url']} where uid={data['id']}")
+
+    try:
+        db.commit()
+        return {"msg": "success", "data": []}
+    except:
+        db.rollback()
+        return {"msg": "failed", "data": []}
