@@ -11,10 +11,10 @@ create table users
     url          varchar(50)
 );
 
-create table dynamic
+create table shuoshuo
 (
     id          int auto_increment primary key unique,
-    class       varchar(50),
+    category       varchar(50),
     topic       varchar(50),
     great       int,
     star        int,
@@ -25,14 +25,14 @@ create table dynamic
     foreign key (author) references users (id)
 );
 
-create table remark
+create table comments
 (
     id      int auto_increment primary key unique,
     date    varchar(50),
     great   int,
     context text,
     author  varchar(50),
-    dynamic int,
+    shuoshuo int,
     foreign key (author) references users (id),
     foreign key (dynamic) references dynamic (id)
 );
@@ -56,7 +56,7 @@ create table favor
 create table concern
 (
     user    varchar(50),
-    concern varchar(50),
+    followed varchar(50),
     primary key (user, concern)
 );
 

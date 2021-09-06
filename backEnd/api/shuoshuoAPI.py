@@ -1,4 +1,5 @@
 import json
+import time
 
 from flask import Blueprint, request
 
@@ -213,3 +214,34 @@ def star_shuoshuo():
         cursor.execute(f"update sharingphoto.favor set star={data['add']} where shuoshuoId={data['id']}")
         cursor.execute(f"update sharingphoto.shuoshuo set star=star-1 where shuoshuo.id={data['id']}")
         cursor.execute(f"update sharingphoto.users set star=star-1 where uid={data['user']}")
+
+
+@shuoshuo_opt.route("/shuoshuo/publish", methods=["POST"])
+def publish_shuoshuo():
+    data = json.loads(request.get_data())
+    cursor = db.cursor()
+
+    time_stamp = time.time()
+    formated_time_stamp = time.localtime(time_stamp)
+    formated_time_stamp = time.strftime("%Y-%m-%d %H:%M:%S", formated_time_stamp)
+
+    image_list = list(data['photo'])
+
+    cursor.execute(
+        f"insert into sharingphoto.shuoshuo values ({data['category']}, {data['topic']}, 0, 0, {data['title']}, {data['description']}, {formated_time_stamp}, {data['id']})")
+    try:
+        db.commit()
+    except:
+        print("insert failed")
+        db.rollback()
+
+    cursor.execute(f"select id from sharingphoto.shuoshuo where author={data['id']}")
+    shuoshuoId = cursor.fetchone()[0]
+    for img in image_list:
+        cursor.execute(f"insert into sharingphoto.photo values ({img}, {shuoshuoId})")
+    try:
+        db.commit()
+        return {"msg": "success", "data": []}
+    except:
+        db.rollback()
+        return {"msg": "failed", "data": []}
