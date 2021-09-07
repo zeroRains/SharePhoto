@@ -44,7 +44,7 @@ def register():
     nickname = get_usernickname(bit=12)
     passwd = data.get('passwd').encode("utf-8")
     m.update(passwd)
-    cursor.execute(f"select uid from sharingphoto.users where id='{data.get('id')}'")
+    cursor.execute(f"select uid from sharingphoto.users where uid='{data.get('id')}'")
     res = cursor.fetchone()
     if res is None:
         cursor.execute(
