@@ -22,13 +22,13 @@ def get_usernickname(bit: int):
 
 @user_opt.route("/login", methods=["POST"])
 def login():
-    data = json.loads(request.get_data())
+    data = request.values
     cursor = db.cursor()
     cursor.execute(f"select passwd from users where uid={data['id']}")
     selected_data = cursor.fetchone()[0]
     m.update(selected_data.encode("utf-8"))
     if selected_data is not None:
-        isAuthorized = True if m.hexdigest() == data["passwd"] else False
+        isAuthorized = True if m.hexdigest() == data.get("passwd") else False
         if isAuthorized:
             return {"msg": "success", "data": []}
         else:
@@ -39,13 +39,13 @@ def login():
 
 @user_opt.route("/register", methods=["POST"])
 def register():
-    data = json.loads(request.get_data())
+    data = request.values
     cursor = db.cursor()
 
     nickname = get_usernickname(bit=12)
     passwd = data["passwd"].encode("utf-8")
     m.update(passwd)
-    cursor.execute(f"insert into users(id, passwd, username) values ({data['id']}, {m.hexdigest()}, {nickname})")
+    cursor.execute(f"insert into users(id, passwd, username) values ({data.get('id')}, {m.hexdigest()}, {nickname})")
     try:
         db.commit()
         return {"msg": "success", "data": []}
@@ -72,11 +72,11 @@ def show_user_info():
 
 @user_opt.route("/modify_user_info", methods=["POST"])
 def modify():
-    data = json.loads(request.get_data())
+    data = request.values
     cursor = db.cursor()
 
     cursor.execute(
-        f"update users set username={data['username']}, sex={data['sex']}, introduction={data['introduction']} where uid={data['id']}")
+        f"update users set username={data.get('username')}, sex={data['sex']}, introduction={data.get('introduction')} where uid={data.get('id')}")
 
     try:
         db.commit()
@@ -88,10 +88,10 @@ def modify():
 
 @user_opt.route("/modify_avatar", methods=["POST"])
 def modify_avatar():
-    data = json.loads(request.get_data())
+    data = request.values
     cursor = db.cursor()
 
-    cursor.execute(f"update sharingphoto.users set url={data['url']} where uid={data['id']}")
+    cursor.execute(f"update sharingphoto.users set url={data.get('url')} where uid={data.get('id')}")
 
     try:
         db.commit()
