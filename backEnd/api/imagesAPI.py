@@ -13,7 +13,7 @@ img_save_path = "/static/imgs"
 
 @image_opt.route("/upload_avatar", methods=["POST"])
 def upload_avatar():
-    data = json.loads(request.get_data())
+    data = request.values
     cursor = db.cursor()
     try:
         img = request.files.get('file')
@@ -27,7 +27,7 @@ def upload_avatar():
 
 @image_opt.route("/upload_imgs", methods=["POST"])
 def upload_img():
-    data = json.loads(request.get_data())
+    data = request.values
     cursor = db.cursor()
     try:
         img = request.files.get('file')
