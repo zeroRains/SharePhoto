@@ -104,7 +104,7 @@
         android:textSize="20sp"
         android:background="@drawable/check"
         android:textColor="@color/white"
-        android:text="@string/login"
+        android:text="注 册"
         android:paddingLeft="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
