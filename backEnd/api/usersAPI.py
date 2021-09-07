@@ -26,8 +26,8 @@ def login():
     cursor.execute(f"select passwd from users where uid='{data.get('id')}'")
     selected_data = cursor.fetchone()
     if selected_data is not None:
-        m.update(selected_data[0].encode("utf-8"))
-        isAuthorized = True if m.hexdigest() == data.get("passwd") else False
+        m.update(data.get("passwd").encode("utf-8"))
+        isAuthorized = True if m.hexdigest() == selected_data[0] else False
         if isAuthorized:
             return {"msg": "success", "data": []}
         else:
@@ -81,7 +81,7 @@ def modify():
     cursor = db.cursor()
 
     cursor.execute(
-        f"update users set username='{data.get('username')}', sex='{data['sex']}', introduction='{data.get('introduction')}' where uid='{data.get('id')}'")
+        f"update users set username='{data.get('username')}', sex='{data.get('sex')}', introduction='{data.get('introduction')}' where uid='{data.get('id')}'")
 
     try:
         db.commit()
