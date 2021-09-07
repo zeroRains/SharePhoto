@@ -24,7 +24,7 @@ def get_usernickname(bit: int):
 def login():
     data = request.values
     cursor = db.cursor()
-    cursor.execute(f"select passwd from users where uid={data['id']}")
+    cursor.execute(f"select passwd from users where uid='{data['id']}'")
     selected_data = cursor.fetchone()
     if selected_data is not None:
         m.update(selected_data.encode("utf-8"))
@@ -60,7 +60,7 @@ def show_user_info():
     cursor = db.cursor()
 
     cursor.execute(
-        f"select sex, thumbsup, concern, fan, username, introduction, url from users where uid={data_args.get('id')}")
+        f"select sex, thumbsup, concern, fan, username, introduction, url from users where uid='{data_args.get('id')}'")
     res = cursor.fetchone()
     if res is not None:
         return {"msg": "success",
@@ -76,7 +76,7 @@ def modify():
     cursor = db.cursor()
 
     cursor.execute(
-        f"update users set username={data.get('username')}, sex={data['sex']}, introduction={data.get('introduction')} where uid={data.get('id')}")
+        f"update users set username='{data.get('username')}', sex='{data['sex']}', introduction='{data.get('introduction')}' where uid='{data.get('id')}'")
 
     try:
         db.commit()
@@ -91,7 +91,7 @@ def modify_avatar():
     data = request.values
     cursor = db.cursor()
 
-    cursor.execute(f"update sharingphoto.users set url={data.get('url')} where uid={data.get('id')}")
+    cursor.execute(f"update sharingphoto.users set url='{data.get('url')}' where uid='{data.get('id')}'")
 
     try:
         db.commit()
