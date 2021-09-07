@@ -69,7 +69,7 @@ def show_user_info():
     res = cursor.fetchone()
     if res is not None:
         return {"msg": "success",
-                "data": [{"sex": res[0], "great": res[1], "concern": res[2], "fan": res[3], "username": res[4],
+                "data": [{"sex": res[0], "great": res[1], "star": res[2], "fan": res[3], "username": res[4],
                           "introduction": res[5], "url": res[6]}]}
     else:
         return {"msg": "failed", "data": []}
