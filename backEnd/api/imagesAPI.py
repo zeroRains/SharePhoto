@@ -21,7 +21,7 @@ def upload_avatar():
 
         return {"msg": "success", "data": [{"url": file_path}]}
     except Exception as e:
-        return {"msg": "failed\n" + e, "data": []}
+        return {"msg": "failed", "data": []}
 
 
 @image_opt.route("/upload_imgs", methods=["POST"])
@@ -35,4 +35,4 @@ def upload_img():
 
         return {"msg": "success", "data": [{"url": file_path}]}
     except Exception as e:
-        return {"msg": "failed\n" + e, "data": []}
+        return {"msg": "failed", "data": []}
