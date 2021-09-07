@@ -6,7 +6,6 @@ from flask import Blueprint, request
 from . import database_object
 
 db = database_object
-m = md5()
 
 user_opt = Blueprint("user_opt", __name__)
 
@@ -21,13 +20,14 @@ def get_usernickname(bit: int):
 
 @user_opt.route("/login", methods=["POST"])
 def login():
+    m = md5()
     data = request.values
     cursor = db.cursor()
     cursor.execute(f"select passwd from users where uid='{data.get('id')}'")
     selected_data = cursor.fetchone()
+    m.update(data.get("passwd").encode("utf-8"))
+    en_passwd = m.hexdigest()
     if selected_data is not None:
-        m.update(data.get("passwd").encode("utf-8"))
-        en_passwd = m.hexdigest()
         isAuthorized = True if en_passwd.strip() == selected_data[0].strip() else False
         if isAuthorized:
             return {"msg": "success", "data": []}
@@ -39,6 +39,7 @@ def login():
 
 @user_opt.route("/register", methods=["POST"])
 def register():
+    m = md5()
     data = request.values
     cursor = db.cursor()
 
