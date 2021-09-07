@@ -1,4 +1,3 @@
-import json
 import time
 
 from flask import Blueprint, request
@@ -10,13 +9,13 @@ shuoshuo_opt = Blueprint("shuoshuo_opt", __name__)
 db = database_object
 
 
-@shuoshuo_opt.route("/recommanded", methods=["GET"])
+@shuoshuo_opt.route("/recommended", methods=["GET"])
 def show_recommend_page():
     data = []
     cursor = db.cursor()
 
     cursor.execute(
-        f"select id, title, sharingphoto.users.url, sharingphoto.users.username, star, sharingphoto.favor.star, sharingphoto.photo.url from sharingphoto.shuoshuo "
+        f"select shuoshuo.id, shuoshuo.title, u.url, u.username, shuoshuo.star, f.star, p.url from sharingphoto.shuoshuo "
         f"join sharingphoto.photo p on shuoshuo.id = p.shuoshuoId " +
         f"join sharingphoto.favor f on p.shuoshuoId = f.shuoshuoId " +
         f"join sharingphoto.users u on u.uid = shuoshuo.author where id >= (" +
@@ -91,7 +90,7 @@ def show_shuoshuo_detail():
 
     cursor.execute(
         f"select sharingphoto.users.url, sharingphoto.users.username, shuoshuo.date, shuoshuo.great, shuoshuo.star, shuoshuo.title, shuoshuo.description from sharingphoto.shuoshuo "
-        f"join sharingphoto.users u on u.uid = shuoshuo.author where shuoshuo.id={data.get('id')}")
+        f"join sharingphoto.users u on u.uid = shuoshuo.author where shuoshuo.id='{data.get('id')}'")
     res = cursor.fetchone()
     if res is None: return {"msg": "failed", "data": []}
     content["icon"] = res[0]
@@ -103,7 +102,7 @@ def show_shuoshuo_detail():
     content["description"] = res[6]
 
     cursor.execute(f"select sharingphoto.favor.great, sharingphoto.favor.star from sharingphoto.shuoshuo " +
-                   f"join sharingphoto.favor f on shuoshuo.id = f.shuoshuoId where shuoshuo.id={data.get('id')}")
+                   f"join sharingphoto.favor f on shuoshuo.id = f.shuoshuoId where shuoshuo.id='{data.get('id')}'")
 
     res2 = cursor.fetchone()
     if res2 is None: return {"msg": "failed", "data": []}
@@ -113,7 +112,7 @@ def show_shuoshuo_detail():
     cursor.execute(
         f"select sharingphoto.concern.followed from sharingphoto.concern c " +
         f"join sharingphoto.users u on u.uid = c.user " +
-        f"join sharingphoto.shuoshuo s on s.author = u.uid where s.id={data.get('id')}")
+        f"join sharingphoto.shuoshuo s on s.author = u.uid where s.id='{data.get('id')}'")
 
     res3 = cursor.fetchone()
     if res3 is None: return {"msg": "failed", "data": []}
@@ -121,7 +120,7 @@ def show_shuoshuo_detail():
 
     cursor.execute(
         f"select sharingphoto.photo.url from sharingphoto.photo "
-        f"sjoin sharingphoto.shuoshuo s on s.id = photo.shuoshuoId where shuoshuoId={data.get('id')}")
+        f"sjoin sharingphoto.shuoshuo s on s.id = photo.shuoshuoId where shuoshuoId='{data.get('id')}'")
     image_list = []
     res4 = cursor.fetchall()
     if res4 is None: return {"msg": "failed", "data": []}
@@ -132,7 +131,7 @@ def show_shuoshuo_detail():
         f"select sharingphoto.users.url, sharingphoto.users.username, sharingphoto.comments.thumbsupNum, sharingphoto.comments.content, sharingphoto.comments.date, sharingphoto.thumbsup_comments.great from sharingphoto.comments "
         f"join sharingphoto.users u on u.uid = comments.author "
         f"join sharingphoto.shuoshuo s on s.id = comments.shuoshuoId "
-        f"join sharingphoto.thumbsup_comments tc on u.uid = tc.user where s.id={data.get('id')}")
+        f"join sharingphoto.thumbsup_comments tc on u.uid = tc.user where s.id='{data.get('id')}'")
 
     res5 = cursor.fetchall()
     if res5 is None: return {"msg": "failed", "data": []}
@@ -149,20 +148,22 @@ def show_shuoshuo_detail():
 
 @shuoshuo_opt.route("/thumbsup", methods=["POST"])
 def thumbsup_shuoshuo():
-    data = json.loads(request.get_data())
+    data = request.values
     cursor = db.cursor()
     if data['add']:
-        cursor.execute(f"select great from sharingphoto.favor where shuoshuoId={data['id']}")
+        cursor.execute(f"select great from sharingphoto.favor where shuoshuoId='{data.get('id')}'")
         if cursor.fetchone() is None:
-            cursor.execute(f"insert into sharingphoto.favor value ({data['user']}, {data['id']}, 'F', {data['add']})")
+            cursor.execute(
+                f"insert into sharingphoto.favor value ('{data.get('user')}', '{data.get('id')}', 'F', '{data.get('add')}')")
         else:
-            cursor.execute(f"update sharingphoto.favor set great={data['add']} where shuoshuoId={data['id']}")
-        cursor.execute(f"update sharingphoto.shuoshuo set great=great+1 where shuoshuo.id={data['id']}")
-        cursor.execute(f"update sharingphoto.users set thumbsup=thumbsup+1 where uid={data['user']}")
+            cursor.execute(
+                f"update sharingphoto.favor set great='{data.get('add')}' where shuoshuoId='{data.get('id')}'")
+        cursor.execute(f"update sharingphoto.shuoshuo set great=great+1 where shuoshuo.id='{data.get('id')}'")
+        cursor.execute(f"update sharingphoto.users set thumbsup=thumbsup+1 where uid='{data.get('user')}'")
     else:
-        cursor.execute(f"update sharingphoto.favor set great={data['add']} where shuoshuoId={data['id']}")
-        cursor.execute(f"update sharingphoto.shuoshuo set great=great-1 where shuoshuo.id={data['id']}")
-        cursor.execute(f"update sharingphoto.users set thumbsup=thumbsup-1 where uid={data['user']}")
+        cursor.execute(f"update sharingphoto.favor set great='{data.get('add')}' where shuoshuoId='{data.get('id')}'")
+        cursor.execute(f"update sharingphoto.shuoshuo set great=great-1 where shuoshuo.id='{data.get('id')}'")
+        cursor.execute(f"update sharingphoto.users set thumbsup=thumbsup-1 where uid='{data.get('user')}'")
 
     try:
         db.commit()
@@ -174,21 +175,23 @@ def thumbsup_shuoshuo():
 
 @shuoshuo_opt.route("/follow", methods=["POST"])
 def follow_person():
-    data = json.loads(request.get_data())
+    data = request.values
     cursor = db.cursor()
-    if data['user'] == data['author']:
+    if data.get('user') == data.get('author'):
         return {"msg": "You can't follow yourself.", "data": []}
 
-    if data["add"]:
-        cursor.execute(f"select * from sharingphoto.concern where user={data['user']} and followed={data['author']}")
+    if data.get('add'):
+        cursor.execute(
+            f"select * from sharingphoto.concern where user='{data.get('user')}' and followed='{data.get('author')}'")
         if cursor.fetchone() is None:
-            cursor.execute(f"insert into sharingphoto.concern values ({data['user']}, {data['author']})")
-            cursor.execute(f"update sharingphoto.users set fan=fan+1 where uid={data['user']}")
+            cursor.execute(f"insert into sharingphoto.concern values ('{data.get('user')}', '{data.get('author')}')")
+            cursor.execute(f"update sharingphoto.users set fan=fan+1 where uid='{data.get('user')}'")
         else:
             return {"msg": "You can't follow again.", "data": []}
     else:
-        cursor.execute(f"delete from sharingphoto.concern where user={data['user']} and followed={data['author']}")
-        cursor.execute(f"update sharingphoto.users set fan=fan-1 where uid={data['user']}")
+        cursor.execute(
+            f"delete from sharingphoto.concern where user='{data.get('user')}' and followed='{data.get('author')}'")
+        cursor.execute(f"update sharingphoto.users set fan=fan-1 where uid='{data.get('user')}'")
 
     try:
         db.commit()
@@ -200,25 +203,27 @@ def follow_person():
 
 @shuoshuo_opt.route("/favor", methods=["POST"])
 def star_shuoshuo():
-    data = json.loads(request.get_data())
+    data = request.values
     cursor = db.cursor()
     if data['add']:
-        cursor.execute(f"select star from sharingphoto.favor where shuoshuoId={data['id']}")
+        cursor.execute(f"select star from sharingphoto.favor where shuoshuoId='{data.get('id')}'")
         if cursor.fetchone() is None:
-            cursor.execute(f"insert into sharingphoto.favor value ({data['user']}, {data['id']}, {data['add']}, 'F')")
+            cursor.execute(
+                f"insert into sharingphoto.favor value ('{data.get('user')}', '{data.get('id')}', '{data.get('add')}', 'F')")
         else:
-            cursor.execute(f"update sharingphoto.favor set star={data['add']} where shuoshuoId={data['id']}")
-        cursor.execute(f"update sharingphoto.shuoshuo set star=star+1 where shuoshuo.id={data['id']}")
-        cursor.execute(f"update sharingphoto.users set star=star+1 where uid={data['user']}")
+            cursor.execute(
+                f"update sharingphoto.favor set star='{data.get('add')}' where shuoshuoId='{data.get('id')}'")
+        cursor.execute(f"update sharingphoto.shuoshuo set star=star+1 where shuoshuo.id='{data.get('id')}'")
+        cursor.execute(f"update sharingphoto.users set star=star+1 where uid='{data.get('user')}'")
     else:
-        cursor.execute(f"update sharingphoto.favor set star={data['add']} where shuoshuoId={data['id']}")
-        cursor.execute(f"update sharingphoto.shuoshuo set star=star-1 where shuoshuo.id={data['id']}")
-        cursor.execute(f"update sharingphoto.users set star=star-1 where uid={data['user']}")
+        cursor.execute(f"update sharingphoto.favor set star='{data.get('add')}' where shuoshuoId='{data.get('id')}'")
+        cursor.execute(f"update sharingphoto.shuoshuo set star=star-1 where shuoshuo.id='{data.get('id')}'")
+        cursor.execute(f"update sharingphoto.users set star=star-1 where uid='{data.get('user')}'")
 
 
 @shuoshuo_opt.route("/publish", methods=["POST"])
 def publish_shuoshuo():
-    data = json.loads(request.get_data())
+    data = request.values
     cursor = db.cursor()
 
     time_stamp = time.time()
@@ -228,17 +233,17 @@ def publish_shuoshuo():
     image_list = list(data['photo'])
 
     cursor.execute(
-        f"insert into sharingphoto.shuoshuo values ({data['category']}, {data['topic']}, 0, 0, {data['title']}, {data['description']}, {formated_time_stamp}, {data['id']})")
+        f"insert into sharingphoto.shuoshuo values ('{data.get('category')}', '{data.get('topic')}', 0, 0, '{data.get('title')}', '{data.get('description')}', '{formated_time_stamp}', '{data.get('id')}')")
     try:
         db.commit()
     except:
         print("insert failed")
         db.rollback()
 
-    cursor.execute(f"select id from sharingphoto.shuoshuo where author={data['id']}")
+    cursor.execute(f"select id from sharingphoto.shuoshuo where author='{data.get('id')}'")
     shuoshuoId = cursor.fetchone()[0]
     for img in image_list:
-        cursor.execute(f"insert into sharingphoto.photo values ({img}, {shuoshuoId})")
+        cursor.execute(f"insert into sharingphoto.photo values ('{img}', '{shuoshuoId}')")
     try:
         db.commit()
         return {"msg": "success", "data": []}

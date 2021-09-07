@@ -1,4 +1,3 @@
-import json
 import random
 from hashlib import md5
 
@@ -7,7 +6,6 @@ from flask import Blueprint, request
 from . import database_object
 
 db = database_object
-m = md5()
 
 user_opt = Blueprint("user_opt", __name__)
 
@@ -22,13 +20,15 @@ def get_usernickname(bit: int):
 
 @user_opt.route("/login", methods=["POST"])
 def login():
-    data = json.loads(request.get_data())
+    m = md5()
+    data = request.values
     cursor = db.cursor()
-    cursor.execute(f"select passwd from users where uid={data['id']}")
-    selected_data = cursor.fetchone()[0]
-    m.update(selected_data.encode("utf-8"))
+    cursor.execute(f"select passwd from users where uid='{data.get('id')}'")
+    selected_data = cursor.fetchone()
+    m.update(data.get("passwd").encode("utf-8"))
+    en_passwd = m.hexdigest()
     if selected_data is not None:
-        isAuthorized = True if m.hexdigest() == data["passwd"] else False
+        isAuthorized = True if en_passwd.strip() == selected_data[0].strip() else False
         if isAuthorized:
             return {"msg": "success", "data": []}
         else:
@@ -39,19 +39,26 @@ def login():
 
 @user_opt.route("/register", methods=["POST"])
 def register():
-    data = json.loads(request.get_data())
+    m = md5()
+    data = request.values
     cursor = db.cursor()
 
     nickname = get_usernickname(bit=12)
-    passwd = data["passwd"].encode("utf-8")
+    passwd = data.get('passwd').encode("utf-8")
     m.update(passwd)
-    cursor.execute(f"insert into users(id, passwd, username) values ({data['id']}, {m.hexdigest()}, {nickname})")
-    try:
-        db.commit()
-        return {"msg": "success", "data": []}
-    except:
-        db.rollback()
-        return {"msg": "failed", "data": []}
+    cursor.execute(f"select uid from sharingphoto.users where uid='{data.get('id')}'")
+    res = cursor.fetchone()
+    if res is None:
+        cursor.execute(
+            f"insert into users(uid, passwd, username) values ('{data.get('id')}', '{m.hexdigest()}', '{nickname}')")
+        try:
+            db.commit()
+            return {"msg": "success", "data": []}
+        except:
+            db.rollback()
+            return {"msg": "failed", "data": []}
+    else:
+        return {"msg": "duplicated account", "data": []}
 
 
 @user_opt.route("/show_user_info", methods=["GET"])
@@ -60,11 +67,11 @@ def show_user_info():
     cursor = db.cursor()
 
     cursor.execute(
-        f"select sex, thumbsup, concern, fan, username, introduction, url from users where uid={data_args.get('id')}")
+        f"select sex, thumbsup, star, fan, username, introduction, url from users where uid='{data_args.get('id')}'")
     res = cursor.fetchone()
     if res is not None:
         return {"msg": "success",
-                "data": [{"sex": res[0], "great": res[1], "concern": res[2], "fan": res[3], "username": res[4],
+                "data": [{"sex": res[0], "great": res[1], "star": res[2], "fan": res[3], "username": res[4],
                           "introduction": res[5], "url": res[6]}]}
     else:
         return {"msg": "failed", "data": []}
@@ -72,11 +79,11 @@ def show_user_info():
 
 @user_opt.route("/modify_user_info", methods=["POST"])
 def modify():
-    data = json.loads(request.get_data())
+    data = request.values
     cursor = db.cursor()
 
     cursor.execute(
-        f"update users set username={data['username']}, sex={data['sex']}, introduction={data['introduction']} where uid={data['id']}")
+        f"update users set username='{data.get('username')}', sex='{data.get('sex')}', introduction='{data.get('introduction')}' where uid='{data.get('id')}'")
 
     try:
         db.commit()
@@ -88,10 +95,10 @@ def modify():
 
 @user_opt.route("/modify_avatar", methods=["POST"])
 def modify_avatar():
-    data = json.loads(request.get_data())
+    data = request.values
     cursor = db.cursor()
 
-    cursor.execute(f"update sharingphoto.users set url={data['url']} where uid={data['id']}")
+    cursor.execute(f"update sharingphoto.users set url='{data.get('url')}' where uid='{data.get('id')}'")
 
     try:
         db.commit()

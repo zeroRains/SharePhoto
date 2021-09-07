@@ -1,4 +1,3 @@
-import json
 import time
 
 from flask import Blueprint, request
@@ -19,12 +18,12 @@ def get_timestamp():
 
 @comment_opt.route("/publish_comments", methods=["POST"])
 def publish_comments():
-    data = json.loads(request.get_data())
+    data = request.values
     cursor = db.cursor()
     time_stamp = get_timestamp()
 
     cursor.execute(
-        f"insert into sharingphoto.comments values ({time_stamp}, 0, {data['content']}, {data['user']}, {data['id']})")
+        f"insert into sharingphoto.comments values ('{time_stamp}', 0, '{data.get('content')}', '{data.get('user')}', '{data.get('id')}')")
     try:
         db.commit()
         return {"msg": "success", "data": []}
@@ -40,7 +39,7 @@ def get_comments():
     cursor = db.cursor()
 
     cursor.execute(
-        f"select date, thumbsupNum, content, author from sharingphoto.comments where shuoshuoId={data.get('id')}")
+        f"select date, thumbsupNum, content, author from sharingphoto.comments where shuoshuoId='{data.get('id')}'")
     res = cursor.fetchall()
     if res is not None:
         for item in res:
@@ -52,18 +51,20 @@ def get_comments():
 
 @comment_opt.route("/thumbsup_comments", methods=["POST"])
 def thumbsup_comments():
-    data = json.loads(request.get_data())
+    data = request.values
     cursor = db.cursor()
     if data['add']:
-        cursor.execute(f"select great from sharingphoto.thumbsup_comments where commentsId={data['id']}")
+        cursor.execute(f"select great from sharingphoto.thumbsup_comments where commentsId='{data.get('id')}'")
         if cursor.fetchone() is None:
-            cursor.execute(f"insert into sharingphoto.thumbsup_comments value ({data['user']}, {data['id']}, {data['add']})")
+            cursor.execute(
+                f"insert into sharingphoto.thumbsup_comments value ('{data.get('user')}', '{data.get('id')}', '{data.get('add')}')")
         else:
-            cursor.execute(f"update sharingphoto.favor set great={data['add']} where shuoshuoId={data['id']}")
-        cursor.execute(f"update sharingphoto.shuoshuo set great=great+1 where shuoshuo.id={data['id']}")
+            cursor.execute(
+                f"update sharingphoto.favor set great='{data.get('add')}' where shuoshuoId='{data.get('id')}'")
+        cursor.execute(f"update sharingphoto.shuoshuo set great=great+1 where shuoshuo.id='{data.get('id')}'")
     else:
-        cursor.execute(f"update sharingphoto.favor set great={data['add']} where shuoshuoId={data['id']}")
-        cursor.execute(f"update sharingphoto.shuoshuo set great=great-1 where shuoshuo.id={data['id']}")
+        cursor.execute(f"update sharingphoto.favor set great='{data.get('add')}' where shuoshuoId='{data.get('id')}'")
+        cursor.execute(f"update sharingphoto.shuoshuo set great=great-1 where shuoshuo.id='{data.get('id')}'")
 
     try:
         db.commit()
