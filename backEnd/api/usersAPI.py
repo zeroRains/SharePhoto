@@ -65,7 +65,7 @@ def show_user_info():
     cursor = db.cursor()
 
     cursor.execute(
-        f"select sex, thumbsup, concern, fan, username, introduction, url from users where uid='{data_args.get('id')}'")
+        f"select sex, thumbsup, star, fan, username, introduction, url from users where uid='{data_args.get('id')}'")
     res = cursor.fetchone()
     if res is not None:
         return {"msg": "success",
