@@ -35,7 +35,7 @@ public class RegisterActivity extends AppCompatActivity {
                 password_text = password.getText().toString();
                 password_text2 = password2.getText().toString();
                 if (password_text.equals(password_text2)) {
-
+                    new RegisterAsyncTask(RegisterActivity.this).execute(account_text, password_text);
                 } else {
                     Toast.makeText(RegisterActivity.this, "两次输入的密码不一致", Toast.LENGTH_SHORT).show();
                 }

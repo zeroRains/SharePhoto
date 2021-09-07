@@ -57,15 +57,16 @@ public class LoginAsyncTask extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String s) {
         if (s != null) {
-            Log.d("zerorains", "onPostExecute: "+s);
+//            Log.d("zerorains", "onPostExecute: "+s);
             if (s.equals("success")) {
                 Toast.makeText(context, "登录成功，欢迎您！", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(context, MainActivity.class);
                 context.startActivity(intent);
+                ((Activity) context).finish();
             } else {
                 Toast.makeText(context, "登录失败，请检查账户和密码", Toast.LENGTH_SHORT).show();
             }
-            ((Activity) context).finish();
+
         } else {
             Toast.makeText(context, "网络请求失败", Toast.LENGTH_SHORT).show();
         }
