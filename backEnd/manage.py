@@ -1,17 +1,17 @@
 from flask import Flask
 
-from api import commentsAPI
-from api import imagesAPI
-from api import shuoshuoAPI
-from api import usersAPI
+from api.commentsAPI import comment_opt
+from api.imagesAPI import image_opt
+from api.shuoshuoAPI import shuoshuo_opt
+from api.usersAPI import user_opt
 from api import database_object
 
 app = Flask(__name__)
 
-app.register_blueprint(commentsAPI, url_prefix="/comments")
-app.register_blueprint(imagesAPI, url_prefix="/images")
-app.register_blueprint(shuoshuoAPI, url_prefix="/shuoshuo")
-app.register_blueprint(usersAPI, url_prefix="/users")
+app.register_blueprint(comment_opt, url_prefix="/comments")
+app.register_blueprint(image_opt, url_prefix="/images")
+app.register_blueprint(shuoshuo_opt, url_prefix="/shuoshuo")
+app.register_blueprint(user_opt, url_prefix="/users")
 
 
 @app.route("/")
@@ -20,5 +20,5 @@ def hello_world():
 
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=9090, debug=True)
+    app.run(host="0.0.0.0", port=9192, debug=False)
     database_object.close()

@@ -10,7 +10,7 @@ shuoshuo_opt = Blueprint("shuoshuo_opt", __name__)
 db = database_object
 
 
-@shuoshuo_opt.route("/shuoshuo/recommanded", methods=["GET"])
+@shuoshuo_opt.route("/recommanded", methods=["GET"])
 def show_recommend_page():
     data = []
     cursor = db.cursor()
@@ -35,7 +35,7 @@ def show_recommend_page():
         return {"msg": "failed", "data": []}
 
 
-@shuoshuo_opt.route("/shuoshuo/concern", methods=["GET"])
+@shuoshuo_opt.route("/concern", methods=["GET"])
 def show_follow_page():
     data = request.args
     cursor = db.cursor()
@@ -60,7 +60,7 @@ def show_follow_page():
         return {"msg": "failed", "data": []}
 
 
-@shuoshuo_opt.route("/shuoshuo/detail", methods=["GET"])
+@shuoshuo_opt.route("/detail", methods=["GET"])
 def show_shuoshuo_detail():
     data = request.args
     content = {"msg": "success",
@@ -147,7 +147,7 @@ def show_shuoshuo_detail():
     return content
 
 
-@shuoshuo_opt.route("/shuoshuo/thumbsup", methods=["POST"])
+@shuoshuo_opt.route("/thumbsup", methods=["POST"])
 def thumbsup_shuoshuo():
     data = json.loads(request.get_data())
     cursor = db.cursor()
@@ -172,7 +172,7 @@ def thumbsup_shuoshuo():
         return {"msg": "failed", "data": []}
 
 
-@shuoshuo_opt.route("/shuoshuo/follow", methods=["POST"])
+@shuoshuo_opt.route("/follow", methods=["POST"])
 def follow_person():
     data = json.loads(request.get_data())
     cursor = db.cursor()
@@ -198,7 +198,7 @@ def follow_person():
         return {"msg": "failed", "data": []}
 
 
-@shuoshuo_opt.route("/shuoshuo/favor", methods=["POST"])
+@shuoshuo_opt.route("/favor", methods=["POST"])
 def star_shuoshuo():
     data = json.loads(request.get_data())
     cursor = db.cursor()
@@ -216,7 +216,7 @@ def star_shuoshuo():
         cursor.execute(f"update sharingphoto.users set star=star-1 where uid={data['user']}")
 
 
-@shuoshuo_opt.route("/shuoshuo/publish", methods=["POST"])
+@shuoshuo_opt.route("/publish", methods=["POST"])
 def publish_shuoshuo():
     data = json.loads(request.get_data())
     cursor = db.cursor()

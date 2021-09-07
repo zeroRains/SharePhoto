@@ -11,7 +11,7 @@ db = database_object
 img_save_path = "/static/imgs"
 
 
-@image_opt.route("/image/upload_avatar", methods=["POST"])
+@image_opt.route("/upload_avatar", methods=["POST"])
 def upload_avatar():
     data = json.loads(request.get_data())
     cursor = db.cursor()
@@ -25,7 +25,7 @@ def upload_avatar():
         return {"msg": "failed", "data": []}
 
 
-@image_opt.route("/image/upload_imgs", methods=["POST"])
+@image_opt.route("/upload_imgs", methods=["POST"])
 def upload_img():
     data = json.loads(request.get_data())
     cursor = db.cursor()

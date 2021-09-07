@@ -20,7 +20,7 @@ def get_usernickname(bit: int):
     return salt
 
 
-@user_opt.route("/user/login", methods=["POST"])
+@user_opt.route("/login", methods=["POST"])
 def login():
     data = json.loads(request.get_data())
     cursor = db.cursor()
@@ -37,7 +37,7 @@ def login():
         return {"msg": "failed", "data": []}
 
 
-@user_opt.route("/user/register", methods=["POST"])
+@user_opt.route("/register", methods=["POST"])
 def register():
     data = json.loads(request.get_data())
     cursor = db.cursor()
@@ -54,7 +54,7 @@ def register():
         return {"msg": "failed", "data": []}
 
 
-@user_opt.route("/user/show_user_info", methods=["GET"])
+@user_opt.route("/show_user_info", methods=["GET"])
 def show_user_info():
     data_args = request.args
     cursor = db.cursor()
@@ -70,7 +70,7 @@ def show_user_info():
         return {"msg": "failed", "data": []}
 
 
-@user_opt.route("/user/modify_user_info", methods=["POST"])
+@user_opt.route("/modify_user_info", methods=["POST"])
 def modify():
     data = json.loads(request.get_data())
     cursor = db.cursor()
@@ -86,7 +86,7 @@ def modify():
         return {"msg": "failed", "data": []}
 
 
-@user_opt.route("/user/modify_avatar", methods=["POST"])
+@user_opt.route("/modify_avatar", methods=["POST"])
 def modify_avatar():
     data = json.loads(request.get_data())
     cursor = db.cursor()

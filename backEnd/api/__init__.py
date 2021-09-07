@@ -8,5 +8,5 @@ server_info = {
     "db_name": "sharingphoto"
 }
 
-database_object = pymysql.connect(server_info["db_url"], server_info["db_user"], server_info["passwd"],
-                                  server_info["db_name"])
+database_object = pymysql.connect(host=server_info["db_url"], user=server_info["db_user"], password=server_info["passwd"],
+                                  database=server_info["db_name"], charset="utf8")
