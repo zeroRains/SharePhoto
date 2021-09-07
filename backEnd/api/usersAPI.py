@@ -27,7 +27,7 @@ def login():
     cursor.execute(f"select passwd from users where uid='{data['id']}'")
     selected_data = cursor.fetchone()
     if selected_data is not None:
-        m.update(selected_data.encode("utf-8"))
+        m.update(selected_data[0].encode("utf-8"))
         isAuthorized = True if m.hexdigest() == data.get("passwd") else False
         if isAuthorized:
             return {"msg": "success", "data": []}
