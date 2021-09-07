@@ -45,7 +45,7 @@ def register():
     nickname = get_usernickname(bit=12)
     passwd = data["passwd"].encode("utf-8")
     m.update(passwd)
-    cursor.execute(f"insert into users(id, passwd, username) values ({data.get('id')}, {m.hexdigest()}, {nickname})")
+    cursor.execute(f"insert into users(uid, passwd, username) values ({data.get('id')}, {m.hexdigest()}, {nickname})")
     try:
         db.commit()
         return {"msg": "success", "data": []}
