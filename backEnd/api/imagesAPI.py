@@ -34,5 +34,5 @@ def upload_img():
         img.save(file_path)
 
         return {"msg": "success", "data": [{"url": file_path}]}
-    except:
+    except Exception as e:
         return {"msg": "failed\n" + e, "data": []}
