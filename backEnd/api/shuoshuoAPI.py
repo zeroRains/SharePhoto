@@ -9,13 +9,13 @@ shuoshuo_opt = Blueprint("shuoshuo_opt", __name__)
 db = database_object
 
 
-@shuoshuo_opt.route("/recommanded", methods=["GET"])
+@shuoshuo_opt.route("/recommended", methods=["GET"])
 def show_recommend_page():
     data = []
     cursor = db.cursor()
 
     cursor.execute(
-        f"select id, title, sharingphoto.users.url, sharingphoto.users.username, star, sharingphoto.favor.star, sharingphoto.photo.url from sharingphoto.shuoshuo "
+        f"select shuoshuo.id, shuoshuo.title, u.url, u.username, shuoshuo.star, f.star, p.url from sharingphoto.shuoshuo "
         f"join sharingphoto.photo p on shuoshuo.id = p.shuoshuoId " +
         f"join sharingphoto.favor f on p.shuoshuoId = f.shuoshuoId " +
         f"join sharingphoto.users u on u.uid = shuoshuo.author where id >= (" +
