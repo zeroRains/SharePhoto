@@ -1,4 +1,3 @@
-import json
 import time
 
 from flask import Blueprint, request
@@ -154,9 +153,11 @@ def thumbsup_shuoshuo():
     if data['add']:
         cursor.execute(f"select great from sharingphoto.favor where shuoshuoId='{data.get('id')}'")
         if cursor.fetchone() is None:
-            cursor.execute(f"insert into sharingphoto.favor value ('{data.get('user')}', '{data.get('id')}', 'F', '{data.get('add')}')")
+            cursor.execute(
+                f"insert into sharingphoto.favor value ('{data.get('user')}', '{data.get('id')}', 'F', '{data.get('add')}')")
         else:
-            cursor.execute(f"update sharingphoto.favor set great='{data.get('add')}' where shuoshuoId='{data.get('id')}'")
+            cursor.execute(
+                f"update sharingphoto.favor set great='{data.get('add')}' where shuoshuoId='{data.get('id')}'")
         cursor.execute(f"update sharingphoto.shuoshuo set great=great+1 where shuoshuo.id='{data.get('id')}'")
         cursor.execute(f"update sharingphoto.users set thumbsup=thumbsup+1 where uid='{data.get('user')}'")
     else:
@@ -180,14 +181,16 @@ def follow_person():
         return {"msg": "You can't follow yourself.", "data": []}
 
     if data.get('add'):
-        cursor.execute(f"select * from sharingphoto.concern where user='{data.get('user')}' and followed='{data.get('author')}'")
+        cursor.execute(
+            f"select * from sharingphoto.concern where user='{data.get('user')}' and followed='{data.get('author')}'")
         if cursor.fetchone() is None:
             cursor.execute(f"insert into sharingphoto.concern values ('{data.get('user')}', '{data.get('author')}')")
             cursor.execute(f"update sharingphoto.users set fan=fan+1 where uid='{data.get('user')}'")
         else:
             return {"msg": "You can't follow again.", "data": []}
     else:
-        cursor.execute(f"delete from sharingphoto.concern where user='{data.get('user')}' and followed='{data.get('author')}'")
+        cursor.execute(
+            f"delete from sharingphoto.concern where user='{data.get('user')}' and followed='{data.get('author')}'")
         cursor.execute(f"update sharingphoto.users set fan=fan-1 where uid='{data.get('user')}'")
 
     try:
@@ -205,9 +208,11 @@ def star_shuoshuo():
     if data['add']:
         cursor.execute(f"select star from sharingphoto.favor where shuoshuoId='{data.get('id')}'")
         if cursor.fetchone() is None:
-            cursor.execute(f"insert into sharingphoto.favor value ('{data.get('user')}', '{data.get('id')}', '{data.get('add')}', 'F')")
+            cursor.execute(
+                f"insert into sharingphoto.favor value ('{data.get('user')}', '{data.get('id')}', '{data.get('add')}', 'F')")
         else:
-            cursor.execute(f"update sharingphoto.favor set star='{data.get('add')}' where shuoshuoId='{data.get('id')}'")
+            cursor.execute(
+                f"update sharingphoto.favor set star='{data.get('add')}' where shuoshuoId='{data.get('id')}'")
         cursor.execute(f"update sharingphoto.shuoshuo set star=star+1 where shuoshuo.id='{data.get('id')}'")
         cursor.execute(f"update sharingphoto.users set star=star+1 where uid='{data.get('user')}'")
     else:

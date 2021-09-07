@@ -1,4 +1,3 @@
-import json
 import time
 
 from flask import Blueprint, request
@@ -57,9 +56,11 @@ def thumbsup_comments():
     if data['add']:
         cursor.execute(f"select great from sharingphoto.thumbsup_comments where commentsId='{data.get('id')}'")
         if cursor.fetchone() is None:
-            cursor.execute(f"insert into sharingphoto.thumbsup_comments value ('{data.get('user')}', '{data.get('id')}', '{data.get('add')}')")
+            cursor.execute(
+                f"insert into sharingphoto.thumbsup_comments value ('{data.get('user')}', '{data.get('id')}', '{data.get('add')}')")
         else:
-            cursor.execute(f"update sharingphoto.favor set great='{data.get('add')}' where shuoshuoId='{data.get('id')}'")
+            cursor.execute(
+                f"update sharingphoto.favor set great='{data.get('add')}' where shuoshuoId='{data.get('id')}'")
         cursor.execute(f"update sharingphoto.shuoshuo set great=great+1 where shuoshuo.id='{data.get('id')}'")
     else:
         cursor.execute(f"update sharingphoto.favor set great='{data.get('add')}' where shuoshuoId='{data.get('id')}'")
