@@ -1,4 +1,3 @@
-import json
 import random
 from hashlib import md5
 
@@ -24,7 +23,7 @@ def get_usernickname(bit: int):
 def login():
     data = request.values
     cursor = db.cursor()
-    cursor.execute(f"select passwd from users where uid='{data['id']}'")
+    cursor.execute(f"select passwd from users where uid='{data.get('id')}'")
     selected_data = cursor.fetchone()
     if selected_data is not None:
         m.update(selected_data[0].encode("utf-8"))
@@ -43,14 +42,20 @@ def register():
     cursor = db.cursor()
 
     nickname = get_usernickname(bit=12)
-    passwd = data["passwd"].encode("utf-8")
+    passwd = data.get('passwd').encode("utf-8")
     m.update(passwd)
-    cursor.execute(f"insert into users(uid, passwd, username) values ('{data.get('id')}', '{m.hexdigest()}', '{nickname}')")
-    try:
-        db.commit()
-        return {"msg": "success", "data": []}
-    except:
-        db.rollback()
+    cursor.execute(f"select uid from sharingphoto.users where id='{data.get('id')}'")
+    res = cursor.fetchone()
+    if res is None:
+        cursor.execute(
+            f"insert into users(uid, passwd, username) values ('{data.get('id')}', '{m.hexdigest()}', '{nickname}')")
+        try:
+            db.commit()
+            return {"msg": "success", "data": []}
+        except:
+            db.rollback()
+            return {"msg": "failed", "data": []}
+    else:
         return {"msg": "failed", "data": []}
 
 
