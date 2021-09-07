@@ -17,7 +17,7 @@ def get_timestamp():
     return formated_time_stamp
 
 
-@comment_opt.route("/comments/publish_comments", methods=["POST"])
+@comment_opt.route("/publish_comments", methods=["POST"])
 def publish_comments():
     data = json.loads(request.get_data())
     cursor = db.cursor()
@@ -33,7 +33,7 @@ def publish_comments():
         return {"msg": "failed", "data": []}
 
 
-@comment_opt.route("/comments/get_comments", methods=["GET"])
+@comment_opt.route("/get_comments", methods=["GET"])
 def get_comments():
     comments_list = list()
     data = request.args
@@ -50,7 +50,7 @@ def get_comments():
         return {"msg": "failed", "data": []}
 
 
-@comment_opt.route("/comments/thumbsup_comments", methods=["POST"])
+@comment_opt.route("/thumbsup_comments", methods=["POST"])
 def thumbsup_comments():
     data = json.loads(request.get_data())
     cursor = db.cursor()
