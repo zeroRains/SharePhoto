@@ -58,7 +58,7 @@ def register():
             db.rollback()
             return {"msg": "failed", "data": []}
     else:
-        return {"msg": "failed", "data": []}
+        return {"msg": "duplicated account", "data": []}
 
 
 @user_opt.route("/show_user_info", methods=["GET"])
