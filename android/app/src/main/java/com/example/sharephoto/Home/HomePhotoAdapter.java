@@ -12,7 +12,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.sharephoto.R;
+import com.example.sharephoto.RequestConfig;
 
 import java.util.List;
 
@@ -24,6 +26,10 @@ public class HomePhotoAdapter extends RecyclerView.Adapter<HomePhotoAdapter.View
     private int resourceId;
     private OnItemClickListener onItemClickListener;
 
+    public void setPhotos(List<HomePhoto> photos) {
+        this.photos = photos;
+        this.notifyDataSetChanged();
+    }
 
     @Override
     public void onClick(View v) {
@@ -59,12 +65,14 @@ public class HomePhotoAdapter extends RecyclerView.Adapter<HomePhotoAdapter.View
     @Override
     public void onBindViewHolder(@NonNull HomePhotoAdapter.ViewHolder holder, int position) {
         HomePhoto item = photos.get(position);
-        holder.home_photo.setImageResource(item.getId());
+//        holder.home_photo.setImageResource(item.getId());
+        Glide.with(context).load(RequestConfig.URL + item.getThumbSnail()).into(holder.home_photo);
         holder.itemView.setTag(position);
-        holder.img_icon.setImageResource(item.getIconId());
+//        holder.img_icon.setImageResource(item.getIconId());
+        Glide.with(context).load(RequestConfig.URL + item.getIconId()).into(holder.img_icon);
         holder.img_username.setText(item.getUsername());
         holder.img_star_num.setText(item.getStarNum() + "");
-        holder.img_status.setSelected(item.isStar());
+        holder.img_status.setSelected(item.isStar().equals("T"));
         holder.img_status.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

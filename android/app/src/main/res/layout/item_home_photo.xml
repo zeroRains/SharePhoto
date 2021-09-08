@@ -73,7 +73,7 @@
                 android:text="666"
                 app:layout_constraintEnd_toStartOf="@id/img_status" />
 
-            <de.hdodenhof.circleimageview.CircleImageView
+            static/imgs/bg03.jpg<de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/img_icon"
                 android:layout_width="22dp"
                 android:layout_height="22dp"

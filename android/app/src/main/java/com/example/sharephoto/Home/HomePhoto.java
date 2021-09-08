@@ -1,12 +1,21 @@
 package com.example.sharephoto.Home;
 
+import com.google.gson.annotations.SerializedName;
+
 public class HomePhoto {
+    @SerializedName("id")
     private int id;
+    @SerializedName("title")
     private String tag;
-    private int iconId;
+    @SerializedName("iconId")
+    private String iconId;
+    @SerializedName("author")
     private String username;
+    @SerializedName("starNum")
     private int starNum;
-    private boolean star;
+    @SerializedName("star")
+    private String star;
+    @SerializedName("thumbnail")
     private String thumbSnail;
 
 
@@ -26,11 +35,11 @@ public class HomePhoto {
         this.tag = tag;
     }
 
-    public int getIconId() {
+    public String getIconId() {
         return iconId;
     }
 
-    public void setIconId(int iconId) {
+    public void setIconId(String iconId) {
         this.iconId = iconId;
     }
 
@@ -50,11 +59,11 @@ public class HomePhoto {
         this.starNum = starNum;
     }
 
-    public boolean isStar() {
+    public String isStar() {
         return star;
     }
 
-    public void setStar(boolean star) {
+    public void setStar(String star) {
         this.star = star;
     }
 

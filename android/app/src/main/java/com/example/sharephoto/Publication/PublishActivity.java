@@ -23,6 +23,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -179,12 +180,13 @@ public class PublishActivity extends AppCompatActivity implements View.OnClickLi
                 } else {
                     photo = handleImageBeforeKitKat(data);
                 }
-                new PublishAsyncTask(PublishActivity.this, adapter, photos);
+//                Log.d("zerorains", "到这里没问题啊" + photo);
+//                new PublishAsyncTask(PublishActivity.this, adapter, photos).execute();
 ////                这里可以添加
-//                PublishPhoto item = new PublishPhoto();
-//                item.setPhoto_uri(photo);
-//                photos.add(item);
-//                adapter.setPhotos(photos);
+                PublishPhoto item = new PublishPhoto();
+                item.setPhoto_uri(photo);
+                photos.add(item);
+                adapter.setPhotos(photos);
                 break;
             default:
                 break;

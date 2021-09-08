@@ -51,6 +51,7 @@
         <entry key="app/src/main/res/drawable/splash.xml" value="0.5061287027579162" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.12760416666666666" />
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.12760416666666666" />
+        <entry key="app/src/main/res/layout/item_home_photo.xml" value="0.209375" />
       </map>
     </option>
   </component>
