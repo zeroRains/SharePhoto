@@ -2,6 +2,7 @@ package com.example.sharephoto.Publication;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.sharephoto.RequestConfig;
@@ -37,10 +38,10 @@ public class PublishAsyncTask extends AsyncTask<String, Void, String> {
     @Override
     protected String doInBackground(String... strings) {
         String path = strings[0];
-
+        File file = new File(path);
+        RequestBody fileBody = RequestBody.create(MediaType.parse("application/octet-stream"), file);
         RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                .addFormDataPart("file", "test111.jpg",
-                        RequestBody.create(MediaType.parse("multipart/form-data"), new File(path)))
+                .addFormDataPart("file", "test111.jpg", fileBody)
                 .build();
         Request request = new Request.Builder()
                 .url(PublishAsyncTask.URL)
@@ -50,6 +51,7 @@ public class PublishAsyncTask extends AsyncTask<String, Void, String> {
             OkHttpClient client = new OkHttpClient();
             Response response = client.newCall(request).execute();
             if (response.isSuccessful()) {
+                Log.d("zerorains", "doInBackground: " + response.isSuccessful());
                 return response.body().string();
             }
         } catch (IOException e) {
@@ -60,6 +62,7 @@ public class PublishAsyncTask extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String s) {
+
         Gson gson = new Gson();
         String msg = gson.fromJson(s, EmptyResponse.class).getMsg();
         if (msg.equals("success")) {

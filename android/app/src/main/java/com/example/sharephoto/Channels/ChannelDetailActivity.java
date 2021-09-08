@@ -18,6 +18,7 @@ import com.example.sharephoto.Detail.DetailActivity;
 import com.example.sharephoto.Home.HomePhoto;
 import com.example.sharephoto.Home.HomePhotoAdapter;
 import com.example.sharephoto.R;
+import com.example.sharephoto.RequestConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,12 +70,13 @@ public class ChannelDetailActivity extends AppCompatActivity {
     private void initData() {
         for (int i = 0; i < 50; i++) {
             HomePhoto item = new HomePhoto();
-            item.setIconId(R.drawable.icon);
-            if (i % 2 == 0)
-                item.setId(R.drawable.nmsl);
-            else
-                item.setId(R.drawable.icon);
-            item.setStar(true);
+            item.setIconId("static/imgs/bg03.jpg");
+            item.setThumbSnail("static/imgs/bg03.jpg");
+//            if (i % 2 == 0)
+//                item.setId(R.drawable.nmsl);
+//            else
+//                item.setId(R.drawable.icon);
+            item.setStar("T");
             item.setStarNum(666);
             item.setTag("#休闲时光#");
             item.setUsername("ZeroRains");
