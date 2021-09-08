@@ -7,7 +7,7 @@ from . import database_object
 image_opt = Blueprint("image_opt", __name__)
 
 db = database_object
-img_save_path = "./static/imgs"
+img_save_path = "static/imgs"
 
 
 @image_opt.route("/upload_avatar", methods=["POST"])
