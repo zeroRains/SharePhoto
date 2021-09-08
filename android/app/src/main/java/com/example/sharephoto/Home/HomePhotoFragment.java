@@ -54,32 +54,32 @@ public class HomePhotoFragment extends Fragment {
     }
 
     private void initData() {
-//        switch (status) {
-//            case "推荐":
-//                this.URL = RequestConfig.RECOMMEND;
-//                new RecommendAsyncTask(getContext(), URL, photoAdapter, photos).execute();
-//                break;
-//            case "关注":
-//                this.URL = RequestConfig.CONCERN;
-//                break;
-//            default:
-//                this.URL = null;
-//                break;
-//        }
-        for (int i = 0; i < 50; i++) {
-            HomePhoto item = new HomePhoto();
-//            item.setIconId(RequestConfig.URL+"static/imgs/bg03.jpg");
-            item.setThumbSnail("static/imgs/bg03.jpg");
-//            if (i % 2 == 0)
-//                item.setId(R.drawable.nmsl);
-//            else
-//                item.setId(R.drawable.icon);
-            item.setIconId("static/imgs/bg03.jpg");
-            item.setStar("T");
-            item.setStarNum(666);
-            item.setTag("#休闲时光#");
-            item.setUsername("ZeroRains");
-            photos.add(item);
+        switch (status) {
+            case "推荐":
+                this.URL = RequestConfig.RECOMMEND;
+                new RecommendAsyncTask(getContext(), URL, photoAdapter, photos).execute();
+                break;
+            case "关注":
+                this.URL = RequestConfig.CONCERN;
+                break;
+            default:
+                this.URL = null;
+                break;
         }
+//        for (int i = 0; i < 50; i++) {
+//            HomePhoto item = new HomePhoto();
+////            item.setIconId(RequestConfig.URL+"static/imgs/bg03.jpg");
+//            item.setThumbSnail("static/imgs/bg03.jpg");
+////            if (i % 2 == 0)
+////                item.setId(R.drawable.nmsl);
+////            else
+////                item.setId(R.drawable.icon);
+//            item.setIconId("static/imgs/bg03.jpg");
+//            item.setStar("T");
+//            item.setStarNum(666);
+//            item.setTag("#休闲时光#");
+//            item.setUsername("ZeroRains");
+//            photos.add(item);
+//        }
     }
 }
