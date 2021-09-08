@@ -39,7 +39,7 @@ def get_comments():
     cursor = db.cursor()
 
     cursor.execute(
-        f"select date, thumbsupNum, content, author from sharingphoto.comments where shuoshuoId='{data.get('id')}'")
+        f"select date, thumbsupNum, content, author from sharingphoto.comments where shuoshuoId={data.get('id')}")
     res = cursor.fetchall()
     if res is not None:
         for item in res:
@@ -53,7 +53,7 @@ def get_comments():
 def thumbsup_comments():
     data = request.values
     cursor = db.cursor()
-    if data['add']:
+    if data.get('add'):
         cursor.execute(f"select great from sharingphoto.thumbsup_comments where commentsId='{data.get('id')}'")
         if cursor.fetchone() is None:
             cursor.execute(
