@@ -234,7 +234,7 @@ def publish_shuoshuo():
     image_list = list(data.get('photo'))
 
     cursor.execute(
-        f"insert into shuoshuo values ('{data.get('category')}', '{data.get('topic')}', 0, 0, '{data.get('title')}', '{data.get('description')}', '{formated_time_stamp}', '{data.get('id')}')")
+        f"insert into shuoshuo(category, topic, great, star, title, description, date, author) values ('{data.get('category')}', '{data.get('topic')}', 0, 0, '{data.get('title')}', '{data.get('description')}', '{formated_time_stamp}', '{data.get('id')}')")
     try:
         db.commit()
     except:
