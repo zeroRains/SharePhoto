@@ -7,7 +7,7 @@ from . import database_object
 image_opt = Blueprint("image_opt", __name__)
 
 db = database_object
-img_save_path = "/static/imgs"
+img_save_path = "./static/imgs"
 
 
 @image_opt.route("/upload_avatar", methods=["POST"])
@@ -20,8 +20,8 @@ def upload_avatar():
         img.save(file_path)
 
         return {"msg": "success", "data": [{"url": file_path}]}
-    except:
-        return {"msg": "failed", "data": []}
+    except Exception as e:
+        return {"msg": "failed\n" + str(e), "data": []}
 
 
 @image_opt.route("/upload_imgs", methods=["POST"])
@@ -34,5 +34,5 @@ def upload_img():
         img.save(file_path)
 
         return {"msg": "success", "data": [{"url": file_path}]}
-    except:
-        return {"msg": "failed", "data": []}
+    except Exception as e:
+        return {"msg": "failed\n" + str(e), "data": []}
