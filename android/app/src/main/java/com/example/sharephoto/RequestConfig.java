@@ -27,6 +27,4 @@ public class RequestConfig {
     public static String COMMENT_THUMBSUP = URL + "comment/thumbsup";               //评论点赞
     public static String PUBLISH_COMMENT = URL + "comment/publish_comment";         //发表评论
     public static String GET_COMMENT = URL + "comment/get_comment";                 //获取评论
-
-
 }

@@ -19,9 +19,7 @@
             <!--背景-->
             <solid android:color="#48ae89" />
             <!--梯度-->
-            <gradient android:endColor="#48ae89" android:startColor="#48ae89" />
-            <!--边框-->
-            <stroke android:width="2dp" android:color="#7E222323" />
+            <gradient android:endColor="#48ae89" android:startColor="#55C99F" />
             <!--圆角-->
             <corners android:radius="30dp" />
             <!--边距-->
