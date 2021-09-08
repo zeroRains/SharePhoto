@@ -66,6 +66,8 @@ public class PublishActivity extends AppCompatActivity implements View.OnClickLi
     private EditText publish_content;
     //    话题
     private EditText publish_topic;
+    //    分类
+    private RecyclerView publish_category;
 
     //    提交栏
     private Button publish_submit;
@@ -73,9 +75,12 @@ public class PublishActivity extends AppCompatActivity implements View.OnClickLi
 
     //    候选图片
     private List<PublishPhoto> photos = new ArrayList<>();
+    private List<PublishSelection> selections = new ArrayList<>();
 
     public static final int CHOOSE_PHOTO = 2;
     private PublishPhotoAdapter adapter;
+    private PublishCategoryAdapter select_adapter;
+    private static String[] category;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +95,9 @@ public class PublishActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void initView() {
+//        获取频道
+        category = getResources().getStringArray(R.array.titles);
+
 //        图像选择
         publish_photo = findViewById(R.id.publish_photo);
         publish_add = findViewById(R.id.publish_add);
@@ -98,6 +106,7 @@ public class PublishActivity extends AppCompatActivity implements View.OnClickLi
         publish_title = findViewById(R.id.publish_title);
         publish_content = findViewById(R.id.publish_content);
         publish_topic = findViewById(R.id.publish_topic);
+        publish_category = findViewById(R.id.publish_category_selection);
 
 //        提交栏
         publish_submit = findViewById(R.id.publish_submit);
@@ -108,18 +117,26 @@ public class PublishActivity extends AppCompatActivity implements View.OnClickLi
         publish_cancel.setOnClickListener(this);
         publish_submit.setOnClickListener(this);
 
-//        initData();
+        initData();
         adapter = new PublishPhotoAdapter(PublishActivity.this, R.layout.item_publication_photo);
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(1, RecyclerView.HORIZONTAL);
         publish_photo.setAdapter(adapter);
         publish_photo.setLayoutManager(staggeredGridLayoutManager);
+
+        StaggeredGridLayoutManager staggeredGridLayoutManager1 = new StaggeredGridLayoutManager(1, RecyclerView.HORIZONTAL);
+        select_adapter = new PublishCategoryAdapter(PublishActivity.this, R.layout.item_publish);
+        select_adapter.setSelections(selections);
+        publish_category.setAdapter(select_adapter);
+        publish_category.setLayoutManager(staggeredGridLayoutManager1);
+
     }
 
     private void initData() {
-        for (int i = 0; i < 7; i++) {
-            PublishPhoto photo = new PublishPhoto();
-            photo.setId(R.drawable.icon);
-            photos.add(photo);
+        for (String name : category) {
+            PublishSelection item = new PublishSelection();
+            item.setTitle(name);
+            item.setSelected(false);
+            selections.add(item);
         }
     }
 
@@ -142,7 +159,8 @@ public class PublishActivity extends AppCompatActivity implements View.OnClickLi
                 }
                 break;
             case R.id.publish_submit:
-                Toast.makeText(PublishActivity.this, "点击这个发布图片分享", Toast.LENGTH_SHORT).show();
+
+                Toast.makeText(PublishActivity.this, "点击这个发布图片分享"+category[select_adapter.getNow()], Toast.LENGTH_SHORT).show();
                 break;
             case R.id.publish_cancel:
                 publish_back(v);
