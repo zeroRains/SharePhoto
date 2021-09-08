@@ -1,4 +1,4 @@
-package com.example.sharephoto;
+package com.example.sharephoto.Response;
 
 import com.google.gson.annotations.SerializedName;
 

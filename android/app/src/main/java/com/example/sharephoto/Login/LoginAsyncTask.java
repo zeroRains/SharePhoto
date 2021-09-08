@@ -4,18 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.widget.Toast;
 
-import com.example.sharephoto.BaseResponse;
-import com.example.sharephoto.Empty;
+import com.example.sharephoto.Response.EmptyResponse;
 import com.example.sharephoto.MainActivity;
 import com.example.sharephoto.RequestConfig;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
-import java.util.List;
 
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -45,7 +39,7 @@ public class LoginAsyncTask extends AsyncTask<String, Void, String> {
             if (response.isSuccessful()) {
                 String s = response.body().string();
                 Gson gson = new Gson();
-                LoginResponse response1s = gson.fromJson(s, LoginResponse.class);
+                EmptyResponse response1s = gson.fromJson(s, EmptyResponse.class);
                 return response1s.getMsg();
             }
         } catch (Exception e) {

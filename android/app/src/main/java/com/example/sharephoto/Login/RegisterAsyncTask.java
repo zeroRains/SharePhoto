@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.sharephoto.Response.EmptyResponse;
 import com.example.sharephoto.MainActivity;
 import com.example.sharephoto.RequestConfig;
 import com.google.gson.Gson;
@@ -39,7 +40,7 @@ public class RegisterAsyncTask extends AsyncTask<String, Void, String> {
             if (response.isSuccessful()) {
                 String s = response.body().string();
                 Gson gson = new Gson();
-                LoginResponse response1s = gson.fromJson(s, LoginResponse.class);
+                EmptyResponse response1s = gson.fromJson(s, EmptyResponse.class);
                 return response1s.getMsg();
             }
         } catch (Exception e) {

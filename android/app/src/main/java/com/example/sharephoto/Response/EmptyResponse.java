@@ -1,10 +1,8 @@
-package com.example.sharephoto.Login;
-
-import com.example.sharephoto.Empty;
+package com.example.sharephoto.Response;
 
 import java.util.ArrayList;
 
-public class LoginResponse {
+public class EmptyResponse {
     private String msg;
     private ArrayList<Empty> data;
 

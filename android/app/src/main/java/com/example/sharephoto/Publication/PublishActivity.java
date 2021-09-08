@@ -33,8 +33,17 @@ import android.widget.Toast;
 
 import com.example.sharephoto.R;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 
 public class PublishActivity extends AppCompatActivity implements View.OnClickListener {
@@ -161,7 +170,7 @@ public class PublishActivity extends AppCompatActivity implements View.OnClickLi
         switch (requestCode) {
             case CHOOSE_PHOTO:
                 String photo = null;
-                if(data ==null)
+                if (data == null)
                     break;
                 if (requestCode == RESULT_OK) {
                     if (Build.VERSION.SDK_INT >= 19) {
@@ -170,11 +179,12 @@ public class PublishActivity extends AppCompatActivity implements View.OnClickLi
                 } else {
                     photo = handleImageBeforeKitKat(data);
                 }
-//                这里可以添加
-                PublishPhoto item = new PublishPhoto();
-                item.setPhoto_uri(photo);
-                photos.add(item);
-                adapter.setPhotos(photos);
+                new PublishAsyncTask(PublishActivity.this, adapter, photos);
+////                这里可以添加
+//                PublishPhoto item = new PublishPhoto();
+//                item.setPhoto_uri(photo);
+//                photos.add(item);
+//                adapter.setPhotos(photos);
                 break;
             default:
                 break;
