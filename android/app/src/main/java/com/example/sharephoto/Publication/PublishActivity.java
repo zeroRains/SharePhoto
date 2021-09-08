@@ -33,12 +33,20 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.sharephoto.R;
+import com.example.sharephoto.Response.BaseResponse;
+import com.example.sharephoto.Utils.RealPathFromUriUtils;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -173,20 +181,67 @@ public class PublishActivity extends AppCompatActivity implements View.OnClickLi
                 String photo = null;
                 if (data == null)
                     break;
-                if (requestCode == RESULT_OK) {
-                    if (Build.VERSION.SDK_INT >= 19) {
-                        photo = handleImageOnKitKat(data);
+//                if (requestCode == RESULT_OK) {
+//                    if (Build.VERSION.SDK_INT >= 19) {
+//                        photo = handleImageOnKitKat(data);
+//                    }
+//                } else {
+//                    photo = handleImageBeforeKitKat(data);
+//                }
+                photo = RealPathFromUriUtils.getRealPathFromUri(this, data.getData());
+                File file = new File(photo);
+                RequestBody fileBody = RequestBody.create(MediaType.parse("application/octet-stream"), file);
+                RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                        .addFormDataPart("file", file.getName(), fileBody)
+                        .build();
+                Request request = new Request.Builder()
+                        .url(PublishAsyncTask.URL)
+                        .post(requestBody)
+                        .build();
+
+                Log.d("zerorains", "onActivityResult: " + file.getName());
+                OkHttpClient client = new OkHttpClient();
+                Call call = client.newCall(request);
+                call.enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        Log.d("zerorains", "onResponse: " + e);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(PublishActivity.this, "添加失败！", Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
-                } else {
-                    photo = handleImageBeforeKitKat(data);
-                }
-//                Log.d("zerorains", "到这里没问题啊" + photo);
-//                new PublishAsyncTask(PublishActivity.this, adapter, photos).execute();
-////                这里可以添加
-                PublishPhoto item = new PublishPhoto();
-                item.setPhoto_uri(photo);
-                photos.add(item);
-                adapter.setPhotos(photos);
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        final String s = response.body().string();
+                        Gson gson = new Gson();
+                        Type type = new TypeToken<BaseResponse<List<PublishPhoto>>>() {
+                        }.getType();
+                        BaseResponse<List<PublishPhoto>> response1 = gson.fromJson(s, type);
+                        Log.d("zerorains", "onResponse: " + response1.getData().size());
+                        if (response1.getMsg().equals("success")) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    photos.addAll(response1.getData());
+                                    adapter.setPhotos(photos);
+                                    adapter.notifyDataSetChanged();
+                                }
+                            });
+                        } else {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(PublishActivity.this, "上传失败", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    }
+                });
+
                 break;
             default:
                 break;
