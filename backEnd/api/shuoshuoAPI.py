@@ -231,7 +231,7 @@ def publish_shuoshuo():
     formated_time_stamp = time.localtime(time_stamp)
     formated_time_stamp = time.strftime("%Y-%m-%d %H:%M:%S", formated_time_stamp)
 
-    image_list = list(data['photo'])
+    image_list = list(data.get('photo'))
 
     cursor.execute(
         f"insert into shuoshuo values ('{data.get('category')}', '{data.get('topic')}', 0, 0, '{data.get('title')}', '{data.get('description')}', '{formated_time_stamp}', '{data.get('id')}')")
