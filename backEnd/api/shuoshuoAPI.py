@@ -231,7 +231,7 @@ def publish_shuoshuo():
     formated_time_stamp = time.localtime(time_stamp)
     formated_time_stamp = time.strftime("%Y-%m-%d %H:%M:%S", formated_time_stamp)
 
-    image_list = list(data['photo'])
+    image_list = list(data.get('photo'))
 
     cursor.execute(
         f"insert into shuoshuo values ('{data.get('category')}', '{data.get('topic')}', 0, 0, '{data.get('title')}', '{data.get('description')}', '{formated_time_stamp}', '{data.get('id')}')")
@@ -242,12 +242,15 @@ def publish_shuoshuo():
         db.rollback()
 
     cursor.execute(f"select id from shuoshuo where author='{data.get('id')}'")
-    shuoshuoId = cursor.fetchone()[0]
-    for img in image_list:
-        cursor.execute(f"insert into photo values ('{img}', '{shuoshuoId}')")
-    try:
-        db.commit()
-        return {"msg": "success", "data": []}
-    except:
-        db.rollback()
+    shuoshuoId = cursor.fetchone()
+    if shuoshuoId is not None:
+        for img in image_list:
+            cursor.execute(f"insert into photo values ('{img}', '{shuoshuoId}')")
+        try:
+            db.commit()
+            return {"msg": "success", "data": []}
+        except:
+            db.rollback()
+            return {"msg": "failed", "data": []}
+    else:
         return {"msg": "failed", "data": []}
