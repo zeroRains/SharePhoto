@@ -39,11 +39,13 @@ def get_comments():
     cursor = db.cursor()
 
     cursor.execute(
-        f"select date, thumbsupNum, content, author from sharingphoto.comments where shuoshuoId={data.get('id')}")
+        f"select date, thumbsupNum, content, author, u.url, tc.great from sharingphoto.comments "
+        f"join sharingphoto.users u on comments.author = u.uid "
+        f"join sharingphoto.thumbsup_comments tc on tc.commentsId=comments.id where shuoshuoId={data.get('id')}")
     res = cursor.fetchall()
     if res is not None:
         for item in res:
-            comments_list.append({"date": item[0], "thumbsupNum": item[1], "content": item[2], "author": item[3]})
+            comments_list.append({"date": item[0], "thumbsupNum": item[1], "content": item[2], "author": item[3], "iconId": item[4], "isThumbsup": item[5]})
         return {"msg": "success", "data": comments_list}
     else:
         return {"msg": "failed", "data": []}
