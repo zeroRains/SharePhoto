@@ -55,20 +55,27 @@ def get_comments():
 def thumbsup_comments():
     data = request.values
     cursor = db.cursor()
-    if data.get('add'):
+    cursor.execute(f"select id from sharingphoto.comments where shuoshuoId='{data.get('id')}' and author='{data.get('user')}'")
+    comment_id = cursor.fetchone()
+    if comment_id is not None:
+        comment_id = comment_id[0]
+    else:
+        return {"msg": "failed", "data": []}
+    if data.get('add') == "true":
         is_add = "T"
         cursor.execute(f"select great from sharingphoto.thumbsup_comments where commentsId='{data.get('id')}'")
-        if cursor.fetchone() is None:
+        if len(cursor.fetchone()) == 0:
             cursor.execute(
                 f"insert into sharingphoto.thumbsup_comments value ('{data.get('user')}', '{data.get('id')}', '{is_add}')")
         else:
+            pass
             cursor.execute(
-                f"update sharingphoto.favor set great='{is_add}' where shuoshuoId='{data.get('id')}'")
-        cursor.execute(f"update sharingphoto.shuoshuo set great=great+1 where shuoshuo.id='{data.get('id')}'")
+                f"update sharingphoto.thumbsup_comments set great='{is_add}' where commentsId='{comment_id}'")
+        cursor.execute(f"update sharingphoto.comments set thumbsupNum=thumbsupNum+1 where shuoshuoId='{data.get('id')}' and author='{data.get('user')}'")
     else:
         is_add = "F"
-        cursor.execute(f"update sharingphoto.favor set great='{is_add}' where shuoshuoId='{data.get('id')}'")
-        cursor.execute(f"update sharingphoto.shuoshuo set great=great-1 where shuoshuo.id='{data.get('id')}'")
+        cursor.execute(f"update sharingphoto.thumbsup_comments set great='{is_add}' where commentsId='{comment_id}'")
+        cursor.execute(f"update sharingphoto.comments set thumbsupNum=thumbsupNum-1 where shuoshuoId='{data.get('id')}' and author='{data.get('user')}'")
 
     try:
         db.commit()
