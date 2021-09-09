@@ -56,16 +56,18 @@ def thumbsup_comments():
     data = request.values
     cursor = db.cursor()
     if data.get('add'):
+        is_add = "T"
         cursor.execute(f"select great from sharingphoto.thumbsup_comments where commentsId='{data.get('id')}'")
         if cursor.fetchone() is None:
             cursor.execute(
-                f"insert into sharingphoto.thumbsup_comments value ('{data.get('user')}', '{data.get('id')}', '{data.get('add')}')")
+                f"insert into sharingphoto.thumbsup_comments value ('{data.get('user')}', '{data.get('id')}', '{is_add}')")
         else:
             cursor.execute(
-                f"update sharingphoto.favor set great='{data.get('add')}' where shuoshuoId='{data.get('id')}'")
+                f"update sharingphoto.favor set great='{is_add}' where shuoshuoId='{data.get('id')}'")
         cursor.execute(f"update sharingphoto.shuoshuo set great=great+1 where shuoshuo.id='{data.get('id')}'")
     else:
-        cursor.execute(f"update sharingphoto.favor set great='{data.get('add')}' where shuoshuoId='{data.get('id')}'")
+        is_add = "F"
+        cursor.execute(f"update sharingphoto.favor set great='{is_add}' where shuoshuoId='{data.get('id')}'")
         cursor.execute(f"update sharingphoto.shuoshuo set great=great-1 where shuoshuo.id='{data.get('id')}'")
 
     try:
