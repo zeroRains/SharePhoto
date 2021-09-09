@@ -32,7 +32,13 @@
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="7bdaadf5-4573-4b30-9308-8a181fce2ff3">
-      <console name="PhotoShareDataBase" type="STANDARD" schema="mysql" session="Main" />
+      <console name="PhotoShareDataBase" type="STANDARD" schema="sharingphoto" session="Main"><![CDATA[insert into concern value ('zerorains','admin2');
+
+select * from concern;
+
+select * from shuoshuo;
+
+select * from photo;]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
@@ -92,7 +98,7 @@
           <url-type value="DATABASE" />
           <host value="pan.kexie.space" />
           <port value="3306" />
-          <database value="mysql" />
+          <database value="sharingphoto" />
           <type value="USER_PASSWORD" />
           <user value="root" />
           <deprecated-pwd value="YmFzc3dvcmQ=" />
