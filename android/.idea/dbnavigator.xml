@@ -2,7 +2,7 @@
 <project version="4">
   <component name="DBNavigator.Project.DataEditorManager">
     <record-view-column-sorting-type value="BY_INDEX" />
-    <value-preview-text-wrapping value="true" />
+    <value-preview-text-wrapping value="false" />
     <value-preview-pinned value="false" />
   </component>
   <component name="DBNavigator.Project.DataExportManager">
@@ -26,13 +26,13 @@
     <show-object-properties value="true" />
     <loaded-nodes>
       <connection connection-id="7bdaadf5-4573-4b30-9308-8a181fce2ff3">
-        <schema name="sharingphoto" object-types="table, view, procedure, function" />
+        <schema name="sharingphoto" object-types="table, view" />
       </connection>
     </loaded-nodes>
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="7bdaadf5-4573-4b30-9308-8a181fce2ff3">
-      <console name="PhotoShareDataBase" type="STANDARD" schema="mysql" session="Main"><![CDATA[using sharingphoto;]]></console>
+      <console name="PhotoShareDataBase" type="STANDARD" schema="mysql" session="Main" />
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
@@ -40,6 +40,18 @@
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
     <connection id="7bdaadf5-4573-4b30-9308-8a181fce2ff3" />
+  </component>
+  <component name="DBNavigator.Project.DatasetFilterManager">
+    <filter-actions connection-id="7bdaadf5-4573-4b30-9308-8a181fce2ff3" dataset="sharingphoto.shuoshuo" active-filter-id="ae15657e-f4e5-43dd-a062-4330807f1979">
+      <filter id="ae15657e-f4e5-43dd-a062-4330807f1979" name="0" temporary="false" custom-name="false" type="basic" join-type="AND">
+        <condition column="id" operator="&gt;" value="0" active="true" />
+      </filter>
+    </filter-actions>
+    <filter-actions connection-id="7bdaadf5-4573-4b30-9308-8a181fce2ff3" dataset="sharingphoto.comments" active-filter-id="6d459b67-a377-420a-9e8a-1cf9daa13ceb">
+      <filter id="6d459b67-a377-420a-9e8a-1cf9daa13ceb" name="0" temporary="false" custom-name="false" type="basic" join-type="AND">
+        <condition column="id" operator="&lt;" value="0" active="true" />
+      </filter>
+    </filter-actions>
   </component>
   <component name="DBNavigator.Project.EditorStateManager">
     <last-used-providers />

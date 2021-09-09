@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -20,6 +21,8 @@ import com.example.sharephoto.R;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.Request;
 
 public class DetailActivity extends AppCompatActivity implements View.OnClickListener {
     //    作者栏
@@ -51,6 +54,8 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     Button detail_remark_submit;
 
 
+    private RemarkAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +66,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
             window.setStatusBarColor(getResources().getColor(R.color.primary));
         }
         initView();
+        initData();
     }
 
     private void initView() {
@@ -88,9 +94,12 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         detail_remark = findViewById(R.id.detail_remark);
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         detail_remark.setLayoutManager(staggeredGridLayoutManager);
-        initData();
-        RemarkAdapter adapter = new RemarkAdapter(DetailActivity.this, remarks, R.layout.item_remark);
+
+        adapter = new RemarkAdapter(DetailActivity.this, R.layout.item_remark);
         detail_remark.setAdapter(adapter);
+
+//        adapter.setRemarks(remarks);
+
 
 //        发表评论
         detail_remark_content = findViewById(R.id.detail_remark_content);
@@ -100,16 +109,17 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void initData() {
-        for (int i = 0; i < 10; i++) {
-            Remark remark = new Remark();
-            remark.setIcon(R.drawable.icon);
-            remark.setUsername("ZeroRains");
-            remark.setContent("这是很多中肯的评论集合，这是很多中肯的评论集合，这是很多中肯的评论集合，这是很多中肯的评论集合");
-            remark.setDate("2021-8-24");
-            remark.setNum(666);
-            remark.setStatus(false);
-            remarks.add(remark);
-        }
+        new RemarkAsyncTask(this, remarks, adapter).execute("1");
+//        for (int i = 0; i < 10; i++) {
+//            Remark remark = new Remark();
+//            remark.setIcon(R.drawable.icon);
+//            remark.setUsername("ZeroRains");
+//            remark.setContent("这是很多中肯的评论集合，这是很多中肯的评论集合，这是很多中肯的评论集合，这是很多中肯的评论集合");
+//            remark.setDate("2021-8-24");
+//            remark.setNum(666);
+//            remark.setStatus(false);
+//            remarks.add(remark);
+//        }
     }
 
     private void setClickEvent() {

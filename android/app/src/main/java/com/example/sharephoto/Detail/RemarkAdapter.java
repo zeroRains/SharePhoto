@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sharephoto.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -20,13 +21,17 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class RemarkAdapter extends RecyclerView.Adapter<RemarkAdapter.ViewHolder> {
 
     private Context context;
-    private List<Remark> remarks;
+    private List<Remark> remarks=new ArrayList<>();
     private int resourceId;
 
-    public RemarkAdapter(Context context, List<Remark> remarks, int resourceId) {
+    public RemarkAdapter(Context context, int resourceId) {
         this.context = context;
-        this.remarks = remarks;
         this.resourceId = resourceId;
+    }
+
+    public void setRemarks(List<Remark> remarks) {
+        this.remarks = remarks;
+//        this.notifyDataSetChanged();
     }
 
     @NonNull

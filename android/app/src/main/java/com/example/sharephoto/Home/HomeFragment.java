@@ -50,7 +50,7 @@ public class HomeFragment extends Fragment {
                 vh.tableLayout.addTab(vh.tableLayout.newTab());
                 vh.tableLayout.getTabAt(i).setText(title[i]);
             }
-          
+
             HomePhotoFragementAdapter adpter = new HomePhotoFragementAdapter(getActivity().getSupportFragmentManager(), fragments, title);
 
             vh.viewPager.setAdapter(adpter);
