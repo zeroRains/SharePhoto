@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
 
             private void check() {
                 Toast.makeText(LoginActivity.this, "进来1", Toast.LENGTH_SHORT).show();
-                new LoginAsyncTask(LoginActivity.this).execute(
+                new LoginAsyncTask(LoginActivity.this, account_text).execute(
                         account_text,
                         password_text);
             }

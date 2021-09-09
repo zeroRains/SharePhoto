@@ -3,8 +3,10 @@ package com.example.sharephoto.Profile;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatSpinner;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -57,6 +59,9 @@ public class ProfileEditActivity extends AppCompatActivity {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                @SuppressLint("CommitPrefEdits") SharedPreferences.Editor editor = getSharedPreferences("data", MODE_PRIVATE).edit();
+                editor.putString("username", "");
+                editor.apply();
                 Intent intent = new Intent();
                 setResult(LOGOUT, intent);
                 ((Activity) v.getContext()).finish();
