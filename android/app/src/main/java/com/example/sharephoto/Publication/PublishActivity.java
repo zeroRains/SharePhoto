@@ -118,11 +118,12 @@ public class PublishActivity extends AppCompatActivity implements View.OnClickLi
         publish_submit.setOnClickListener(this);
 
         initData();
+//        上传图像
         adapter = new PublishPhotoAdapter(PublishActivity.this, R.layout.item_publication_photo);
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(1, RecyclerView.HORIZONTAL);
         publish_photo.setAdapter(adapter);
         publish_photo.setLayoutManager(staggeredGridLayoutManager);
-
+//       选择类型
         StaggeredGridLayoutManager staggeredGridLayoutManager1 = new StaggeredGridLayoutManager(1, RecyclerView.HORIZONTAL);
         select_adapter = new PublishCategoryAdapter(PublishActivity.this, R.layout.item_publish);
         select_adapter.setSelections(selections);
@@ -159,8 +160,17 @@ public class PublishActivity extends AppCompatActivity implements View.OnClickLi
                 }
                 break;
             case R.id.publish_submit:
-
-                Toast.makeText(PublishActivity.this, "点击这个发布图片分享"+category[select_adapter.getNow()], Toast.LENGTH_SHORT).show();
+                String id = "admin2";
+                List<PublishPhoto> photos = adapter.getPhotos();
+                String photo = "";
+                for (PublishPhoto item : photos) {
+                    photo = photo + item.getPhoto_uri();
+                }
+                String title = publish_title.getText().toString();
+                String description = publish_content.getText().toString();
+                String topic = publish_topic.getText().toString();
+                new PublishSubmitAsyncTask(this).execute(id, photo, title, description, topic, category[select_adapter.getNow()]);
+//                Toast.makeText(PublishActivity.this, "点击这个发布图片分享" + category[select_adapter.getNow()], Toast.LENGTH_SHORT).show();
                 break;
             case R.id.publish_cancel:
                 publish_back(v);

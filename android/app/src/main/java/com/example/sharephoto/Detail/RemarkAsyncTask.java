@@ -64,6 +64,7 @@ public class RemarkAsyncTask extends AsyncTask<String, Void, String> {
             remark.setStatus(false);
             remarks.add(0, remark);
         }
+        
         adapter.setRemarks(remarks);
         adapter.notifyDataSetChanged();
         super.onPostExecute(s);
