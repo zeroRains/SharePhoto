@@ -231,26 +231,25 @@ def publish_shuoshuo():
     formated_time_stamp = time.localtime(time_stamp)
     formated_time_stamp = time.strftime("%Y-%m-%d %H:%M:%S", formated_time_stamp)
 
-    image_list = list(data.get('photo'))
+    image_list = data.get('photo').split(",")
 
     cursor.execute(
-        f"insert into shuoshuo(category, topic, great, star, title, description, date, author) values ('{data.get('category')}', '{data.get('topic')}', 0, 0, '{data.get('title')}', '{data.get('description')}', '{formated_time_stamp}', '{data.get('id')}')")
+        f"insert into shuoshuo values (default, '{data.get('category')}', '{data.get('topic')}', 0, 0, '{data.get('title')}', '{data.get('description')}', '{formated_time_stamp}', '{data.get('id')}')")
     try:
         db.commit()
     except:
         print("insert failed")
         db.rollback()
-
     cursor.execute(f"select id from shuoshuo where author='{data.get('id')}'")
     shuoshuoId = cursor.fetchone()
     if shuoshuoId is not None:
         for img in image_list:
-            cursor.execute(f"insert into photo values ('{img}', '{shuoshuoId}')")
+            cursor.execute(f"insert into photo values ('{img}', '{shuoshuoId[0]}')")
         try:
-            db.commit()
+            # db.commit()
             return {"msg": "success", "data": []}
         except:
-            db.rollback()
+            # db.rollback()
             return {"msg": "failed", "data": []}
     else:
         return {"msg": "failed", "data": []}
