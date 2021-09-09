@@ -26,6 +26,7 @@ public class HomePhotoFragment extends Fragment {
     private String status;
     private String URL;
     private HomePhotoAdapter photoAdapter;
+    private View rootView;
 
     public HomePhotoFragment(String status) {
         this.status = status;
@@ -35,7 +36,10 @@ public class HomePhotoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_home_photo, container, false);
+        if (rootView == null) {
+            rootView = inflater.inflate(R.layout.fragment_home_photo, container, false);
+        }
+        View view = rootView;
         RecyclerView recyclerView = view.findViewById(R.id.home_photo_show);
         photoAdapter = new HomePhotoAdapter(getContext(), photos, R.layout.item_home_photo);
         photoAdapter.setOnItemClickListener(new HomePhotoAdapter.OnItemClickListener() {
@@ -57,15 +61,15 @@ public class HomePhotoFragment extends Fragment {
         switch (status) {
             case "推荐":
                 this.URL = RequestConfig.RECOMMEND;
-                new RecommendAsyncTask(getContext(), URL, photoAdapter, photos).execute();
                 break;
             case "关注":
-                this.URL = RequestConfig.CONCERN;
+                this.URL = RequestConfig.CONCERN + "?id=zerorains";
                 break;
             default:
                 this.URL = null;
                 break;
         }
+        new RecommendAsyncTask(rootView.getContext(), URL, photoAdapter, photos).execute();
 //        for (int i = 0; i < 50; i++) {
 //            HomePhoto item = new HomePhoto();
 ////            item.setIconId(RequestConfig.URL+"static/imgs/bg03.jpg");

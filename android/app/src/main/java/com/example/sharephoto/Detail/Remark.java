@@ -1,10 +1,16 @@
 package com.example.sharephoto.Detail;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Remark {
     private int icon;
+    @SerializedName("author")
     private String username;
+    @SerializedName("thumbsupNum")
     private int num;
+    @SerializedName("content")
     private String content;
+    @SerializedName("date")
     private String date;
     private boolean status;
 

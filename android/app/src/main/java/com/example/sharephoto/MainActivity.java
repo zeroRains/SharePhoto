@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -13,9 +14,11 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.example.sharephoto.Channels.ChannelFragment;
 import com.example.sharephoto.Home.HomeFragment;
+import com.example.sharephoto.Login.LoginActivity;
 import com.example.sharephoto.Message.MessageFragment;
 import com.example.sharephoto.Profile.ProfileFragment;
 import com.example.sharephoto.Publication.PublishActivity;
@@ -33,6 +36,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        String username = getSharedPreferences("data", MODE_PRIVATE).getString("username", "");
+        if (username.equals("")) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            Toast.makeText(this, "您尚未登录，请先登录", Toast.LENGTH_SHORT).show();
+            startActivity(intent);
+            this.finish();
+        }
         initPager();
     }
 
@@ -76,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ft.replace(R.id.content, f);
         ft.commit();
     }
+
 
     @Override
     public void onClick(View v) {

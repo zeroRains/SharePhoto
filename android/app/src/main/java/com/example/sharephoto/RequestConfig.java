@@ -1,5 +1,8 @@
 package com.example.sharephoto;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 public class RequestConfig {
     public static String URL = "http://pan.kexie.space:9192/";                      //url
 
@@ -24,7 +27,8 @@ public class RequestConfig {
     public static String UPLOAD_AVATAR = URL + "images/upload_avatar";              //上传头像
 
     //    评论
-    public static String COMMENT_THUMBSUP = URL + "comment/thumbsup";               //评论点赞
-    public static String PUBLISH_COMMENT = URL + "comment/publish_comment";         //发表评论
-    public static String GET_COMMENT = URL + "comment/get_comment";                 //获取评论
+    public static String COMMENT_THUMBSUP = URL + "comments/thumbsup";               //评论点赞
+    public static String PUBLISH_COMMENT = URL + "comments/publish_comment";         //发表评论
+    public static String GET_COMMENT = URL + "comments/get_comments";                 //获取评论
+
 }

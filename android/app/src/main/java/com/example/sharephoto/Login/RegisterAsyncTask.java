@@ -55,8 +55,6 @@ public class RegisterAsyncTask extends AsyncTask<String, Void, String> {
             Log.d("zerorains", "onPostExecute: " + s);
             if (s.equals("success")) {
                 Toast.makeText(context, "注册成功，欢迎您！", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(context, MainActivity.class);
-                context.startActivity(intent);
                 ((Activity) context).finish();
             } else {
                 Toast.makeText(context, "账户已经存在", Toast.LENGTH_SHORT).show();
