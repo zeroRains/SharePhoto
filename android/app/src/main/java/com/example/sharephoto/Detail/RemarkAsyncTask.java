@@ -35,11 +35,11 @@ public class RemarkAsyncTask extends AsyncTask<String, Void, String> {
     @Override
     protected String doInBackground(String... strings) {
         String id = strings[0];
+        String user = strings[1];
         Request request = new Request.Builder()
-                .url(RemarkAsyncTask.URL + "?id=" + id)
+                .url(RemarkAsyncTask.URL + "?id=" + id + "&user=" + user)
                 .get()
                 .build();
-        Log.d("zerorains", "doInBackground: " + RemarkAsyncTask.URL + "?id=" + id);
         try {
             OkHttpClient client = new OkHttpClient();
             Response response = client.newCall(request).execute();
@@ -60,11 +60,9 @@ public class RemarkAsyncTask extends AsyncTask<String, Void, String> {
         }.getType();
         BaseResponse<List<Remark>> response = gson.fromJson(s, type);
         for (Remark remark : response.getData()) {
-            remark.setIcon(R.drawable.icon);
-            remark.setStatus(false);
             remarks.add(0, remark);
         }
-        
+
         adapter.setRemarks(remarks);
         adapter.notifyDataSetChanged();
         super.onPostExecute(s);

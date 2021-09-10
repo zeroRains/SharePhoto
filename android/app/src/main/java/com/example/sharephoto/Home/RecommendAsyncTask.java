@@ -61,6 +61,7 @@ public class RecommendAsyncTask extends AsyncTask<Void, Void, String> {
         } else {
             Toast.makeText(context, "请检查网络状态", Toast.LENGTH_SHORT).show();
         }
+//        notify();
         super.onPostExecute(s);
     }
 }
