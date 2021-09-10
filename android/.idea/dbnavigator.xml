@@ -26,7 +26,7 @@
     <show-object-properties value="true" />
     <loaded-nodes>
       <connection connection-id="7bdaadf5-4573-4b30-9308-8a181fce2ff3">
-        <schema name="sharingphoto" object-types="table, view" />
+        <schema name="sharingphoto" object-types="table, view, procedure, function, constraint, index, column, dataset trigger" />
       </connection>
     </loaded-nodes>
   </component>
@@ -48,6 +48,7 @@ select * from photo;]]></console>
     <connection id="7bdaadf5-4573-4b30-9308-8a181fce2ff3" />
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
+    <filter-actions connection-id="7bdaadf5-4573-4b30-9308-8a181fce2ff3" dataset="sharingphoto.photo" active-filter-id="" />
     <filter-actions connection-id="7bdaadf5-4573-4b30-9308-8a181fce2ff3" dataset="sharingphoto.shuoshuo" active-filter-id="ae15657e-f4e5-43dd-a062-4330807f1979">
       <filter id="ae15657e-f4e5-43dd-a062-4330807f1979" name="0" temporary="false" custom-name="false" type="basic" join-type="AND">
         <condition column="id" operator="&gt;" value="0" active="true" />

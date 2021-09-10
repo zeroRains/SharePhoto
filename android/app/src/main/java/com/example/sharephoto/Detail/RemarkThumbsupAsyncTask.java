@@ -2,6 +2,7 @@ package com.example.sharephoto.Detail;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.sharephoto.R;
@@ -38,6 +39,7 @@ public class RemarkThumbsupAsyncTask extends AsyncTask<String, Void, String> {
         body.addFormDataPart("id", id)
                 .addFormDataPart("user", user)
                 .addFormDataPart("add", add);
+        Log.d("zerorains", "id:" + id + ",user:" + user + ",add:" + add);
         Request request = new Request.Builder()
                 .post(body.build())
                 .url(RemarkThumbsupAsyncTask.URL)
@@ -46,14 +48,7 @@ public class RemarkThumbsupAsyncTask extends AsyncTask<String, Void, String> {
             OkHttpClient client = new OkHttpClient();
             Response response = client.newCall(request).execute();
             if (response.isSuccessful()) {
-                String s = response.body().toString();
-                Gson gson = new Gson();
-                Type type = new TypeToken<BaseResponse<List<Empty>>>() {
-                }.getType();
-                BaseResponse<List<Empty>> msg = gson.fromJson(s, type);
-                if (msg.getMsg().equals("success")) {
-                    return add;
-                }
+                return response.body().toString();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -64,6 +59,10 @@ public class RemarkThumbsupAsyncTask extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String s) {
         if (s != null) {
+            Gson gson = new Gson();
+            Type type = new TypeToken<BaseResponse<List<Empty>>>() {
+            }.getType();
+            BaseResponse<List<Empty>> msg = gson.fromJson(s, type);
             if (s.equals("true")) {
                 Toast.makeText(context, "点赞成功", Toast.LENGTH_SHORT).show();
             } else {

@@ -41,7 +41,7 @@ public class PublishAsyncTask extends AsyncTask<String, Void, String> {
         File file = new File(path);
         RequestBody fileBody = RequestBody.create(MediaType.parse("application/octet-stream"), file);
         RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                .addFormDataPart("file", "test111.jpg", fileBody)
+                .addFormDataPart("file", file.getName(), fileBody)
                 .build();
         Request request = new Request.Builder()
                 .url(PublishAsyncTask.URL)

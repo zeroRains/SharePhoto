@@ -3,6 +3,8 @@ package com.example.sharephoto.Detail;
 import com.google.gson.annotations.SerializedName;
 
 public class Remark {
+    @SerializedName("commentId")
+    private String commentId;
     @SerializedName("iconId")
     private String icon;
     @SerializedName("author")
@@ -15,6 +17,19 @@ public class Remark {
     private String date;
     @SerializedName("isThumbsup")
     private String status;
+
+    public String getCommentId() {
+        return commentId;
+    }
+
+    public void setCommentId(String commentId) {
+        this.commentId = commentId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
 
     public int getNum() {
         return num;

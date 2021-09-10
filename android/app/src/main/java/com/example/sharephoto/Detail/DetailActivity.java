@@ -109,7 +109,10 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void initData() {
-        new RemarkAsyncTask(this, remarks, adapter).execute("1");
+        String id = getSharedPreferences("data", MODE_PRIVATE).getString("username", "");
+        if (!id.equals("")) {
+            new RemarkAsyncTask(this, remarks, adapter).execute("1",id);
+        }
 //        for (int i = 0; i < 10; i++) {
 //            Remark remark = new Remark();
 //            remark.setIcon(R.drawable.icon);
