@@ -187,20 +187,24 @@ def show_shuoshuo_detail():
 def thumbsup_shuoshuo():
     data = request.values
     cursor = db.cursor()
-    if data['add']:
-        cursor.execute(f"select great from favor where shuoshuoId='{data.get('id')}'")
+    cursor.execute(f"select author from shuoshuo where id='{data.get('id')}'")
+    author = cursor.fetchone()[0]
+    if data.get('add').lower() == "true":
+        is_add = "T"
+        cursor.execute(f"select great from favor where shuoshuoId='{data.get('id')}' and user='{data.get('user')}'")
         if cursor.fetchone() is None:
             cursor.execute(
-                f"insert into favor value ('{data.get('user')}', '{data.get('id')}', 'F', '{data.get('add')}')")
+                f"insert into favor value ('{data.get('user')}', '{data.get('id')}', 'F', '{is_add}')")
         else:
             cursor.execute(
-                f"update favor set great='{data.get('add')}' where shuoshuoId='{data.get('id')}'")
+                f"update favor set great='{is_add}' where shuoshuoId='{data.get('id')}' and user='{data.get('user')}'")
         cursor.execute(f"update shuoshuo set great=great+1 where shuoshuo.id='{data.get('id')}'")
-        cursor.execute(f"update users set thumbsup=thumbsup+1 where uid='{data.get('user')}'")
+        cursor.execute(f"update users set thumbsup=thumbsup+1 where uid='{author}'")
     else:
-        cursor.execute(f"update favor set great='{data.get('add')}' where shuoshuoId='{data.get('id')}'")
+        is_add = "F"
+        cursor.execute(f"update favor set great='{is_add}' where shuoshuoId='{data.get('id')}' and user='{data.get('user')}'")
         cursor.execute(f"update shuoshuo set great=great-1 where shuoshuo.id='{data.get('id')}'")
-        cursor.execute(f"update users set thumbsup=thumbsup-1 where uid='{data.get('user')}'")
+        cursor.execute(f"update users set thumbsup=thumbsup-1 where uid='{author}'")
 
     try:
         db.commit()
@@ -217,10 +221,10 @@ def follow_person():
     if data.get('user') == data.get('author'):
         return {"msg": "You can't follow yourself.", "data": []}
 
-    if data.get('add'):
+    if data.get('add').lower() == "true":
         cursor.execute(
             f"select * from concern where user='{data.get('user')}' and followed='{data.get('author')}'")
-        if cursor.fetchone() is None:
+        if len(cursor.fetchone()) == 0 or cursor.fetchone() is None:
             cursor.execute(f"insert into concern values ('{data.get('user')}', '{data.get('author')}')")
             cursor.execute(f"update users set fan=fan+1 where uid='{data.get('user')}'")
         else:
@@ -242,9 +246,9 @@ def follow_person():
 def star_shuoshuo():
     data = request.values
     cursor = db.cursor()
-    if data['add']:
+    if data.get('add').lower() == "true":
         cursor.execute(f"select star from favor where shuoshuoId='{data.get('id')}'")
-        if cursor.fetchone() is None:
+        if len(cursor.fetchone()) == 0 or cursor.fetchone() is None:
             cursor.execute(
                 f"insert into favor value ('{data.get('user')}', '{data.get('id')}', '{data.get('add')}', 'F')")
         else:
