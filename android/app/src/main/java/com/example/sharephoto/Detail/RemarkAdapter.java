@@ -1,6 +1,7 @@
 package com.example.sharephoto.Detail;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,7 +46,7 @@ public class RemarkAdapter extends RecyclerView.Adapter<RemarkAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RemarkAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RemarkAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         Remark remark = remarks.get(position);
 //        holder.remark_icon.setImageResource(remark.getIcon());
         Glide.with(context).load(RequestConfig.URL + remark.getIcon()).into(holder.remark_icon);
@@ -57,21 +58,22 @@ public class RemarkAdapter extends RecyclerView.Adapter<RemarkAdapter.ViewHolder
         holder.remark_status.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean state;
+                String state;
                 if (holder.remark_status.isSelected()) {
                     holder.remark_status.setSelected(false);
                     int num = Integer.parseInt(holder.remark_zan_num.getText().toString());
                     num -= 1;
                     holder.remark_zan_num.setText("" + num);
-                    state = false;
+                    state = "false";
                 } else {
                     holder.remark_status.setSelected(true);
                     int num = Integer.parseInt(holder.remark_zan_num.getText().toString());
                     num += 1;
                     holder.remark_zan_num.setText("" + num);
-                    state = true;
+                    state = "true";
                 }
-                new RemarkThumbsupAsyncTask().excute();
+                String username = context.getSharedPreferences("data", Context.MODE_PRIVATE).getString("username", "");
+                new RemarkThumbsupAsyncTask(context).execute(position + "", username, state);
             }
         });
     }
