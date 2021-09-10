@@ -12,23 +12,40 @@ db = database_object
 @shuoshuo_opt.route("/recommended", methods=["GET"])
 def show_recommend_page():
     data = []
+    data_values = request.values
     cursor = db.cursor()
-
     cursor.execute(
-        f"select shuoshuo.id, shuoshuo.title, u.url, u.username, shuoshuo.star, f.star, p.url from sharingphoto.shuoshuo "
-        f"join sharingphoto.photo p on shuoshuo.id = p.shuoshuoId " +
-        f"join sharingphoto.favor f on p.shuoshuoId = f.shuoshuoId " +
-        f"join sharingphoto.users u on u.uid = shuoshuo.author where id >= (" +
-        f"select floor(rand() * (select max(id) from shuoshuo))" +
-        f") order by id limit 20")
-
+        f"select s.author, u.url, s.id, s.star, s.topic from shuoshuo s " +
+        f"join users u on u.uid = s.author"
+    )
     res = cursor.fetchall()
     if res is not None:
         for item in res:
-            data.append(
-                {"id": item[0], "title": item[1], "iconId": item[2], "author": item[3], "starNum": item[4],
-                 "star": item[5],
-                 "thumbnail": item[6]})
+            shuoshuo = {
+                "author": item[0],
+                "iconId": item[1],
+                "id": item[2],
+                "starNum": item[3],
+                "title": item[4]
+            }
+            # 不知道能不能复用上面的cursor，反正我再做一个
+            cursor2 = db.cursor()
+            cursor2.execute(
+                f"select url from photo where shuoshuoId='{item[2]}' limit 1")
+            res1 = cursor2.fetchall()
+            if len(res1) == 0:
+                continue
+            shuoshuo["thumbnail"] = res1[0][0]
+            cursor3 = db.cursor()
+            cursor3.execute(
+                f"select star from favor where shuoshuoId='{item[2]}' and user='{data_values.get('id')}'"
+            )
+            res2 = cursor3.fetchall()
+            if len(res2) == 0:
+                shuoshuo["star"] = "F"
+            else:
+                shuoshuo["star"] = res2[0][0]
+            data.append(shuoshuo)
         return {"msg": "success", "data": data}
     else:
         return {"msg": "failed", "data": []}
@@ -36,26 +53,45 @@ def show_recommend_page():
 
 @shuoshuo_opt.route("/concern", methods=["GET"])
 def show_follow_page():
-    data = request.args
+    data = []
+    data_values = request.values
     cursor = db.cursor()
-    shuoshuo_list = []
-
     cursor.execute(
-        f"select id, title, u.url, u.username, star, f.star, p.url from sharingphoto.shuoshuo "
-        f"join sharingphoto.photo p on shuoshuo.id = p.shuoshuoId "
-        f"join sharingphoto.users u on u.uid = shuoshuo.author "
-        f"join sharingphoto.concern c on c.user = u.uid "
-        f"join sharingphoto.favor f on p.shuoshuoId = f.shuoshuoId where id >= (" +
-        f"select floor(rand() * (select max(id) from shuoshuo))" +
-        f") order by id limit 20")
+        f"select s.author, u.url, s.id, s.star, s.topic from shuoshuo s " +
+        f"join users u on u.uid = s.author " +
+        f"where s.author in (select followed from concern where user='{data_values.get('id')}')"
+    )
+
     res = cursor.fetchall()
     if res is not None:
         for item in res:
-            shuoshuo_list.append(
-                {"id": item[0], "title": item[1], "iconId": item[2], "author": item[3], "starNum": item[4],
-                 "star": item[5],
-                 "thumbnail": item[6]})
-        return {"msg": "success", "data": shuoshuo_list}
+
+            shuoshuo = {
+                "author": item[0],
+                "iconId": item[1],
+                "id": item[2],
+                "starNum": item[3],
+                "title": item[4]
+            }
+            # 不知道能不能复用上面的cursor，反正我再做一个
+            cursor2 = db.cursor()
+            cursor2.execute(
+                f"select url from photo where shuoshuoId='{item[2]}' limit 1")
+            res1 = cursor2.fetchall()
+            if len(res1) == 0:
+                continue
+            shuoshuo["thumbnail"] = res1[0][0]
+            cursor3 = db.cursor()
+            cursor3.execute(
+                f"select star from favor where shuoshuoId='{item[2]}' and user='{data_values.get('id')}'"
+            )
+            res2 = cursor3.fetchall()
+            if len(res2) == 0:
+                shuoshuo["star"] = "F"
+            else:
+                shuoshuo["star"] = res2[0][0]
+            data.append(shuoshuo)
+        return {"msg": "success", "data": data}
     else:
         return {"msg": "failed", "data": []}
 
@@ -151,20 +187,24 @@ def show_shuoshuo_detail():
 def thumbsup_shuoshuo():
     data = request.values
     cursor = db.cursor()
-    if data['add']:
-        cursor.execute(f"select great from favor where shuoshuoId='{data.get('id')}'")
+    cursor.execute(f"select author from shuoshuo where id='{data.get('id')}'")
+    author = cursor.fetchone()[0]
+    if data.get('add').lower() == "true":
+        is_add = "T"
+        cursor.execute(f"select great from favor where shuoshuoId='{data.get('id')}' and user='{data.get('user')}'")
         if cursor.fetchone() is None:
             cursor.execute(
-                f"insert into favor value ('{data.get('user')}', '{data.get('id')}', 'F', '{data.get('add')}')")
+                f"insert into favor value ('{data.get('user')}', '{data.get('id')}', 'F', '{is_add}')")
         else:
             cursor.execute(
-                f"update favor set great='{data.get('add')}' where shuoshuoId='{data.get('id')}'")
+                f"update favor set great='{is_add}' where shuoshuoId='{data.get('id')}' and user='{data.get('user')}'")
         cursor.execute(f"update shuoshuo set great=great+1 where shuoshuo.id='{data.get('id')}'")
-        cursor.execute(f"update users set thumbsup=thumbsup+1 where uid='{data.get('user')}'")
+        cursor.execute(f"update users set thumbsup=thumbsup+1 where uid='{author}'")
     else:
-        cursor.execute(f"update favor set great='{data.get('add')}' where shuoshuoId='{data.get('id')}'")
+        is_add = "F"
+        cursor.execute(f"update favor set great='{is_add}' where shuoshuoId='{data.get('id')}' and user='{data.get('user')}'")
         cursor.execute(f"update shuoshuo set great=great-1 where shuoshuo.id='{data.get('id')}'")
-        cursor.execute(f"update users set thumbsup=thumbsup-1 where uid='{data.get('user')}'")
+        cursor.execute(f"update users set thumbsup=thumbsup-1 where uid='{author}'")
 
     try:
         db.commit()
@@ -181,10 +221,10 @@ def follow_person():
     if data.get('user') == data.get('author'):
         return {"msg": "You can't follow yourself.", "data": []}
 
-    if data.get('add'):
+    if data.get('add').lower() == "true":
         cursor.execute(
             f"select * from concern where user='{data.get('user')}' and followed='{data.get('author')}'")
-        if cursor.fetchone() is None:
+        if len(cursor.fetchone()) == 0 or cursor.fetchone() is None:
             cursor.execute(f"insert into concern values ('{data.get('user')}', '{data.get('author')}')")
             cursor.execute(f"update users set fan=fan+1 where uid='{data.get('user')}'")
         else:
@@ -206,9 +246,9 @@ def follow_person():
 def star_shuoshuo():
     data = request.values
     cursor = db.cursor()
-    if data['add']:
+    if data.get('add').lower() == "true":
         cursor.execute(f"select star from favor where shuoshuoId='{data.get('id')}'")
-        if cursor.fetchone() is None:
+        if len(cursor.fetchone()) == 0 or cursor.fetchone() is None:
             cursor.execute(
                 f"insert into favor value ('{data.get('user')}', '{data.get('id')}', '{data.get('add')}', 'F')")
         else:
@@ -240,16 +280,16 @@ def publish_shuoshuo():
     except:
         print("insert failed")
         db.rollback()
-    cursor.execute(f"select id from shuoshuo where author='{data.get('id')}'")
+    cursor.execute(f"select max(id) from shuoshuo where author='{data.get('id')}'")
     shuoshuoId = cursor.fetchone()
     if shuoshuoId is not None:
         for img in image_list:
             cursor.execute(f"insert into photo values ('{img}', '{shuoshuoId[0]}')")
         try:
-            # db.commit()
+            db.commit()
             return {"msg": "success", "data": []}
         except:
-            # db.rollback()
+            db.rollback()
             return {"msg": "failed", "data": []}
     else:
         return {"msg": "failed", "data": []}
