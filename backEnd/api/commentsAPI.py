@@ -40,7 +40,7 @@ def get_comments():
     cursor.execute(
         f"select date, thumbsupNum, content, u.username, u.url, tc.great, comments.id, author from sharingphoto.comments "
         f"join sharingphoto.users u on comments.author = u.uid "
-        f"join sharingphoto.thumbsup_comments tc on tc.commentsId=comments.id where shuoshuoId={data.get('id')}")
+        f"join sharingphoto.thumbsup_comments tc on tc.commentsId=comments.id where shuoshuoId='{data.get('id')}' and user='{data.get('user')}'")
     res = cursor.fetchall()
     if res is not None:
         for item in res:
@@ -56,7 +56,7 @@ def get_comments():
         return {"msg": "failed", "data": []}
 
 
-@comment_opt.route("/thumbsup_comments", methods=["POST"])
+@comment_opt.route("/thumbsup_comments", methods=["POST", "GET"])
 def thumbsup_comments():
     data = request.values
     cursor = db.cursor()

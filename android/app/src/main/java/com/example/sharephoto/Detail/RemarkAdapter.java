@@ -3,6 +3,7 @@ package com.example.sharephoto.Detail;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.MultipartBody;
+import okhttp3.Request;
 
 public class RemarkAdapter extends RecyclerView.Adapter<RemarkAdapter.ViewHolder> {
 
@@ -73,7 +76,22 @@ public class RemarkAdapter extends RecyclerView.Adapter<RemarkAdapter.ViewHolder
                     state = "true";
                 }
                 String username = context.getSharedPreferences("data", Context.MODE_PRIVATE).getString("username", "");
-                new RemarkThumbsupAsyncTask(context).execute(remarks.get(position).getCommentId() + "", username, state);
+                if (!username.equals("")) {
+//                    String id = "1";
+//                    String user = username;
+//                    String add = "true";
+//                    MultipartBody.Builder body = new MultipartBody.Builder().setType(MultipartBody.FORM);
+//                    body.addFormDataPart("id", id)
+//                            .addFormDataPart("user", user)
+//                            .addFormDataPart("add", add);
+//                    Log.d("pommespeter", "doInBackground: " + body.toString());
+//                    Log.d("zerorains", "id:" + id + ",user:" + user + ",add:" + add);
+//                    Request request = new Request.Builder()
+//                            .post(body.build())
+//                            .url(RemarkThumbsupAsyncTask.URL)
+//                            .build();
+                    new RemarkThumbsupAsyncTask(context).execute(remarks.get(position).getCommentId() + "", username, state);
+                }
             }
         });
     }
