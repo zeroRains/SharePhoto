@@ -3,7 +3,8 @@ package com.example.sharephoto.Detail;
 import com.google.gson.annotations.SerializedName;
 
 public class Remark {
-    private int icon;
+    @SerializedName("iconId")
+    private String icon;
     @SerializedName("author")
     private String username;
     @SerializedName("thumbsupNum")
@@ -12,7 +13,8 @@ public class Remark {
     private String content;
     @SerializedName("date")
     private String date;
-    private boolean status;
+    @SerializedName("isThumbsup")
+    private String status;
 
     public int getNum() {
         return num;
@@ -22,11 +24,11 @@ public class Remark {
         this.num = num;
     }
 
-    public int getIcon() {
+    public String getIcon() {
         return icon;
     }
 
-    public void setIcon(int icon) {
+    public void setIcon(String icon) {
         this.icon = icon;
     }
 
@@ -54,11 +56,11 @@ public class Remark {
         this.date = date;
     }
 
-    public boolean isStatus() {
+    public String isStatus() {
         return status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 }

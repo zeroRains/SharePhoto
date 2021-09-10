@@ -60,8 +60,6 @@ public class RemarkAsyncTask extends AsyncTask<String, Void, String> {
         }.getType();
         BaseResponse<List<Remark>> response = gson.fromJson(s, type);
         for (Remark remark : response.getData()) {
-            remark.setIcon(R.drawable.icon);
-            remark.setStatus(false);
             remarks.add(0, remark);
         }
         
