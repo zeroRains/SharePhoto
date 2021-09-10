@@ -18,8 +18,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.sharephoto.Login.LoginActivity;
 import com.example.sharephoto.R;
+import com.example.sharephoto.RequestConfig;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -114,15 +116,17 @@ public class ProfileFragment extends Fragment {
             case EDIT_INFO:
                 if (resultCode == RESULT_OK) {
                     assert data != null;
-                    int icon = data.getIntExtra(ProfileEditActivity.ICON, R.drawable.icon);
+                    String icon = data.getStringExtra(ProfileEditActivity.ICON);
                     String username = data.getStringExtra(ProfileEditActivity.USERNAME);
                     String sex = data.getStringExtra(ProfileEditActivity.SEX);
                     String info = data.getStringExtra(ProfileEditActivity.INFO);
 
-                    vh.profile_avatar_icon.setImageResource(icon);
+//                    vh.profile_avatar_icon.setImageResource(icon);
+                    Glide.with(getContext()).load(RequestConfig.URL + icon).into(vh.profile_avatar_icon);
                     vh.profile_user_name.setText(username);
                     vh.profile_personal_description.setText(info);
-                    Toast.makeText(getContext(), sex, Toast.LENGTH_SHORT).show();
+                    vh.profile_sex.setSelected(sex.equals("女"));
+//                    Toast.makeText(getContext(), sex, Toast.LENGTH_SHORT).show();
                 } else if (resultCode == ProfileEditActivity.LOGOUT) {
                     Intent intent = new Intent(getContext(), LoginActivity.class);
                     startActivity(intent);
