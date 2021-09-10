@@ -37,45 +37,43 @@ def get_comments():
     comments_list = list()
     data = request.args
     cursor = db.cursor()
-
     cursor.execute(
-        f"select date, thumbsupNum, content, author, u.url, tc.great, comments.id from sharingphoto.comments "
+        f"select date, thumbsupNum, content, u.username, u.url, tc.great, comments.id from sharingphoto.comments "
         f"join sharingphoto.users u on comments.author = u.uid "
-        f"join sharingphoto.thumbsup_comments tc on tc.commentsId=comments.id where shuoshuoId={data.get('id')}")
+        f"join sharingphoto.thumbsup_comments tc on tc.commentsId=comments.id and tc.user='{data.get('user')}' where shuoshuoId='{data.get('id')}'")
     res = cursor.fetchall()
     if res is not None:
         for item in res:
-            comments_list.append({"date": item[0], "thumbsupNum": item[1], "content": item[2], "author": item[3], "iconId": item[4], "isThumbsup": item[5], "commentId": item[6]})
+            it = {"date": item[0], "thumbsupNum": item[1], "content": item[2], "username": item[3], "iconId": item[4],
+                  "isThumbsup": item[5], "commentId": item[6]}
+            comments_list.append(it)
         return {"msg": "success", "data": comments_list}
     else:
         return {"msg": "failed", "data": []}
 
 
-@comment_opt.route("/thumbsup_comments", methods=["POST"])
+@comment_opt.route("/thumbsup_comments", methods=["POST", "GET"])
 def thumbsup_comments():
     data = request.values
     cursor = db.cursor()
-    cursor.execute(f"select id from sharingphoto.comments where shuoshuoId='{data.get('id')}' and author='{data.get('user')}'")
-    comment_id = cursor.fetchone()
-    if comment_id is not None:
-        comment_id = comment_id[0]
-    else:
-        return {"msg": "failed", "data": []}
     if data.get('add').lower() == "true":
         is_add = "T"
-        cursor.execute(f"select great from sharingphoto.thumbsup_comments where commentsId='{data.get('id')}'")
-        if len(cursor.fetchone()) == 0:
+        cursor.execute(
+            f"select great from sharingphoto.thumbsup_comments where commentsId='{data.get('id')}' and user='{data.get('user')}'")
+        if cursor.fetchone() is None:
             cursor.execute(
                 f"insert into sharingphoto.thumbsup_comments value ('{data.get('user')}', '{data.get('id')}', '{is_add}')")
         else:
-            pass
             cursor.execute(
-                f"update sharingphoto.thumbsup_comments set great='{is_add}' where commentsId='{comment_id}'")
-        cursor.execute(f"update sharingphoto.comments set thumbsupNum=thumbsupNum+1 where shuoshuoId='{data.get('id')}' and author='{data.get('user')}'")
+                f"update sharingphoto.thumbsup_comments set great='{is_add}' where commentsId='{data.get('id')}' and user='{data.get('user')}'")
+        cursor.execute(
+            f"update sharingphoto.comments set thumbsupNum=thumbsupNum+1 where id='{data.get('id')}'")
     else:
         is_add = "F"
-        cursor.execute(f"update sharingphoto.thumbsup_comments set great='{is_add}' where commentsId='{comment_id}'")
-        cursor.execute(f"update sharingphoto.comments set thumbsupNum=thumbsupNum-1 where shuoshuoId='{data.get('id')}' and author='{data.get('user')}'")
+        cursor.execute(
+            f"update sharingphoto.thumbsup_comments set great='{is_add}' where commentsId='{data.get('id')}' and user='{data.get('user')}'")
+        cursor.execute(
+            f"update sharingphoto.comments set thumbsupNum=thumbsupNum-1 where id='{data.get('id')}'")
 
     try:
         db.commit()

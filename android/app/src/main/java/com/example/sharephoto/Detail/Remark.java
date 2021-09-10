@@ -7,7 +7,7 @@ public class Remark {
     private String commentId;
     @SerializedName("iconId")
     private String icon;
-    @SerializedName("author")
+    @SerializedName("username")
     private String username;
     @SerializedName("thumbsupNum")
     private int num;

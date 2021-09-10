@@ -224,15 +224,15 @@ def follow_person():
     if data.get('add').lower() == "true":
         cursor.execute(
             f"select * from concern where user='{data.get('user')}' and followed='{data.get('author')}'")
-        if len(cursor.fetchone()) == 0 or cursor.fetchone() is None:
+        if cursor.fetchone() is None:
             cursor.execute(f"insert into concern values ('{data.get('user')}', '{data.get('author')}')")
-            cursor.execute(f"update users set fan=fan+1 where uid='{data.get('user')}'")
+            cursor.execute(f"update users set fan=fan+1 where uid='{data.get('author')}'")
         else:
             return {"msg": "You can't follow again.", "data": []}
     else:
         cursor.execute(
             f"delete from concern where user='{data.get('user')}' and followed='{data.get('author')}'")
-        cursor.execute(f"update users set fan=fan-1 where uid='{data.get('user')}'")
+        cursor.execute(f"update users set fan=fan-1 where uid='{data.get('author')}'")
 
     try:
         db.commit()

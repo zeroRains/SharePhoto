@@ -3,6 +3,7 @@ package com.example.sharephoto.Detail;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.MultipartBody;
+import okhttp3.Request;
 
 public class RemarkAdapter extends RecyclerView.Adapter<RemarkAdapter.ViewHolder> {
 

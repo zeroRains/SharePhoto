@@ -39,6 +39,7 @@ public class RemarkThumbsupAsyncTask extends AsyncTask<String, Void, String> {
         body.addFormDataPart("id", id)
                 .addFormDataPart("user", user)
                 .addFormDataPart("add", add);
+        Log.d("pommespeter", "doInBackground: " + body.toString());
         Log.d("zerorains", "id:" + id + ",user:" + user + ",add:" + add);
         Request request = new Request.Builder()
                 .post(body.build())
@@ -48,7 +49,8 @@ public class RemarkThumbsupAsyncTask extends AsyncTask<String, Void, String> {
             OkHttpClient client = new OkHttpClient();
             Response response = client.newCall(request).execute();
             if (response.isSuccessful()) {
-                return response.body().toString();
+                Log.d("pommespeter", "doInBackground return " + response.body().toString());
+//                return response.body().toString();
             }
         } catch (IOException e) {
             e.printStackTrace();

@@ -151,6 +151,7 @@ public class ProfileEditActivity extends AppCompatActivity {
                             .addFormDataPart("username", username)
                             .addFormDataPart("sex", sex)
                             .addFormDataPart("introduction", introduction);
+                    Log.d("pommeseter", "edit profile " + body.toString());
                     Request request = new Request.Builder()
                             .url(RequestConfig.MODIFY_INFO)
                             .post(body.build())
