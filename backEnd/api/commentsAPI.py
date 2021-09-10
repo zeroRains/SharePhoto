@@ -45,7 +45,7 @@ def get_comments():
     if res is not None:
         for item in res:
             it = {"date": item[0], "thumbsupNum": item[1], "content": item[2], "username": item[3], "iconId": item[4],
-                 "isThumbsup": item[5], "commentId": item[6]}
+                  "isThumbsup": item[5], "commentId": item[6]}
             if data.get('user') == item[7]:
                 it['isThumbsup'] = "T"
             else:
@@ -60,28 +60,22 @@ def get_comments():
 def thumbsup_comments():
     data = request.values
     cursor = db.cursor()
-    cursor.execute(
-        f"select id from sharingphoto.comments where shuoshuoId='{data.get('id')}' and author='{data.get('user')}'")
-    comment_id = cursor.fetchone()
-    if comment_id is not None:
-        comment_id = comment_id[0]
-    else:
-        return {"msg": "failed", "data": []}
     if data.get('add').lower() == "true":
         is_add = "T"
-        cursor.execute(f"select great from sharingphoto.thumbsup_comments where commentsId='{data.get('id')}'")
-        if len(cursor.fetchone()) == 0:
+        cursor.execute(
+            f"select great from sharingphoto.thumbsup_comments where commentsId='{data.get('id')}' and user='{data.get('user')}'")
+        if cursor.fetchone() is None:
             cursor.execute(
                 f"insert into sharingphoto.thumbsup_comments value ('{data.get('user')}', '{data.get('id')}', '{is_add}')")
         else:
-            pass
             cursor.execute(
-                f"update sharingphoto.thumbsup_comments set great='{is_add}' where commentsId='{comment_id}'")
+                f"update sharingphoto.thumbsup_comments set great='{is_add}' where commentsId='{data.get('id')}' and user='{data.get('user')}'")
         cursor.execute(
             f"update sharingphoto.comments set thumbsupNum=thumbsupNum+1 where shuoshuoId='{data.get('id')}' and author='{data.get('user')}'")
     else:
         is_add = "F"
-        cursor.execute(f"update sharingphoto.thumbsup_comments set great='{is_add}' where commentsId='{comment_id}'")
+        cursor.execute(
+            f"update sharingphoto.thumbsup_comments set great='{is_add}' where commentsId='{data.get('id')}' and user='{data.get('user')}'")
         cursor.execute(
             f"update sharingphoto.comments set thumbsupNum=thumbsupNum-1 where shuoshuoId='{data.get('id')}' and author='{data.get('user')}'")
 
