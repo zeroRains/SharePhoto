@@ -49,13 +49,18 @@
         <entry key="..\:/Workspace/Android/PhotograhicSharing/android/app/src/main/res/layout/profile_content_item.xml" value="0.11144883485309018" />
         <entry key="..\:/Workspace/Android/SharePhoto/android/app/src/main/res/layout/fragment_home_photo.xml" value="0.240625" />
         <entry key="..\:/Workspace/Android/SharePhoto/android/app/src/main/res/layout/home_photo_item.xml" value="0.4171875" />
+        <entry key="app/src/main/res/drawable/home_selected.xml" value="0.20833333333333334" />
+        <entry key="app/src/main/res/drawable/ic_vector_female.xml" value="0.20833333333333334" />
         <entry key="app/src/main/res/drawable/rounded_background_primary.xml" value="0.3020833333333333" />
         <entry key="app/src/main/res/drawable/send_button_background.xml" value="0.3020833333333333" />
+        <entry key="app/src/main/res/drawable/sex.xml" value="0.20833333333333334" />
         <entry key="app/src/main/res/drawable/splash.xml" value="0.5061287027579162" />
+        <entry key="app/src/main/res/drawable/tab_channle.xml" value="0.20833333333333334" />
         <entry key="app/src/main/res/layout/activity_detail.xml" value="0.22010869565217392" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.12760416666666666" />
         <entry key="app/src/main/res/layout/activity_publish.xml" value="0.22010869565217392" />
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.12760416666666666" />
+        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.15760869565217392" />
         <entry key="app/src/main/res/layout/item_home_photo.xml" value="0.209375" />
         <entry key="app/src/main/res/layout/item_publish.xml" value="0.28177083333333336" />
       </map>

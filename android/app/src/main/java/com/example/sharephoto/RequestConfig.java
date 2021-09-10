@@ -9,9 +9,9 @@ public class RequestConfig {
     //    用户
     public static String LOGIN = URL + "users/login";                               //登录
     public static String REGISTER = URL + "users/register";                         //注册
-    public static String MODIFY_AVATAR = URL + "user/modify_avatar";                //修改头像
-    public static String SHOW_USER = URL + "user/show_user";                        //用户信息
-    public static String MODIFY_INFO = URL + "user/modify_user_info";               //修改用户信息
+    public static String MODIFY_AVATAR = URL + "users/modify_avatar";                //修改头像
+    public static String SHOW_USER = URL + "users/show_user_info";                   //用户信息
+    public static String MODIFY_INFO = URL + "users/modify_user_info";               //修改用户信息
 
     //说说
     public static String RECOMMEND = URL + "shuoshuo/recommended";                  //推荐列表

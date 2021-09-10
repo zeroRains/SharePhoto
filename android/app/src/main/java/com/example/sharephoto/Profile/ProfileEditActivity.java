@@ -5,6 +5,7 @@ import androidx.appcompat.widget.AppCompatSpinner;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.DownloadManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -19,9 +20,21 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.sharephoto.R;
+import com.example.sharephoto.RequestConfig;
+import com.example.sharephoto.Response.BaseResponse;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class ProfileEditActivity extends AppCompatActivity {
     private CircleImageView edit_icon;
@@ -47,6 +60,47 @@ public class ProfileEditActivity extends AppCompatActivity {
             window.setStatusBarColor(getResources().getColor(R.color.primary));
         }
         initView();
+        initData();
+    }
+
+    private void initData() {
+        String id = getSharedPreferences("data", MODE_PRIVATE).getString("username", "");
+        if (!id.equals("")) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    Request request = new Request.Builder()
+                            .get()
+                            .url(GetInfoAsyncTask.URL + "?id=" + id)
+                            .build();
+                    OkHttpClient client = new OkHttpClient();
+                    try {
+                        Response response = client.newCall(request).execute();
+                        if (response.isSuccessful()) {
+                            String s = response.body().string();
+                            Gson gson = new Gson();
+                            Type type = new TypeToken<BaseResponse<List<ProfileInfoResponse>>>() {
+                            }.getType();
+                            BaseResponse<List<ProfileInfoResponse>> res = gson.fromJson(s, type);
+                            ProfileInfoResponse info = res.getData().get(0);
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Glide.with(ProfileEditActivity.this)
+                                            .load(RequestConfig.URL + info.getUrl())
+                                            .into(edit_icon);
+                                    edit_username.setText(info.getUsername());
+                                    edit_sex.setSelection(info.getSex().equals("女") ? 1 : 0, true);
+                                    edit_info.setText(info.getIntroduction());
+                                }
+                            });
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+        }
     }
 
     private void initView() {

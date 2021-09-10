@@ -2,6 +2,7 @@ package com.example.sharephoto.Profile;
 
 import static android.app.Activity.RESULT_OK;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -94,8 +95,17 @@ public class ProfileFragment extends Fragment {
                 }
             });
         }
+        initData(vh);
         vh.profileTab.setupWithViewPager(vh.viewPager, false);
         return profileView;
+    }
+
+    private void initData(ViewHolder vh) {
+        String id = getContext().getSharedPreferences("data", Context.MODE_PRIVATE).getString("username", "");
+        if (!id.equals("")) {
+            vh.profile_user_id.setText(id);
+            new GetInfoAsyncTask(getContext(), vh).execute(id);
+        }
     }
 
     @Override
