@@ -73,7 +73,9 @@ public class RemarkAdapter extends RecyclerView.Adapter<RemarkAdapter.ViewHolder
                     state = "true";
                 }
                 String username = context.getSharedPreferences("data", Context.MODE_PRIVATE).getString("username", "");
-                new RemarkThumbsupAsyncTask(context).execute(remarks.get(position).getCommentId() + "", username, state);
+                if (!username.equals("")) {
+                    new RemarkThumbsupAsyncTask(context).execute(remarks.get(position).getCommentId() + "", username, state);
+                }
             }
         });
     }
