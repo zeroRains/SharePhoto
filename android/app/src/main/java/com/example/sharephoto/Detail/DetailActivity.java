@@ -48,6 +48,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
 
     private RemarkAdapter adapter;
+    private int shuoshuoId = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,14 +100,15 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         detail_remark_submit = findViewById(R.id.detail_remark_submit);
 
         setClickEvent();
+
+        shuoshuoId = getIntent().getIntExtra("shuoshuoId", -1);
+        
     }
 
     private void initData() {
         String id = getSharedPreferences("data", MODE_PRIVATE).getString("username", "");
-        String shuoshuoId = "1";
-        if (!id.equals("")) {
-            new RemarkAsyncTask(this, remarks, adapter, viewHolder).execute(shuoshuoId, id);
-
+        if (!id.equals("") && shuoshuoId != -1) {
+            new RemarkAsyncTask(this, remarks, adapter, viewHolder).execute(shuoshuoId + "", id);
         }
 //        for (int i = 0; i < 10; i++) {
 //            Remark remark = new Remark();

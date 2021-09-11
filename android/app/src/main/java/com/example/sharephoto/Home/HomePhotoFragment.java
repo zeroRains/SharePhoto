@@ -1,5 +1,6 @@
 package com.example.sharephoto.Home;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -47,6 +48,7 @@ public class HomePhotoFragment extends Fragment {
             public void onItemClick(View view, int position) {
 //                Toast.makeText(getContext(), "" + position, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(view.getContext(), DetailActivity.class);
+                intent.putExtra("shuoshuoId", photos.get(position).getId());
                 startActivity(intent);
             }
         });
@@ -63,7 +65,8 @@ public class HomePhotoFragment extends Fragment {
                 this.URL = RequestConfig.RECOMMEND;
                 break;
             case "关注":
-                this.URL = RequestConfig.CONCERN + "?id=zerorains";
+                String id = getContext().getSharedPreferences("data", Context.MODE_PRIVATE).getString("username", "");
+                this.URL = RequestConfig.CONCERN + "?id=" + id;
                 break;
             default:
                 this.URL = null;
