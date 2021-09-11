@@ -161,6 +161,7 @@ def show_shuoshuo_detail():
     content["starNum"] = res[4]
     content["title"] = res[5]
     content["description"] = res[6]
+    content["uid"] = res[7]
 
     cursor.execute(f"select f.great, f.star from sharingphoto.shuoshuo " +
                    f"join sharingphoto.favor f on shuoshuo.id = f.shuoshuoId where shuoshuo.id='{data.get('id')}'")
