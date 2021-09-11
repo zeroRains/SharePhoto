@@ -108,26 +108,25 @@ def show_follow_page():
                 "starNum": item[3],
                 "title": item[4]
             }
-            # 不知道能不能复用上面的cursor，反正我再做一个
-            cursor2 = db.cursor()
-            cursor2.execute(
+            cursor.execute(
                 f"select url from photo where shuoshuoId='{item[2]}' limit 1")
-            res1 = cursor2.fetchall()
+            res1 = cursor.fetchall()
             if len(res1) == 0:
                 continue
             shuoshuo["thumbnail"] = res1[0][0]
-            cursor3 = db.cursor()
-            cursor3.execute(
+            cursor.execute(
                 f"select star from favor where shuoshuoId='{item[2]}' and user='{data_values.get('id')}'"
             )
-            res2 = cursor3.fetchall()
+            res2 = cursor.fetchall()
             if len(res2) == 0:
                 shuoshuo["star"] = "F"
             else:
                 shuoshuo["star"] = res2[0][0]
             data.append(shuoshuo)
+        cursor.close()
         return {"msg": "success", "data": data}
     else:
+        cursor.close()
         return {"msg": "failed", "data": []}
 
 
@@ -192,6 +191,7 @@ def show_shuoshuo_detail():
         image_list.append(image[0])
 
     content["photos"] = image_list
+    cursor.close()
     return {"msg": "success", "data": [content]}
 
 
@@ -221,9 +221,11 @@ def thumbsup_shuoshuo():
 
     try:
         db.commit()
+        cursor.close()
         return {"msg": "success", "data": []}
     except:
         db.rollback()
+        cursor.close()
         return {"msg": "failed", "data": []}
 
 
@@ -249,9 +251,11 @@ def follow_person():
 
     try:
         db.commit()
+        cursor.close()
         return {"msg": "success", "data": []}
     except:
         db.rollback()
+        cursor.close()
         return {"msg": "failed", "data": []}
 
 
@@ -278,9 +282,11 @@ def star_shuoshuo():
 
     try:
         db.commit()
+        cursor.close()
         return {"msg": "success", "data": []}
     except:
         db.rollback()
+        cursor.close()
         return {"msg": "failed", "data": []}
 
 
@@ -309,9 +315,12 @@ def publish_shuoshuo():
             cursor.execute(f"insert into photo values ('{img}', '{shuoshuoId[0]}')")
         try:
             db.commit()
+            cursor.close()
             return {"msg": "success", "data": []}
         except:
             db.rollback()
+            cursor.close()
             return {"msg": "failed", "data": []}
     else:
+        cursor.close()
         return {"msg": "failed", "data": []}

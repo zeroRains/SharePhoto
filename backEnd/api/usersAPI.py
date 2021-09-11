@@ -30,10 +30,13 @@ def login():
     if selected_data is not None:
         isAuthorized = True if en_passwd.strip() == selected_data[0].strip() else False
         if isAuthorized:
+            cursor.close()
             return {"msg": "success", "data": []}
         else:
+            cursor.close()
             return {"msg": "failed", "data": []}
     else:
+        cursor.close()
         return {"msg": "failed", "data": []}
 
 
@@ -53,11 +56,14 @@ def register():
             f"insert into users(uid, passwd, username) values ('{data.get('id')}', '{m.hexdigest()}', '{nickname}')")
         try:
             db.commit()
+            cursor.close()
             return {"msg": "success", "data": []}
         except:
             db.rollback()
+            cursor.close()
             return {"msg": "failed", "data": []}
     else:
+        cursor.close()
         return {"msg": "duplicated account", "data": []}
 
 
@@ -70,10 +76,12 @@ def show_user_info():
         f"select sex, thumbsup, star, fan, username, introduction, url from users where uid='{data_args.get('id')}'")
     res = cursor.fetchone()
     if res is not None:
+        cursor.close()
         return {"msg": "success",
                 "data": [{"sex": res[0], "great": res[1], "star": res[2], "fan": res[3], "username": res[4],
                           "introduction": res[5], "url": res[6]}]}
     else:
+        cursor.close()
         return {"msg": "failed", "data": []}
 
 
@@ -87,9 +95,11 @@ def modify():
 
     try:
         db.commit()
+        cursor.close()
         return {"msg": "success", "data": []}
     except:
         db.rollback()
+        cursor.close()
         return {"msg": "failed", "data": []}
 
 
@@ -102,7 +112,9 @@ def modify_avatar():
 
     try:
         db.commit()
+        cursor.close()
         return {"msg": "success", "data": []}
     except:
         db.rollback()
+        cursor.close()
         return {"msg": "failed", "data": []}

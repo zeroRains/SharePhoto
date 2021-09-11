@@ -26,9 +26,11 @@ def publish_comments():
         f"insert into sharingphoto.comments values ('{time_stamp}', 0, '{data.get('content')}', '{data.get('user')}', '{data.get('id')}')")
     try:
         db.commit()
+        cursor.close()
         return {"msg": "success", "data": []}
     except:
         db.rollback()
+        cursor.close()
         return {"msg": "failed", "data": []}
 
 
@@ -42,6 +44,7 @@ def get_comments():
         f"join sharingphoto.users u on comments.author = u.uid "
         f"join sharingphoto.thumbsup_comments tc on tc.commentsId=comments.id and tc.user='{data.get('user')}' where shuoshuoId='{data.get('id')}'")
     res = cursor.fetchall()
+    cursor.close()
     if res is not None:
         for item in res:
             it = {"date": item[0], "thumbsupNum": item[1], "content": item[2], "username": item[3], "iconId": item[4],
@@ -77,7 +80,9 @@ def thumbsup_comments():
 
     try:
         db.commit()
+        cursor.close()
         return {"msg": "success", "data": []}
     except:
         db.rollback()
+        cursor.close()
         return {"msg": "failed", "data": []}
