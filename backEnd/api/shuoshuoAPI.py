@@ -8,6 +8,44 @@ shuoshuo_opt = Blueprint("shuoshuo_opt", __name__)
 
 db = database_object
 
+@shuoshuo_opt.route("/category", methods=["GET"])
+def get_page_from_category():
+    content = []
+    data = request.values
+    cursor = db.cursor()
+    cursor.execute(
+        f"select s.author, u.url, s.id, s.star, s.topic from shuoshuo s " +
+        f"join users u on u.uid = s.author where s.category='{data.get('category')}'")
+    res = cursor.fetchall()
+    if res is not None:
+        for item in res:
+            shuoshuo = {
+                "author": item[0],
+                "iconId": item[1],
+                "id": item[2],
+                "starNum": item[3],
+                "title": item[4]
+            }
+            cursor.execute(
+                f"select url from photo where shuoshuoId='{item[2]}' limit 1")
+            res1 = cursor.fetchall()
+            if len(res1) == 0:
+                continue
+            shuoshuo["thumbnail"] = res1[0][0]
+            cursor.execute(
+                f"select star from favor where shuoshuoId='{item[2]}' and user='{data_values.get('id')}'"
+            )
+            res2 = cursor.fetchall()
+            if len(res2) == 0:
+                shuoshuo["star"] = "F"
+            else:
+                shuoshuo["star"] = res2[0][0]
+            data.append(shuoshuo)
+        return {"msg": "success", "data": data}
+    else:
+        return {"msg": "failed", "data": []}
+
+
 
 @shuoshuo_opt.route("/recommended", methods=["GET"])
 def show_recommend_page():
@@ -28,19 +66,16 @@ def show_recommend_page():
                 "starNum": item[3],
                 "title": item[4]
             }
-            # 不知道能不能复用上面的cursor，反正我再做一个
-            cursor2 = db.cursor()
-            cursor2.execute(
+            cursor.execute(
                 f"select url from photo where shuoshuoId='{item[2]}' limit 1")
-            res1 = cursor2.fetchall()
+            res1 = cursor.fetchall()
             if len(res1) == 0:
                 continue
             shuoshuo["thumbnail"] = res1[0][0]
-            cursor3 = db.cursor()
-            cursor3.execute(
+            cursor.execute(
                 f"select star from favor where shuoshuoId='{item[2]}' and user='{data_values.get('id')}'"
             )
-            res2 = cursor3.fetchall()
+            res2 = cursor.fetchall()
             if len(res2) == 0:
                 shuoshuo["star"] = "F"
             else:
@@ -113,7 +148,6 @@ def show_shuoshuo_detail():
         "description": ""
     }
     cursor = db.cursor()
-    print(cursor)
     cursor.execute(
         f"select u.url, u.username, s.date, s.great, s.star, s.title, s.description, u.uid from shuoshuo s "
         f"join sharingphoto.users u on u.uid = s.author where s.id='{data.get('id')}'")
@@ -227,19 +261,26 @@ def star_shuoshuo():
     if data.get('add').lower() == "true":
         is_add = "T"
         cursor.execute(f"select star from favor where shuoshuoId='{data.get('id')}'")
-        if len(cursor.fetchone()) == 0 or cursor.fetchone() is None:
+        if cursor.fetchone() is None:
             cursor.execute(
                 f"insert into favor value ('{data.get('user')}', '{data.get('id')}', '{is_add}', 'F')")
         else:
             cursor.execute(
-                f"update favor set star='{is_add}' where shuoshuoId='{data.get('id')}'")
+                f"update favor set star='{is_add}' where shuoshuoId='{data.get('id')}' and user='{data.get('user')}'")
         cursor.execute(f"update shuoshuo set star=star+1 where shuoshuo.id='{data.get('id')}'")
         cursor.execute(f"update users set star=star+1 where uid='{data.get('user')}'")
     else:
         is_add = "F"
-        cursor.execute(f"update favor set star='{is_add}' where shuoshuoId='{data.get('id')}'")
+        cursor.execute(f"update favor set star='{is_add}' where shuoshuoId='{data.get('id')}' and user='{data.get('user')}'")
         cursor.execute(f"update shuoshuo set star=star-1 where shuoshuo.id='{data.get('id')}'")
         cursor.execute(f"update users set star=star-1 where uid='{data.get('user')}'")
+
+    try:
+        db.commit()
+        return {"msg": "success", "data": []}
+    except:
+        db.rollback()
+        return {"msg": "failed", "data": []}
 
 
 @shuoshuo_opt.route("/publish", methods=["POST"])
