@@ -227,13 +227,13 @@ public class PublishActivity extends AppCompatActivity implements View.OnClickLi
                         .post(requestBody)
                         .build();
 
-                Log.d("zerorains", "onActivityResult: " + file.getName());
+//                Log.d("zerorains", "onActivityResult: " + file.getName());
                 OkHttpClient client = new OkHttpClient();
                 Call call = client.newCall(request);
                 call.enqueue(new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {
-                        Log.d("zerorains", "onResponse: " + e);
+//                        Log.d("zerorains", "onResponse: " + e);
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -249,7 +249,7 @@ public class PublishActivity extends AppCompatActivity implements View.OnClickLi
                         Type type = new TypeToken<BaseResponse<List<PublishPhoto>>>() {
                         }.getType();
                         BaseResponse<List<PublishPhoto>> response1 = gson.fromJson(s, type);
-                        Log.d("zerorains", "onResponse: " + response1.getData().size());
+//                        Log.d("zerorains", "onResponse: " + response1.getData().size());
                         if (response1.getMsg().equals("success")) {
                             runOnUiThread(new Runnable() {
                                 @Override
