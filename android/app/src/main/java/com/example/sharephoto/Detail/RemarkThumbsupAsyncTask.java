@@ -60,6 +60,7 @@ public class RemarkThumbsupAsyncTask extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String s) {
+        // todo: bugs to fix
 //        if (s != null) {
 //            Gson gson = new Gson();
 //            Type type = new TypeToken<BaseResponse<List<Empty>>>() {
