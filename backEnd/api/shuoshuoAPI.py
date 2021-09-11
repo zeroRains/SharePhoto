@@ -8,6 +8,7 @@ shuoshuo_opt = Blueprint("shuoshuo_opt", __name__)
 
 dbp = database_pool
 
+
 @shuoshuo_opt.route("/self_published", methods=["GET"])
 def get_self_published_shuoshuo():
     content = []
@@ -50,6 +51,7 @@ def get_self_published_shuoshuo():
         db.close()
         return {"msg": "failed", "data": []}
 
+
 @shuoshuo_opt.route("/category", methods=["GET"])
 def get_page_from_category():
     content = []
@@ -91,7 +93,6 @@ def get_page_from_category():
         cursor.close()
         db.close()
         return {"msg": "failed", "data": []}
-
 
 
 @shuoshuo_opt.route("/recommended", methods=["GET"])
@@ -343,7 +344,8 @@ def star_shuoshuo():
         cursor.execute(f"update users set star=star+1 where uid='{data.get('user')}'")
     else:
         is_add = "F"
-        cursor.execute(f"update favor set star='{is_add}' where shuoshuoId='{data.get('id')}' and user='{data.get('user')}'")
+        cursor.execute(
+            f"update favor set star='{is_add}' where shuoshuoId='{data.get('id')}' and user='{data.get('user')}'")
         cursor.execute(f"update shuoshuo set star=star-1 where shuoshuo.id='{data.get('id')}'")
         cursor.execute(f"update users set star=star-1 where uid='{data.get('user')}'")
 
