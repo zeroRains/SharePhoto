@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.sharephoto.Detail.StarAsyncTask;
 import com.example.sharephoto.R;
 import com.example.sharephoto.RequestConfig;
 
@@ -52,6 +53,7 @@ public class HomePhotoAdapter extends RecyclerView.Adapter<HomePhotoAdapter.View
         this.resourceId = resourceId;
     }
 
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -63,7 +65,7 @@ public class HomePhotoAdapter extends RecyclerView.Adapter<HomePhotoAdapter.View
 
     @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull HomePhotoAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull HomePhotoAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         HomePhoto item = photos.get(position);
 //        holder.home_photo.setImageResource(item.getId());
         Glide.with(context).load(RequestConfig.URL + item.getThumbSnail()).into(holder.home_photo);
@@ -78,19 +80,24 @@ public class HomePhotoAdapter extends RecyclerView.Adapter<HomePhotoAdapter.View
         holder.img_status.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String status;
                 if (holder.img_status.isSelected()) {
                     // 收藏点击
                     holder.img_status.setSelected(false);
                     int num = Integer.parseInt(holder.img_star_num.getText().toString());
                     num -= 1;
                     holder.img_star_num.setText("" + num);
+                    status = "false";
                 } else {
                     holder.img_status.setSelected(true);
                     int num = Integer.parseInt(holder.img_star_num.getText().toString());
                     num += 1;
                     holder.img_star_num.setText("" + num);
+                    status = "true";
                 }
 //                Toast.makeText(v.getContext(), "click", Toast.LENGTH_SHORT).show();
+                String user = context.getSharedPreferences("data", Context.MODE_PRIVATE).getString("username", "");
+                new StarAsyncTask().execute(photos.get(position).getId() + "", user, status);
             }
         });
     }

@@ -28,6 +28,7 @@ public class ChannelDetailActivity extends AppCompatActivity {
     TextView channel_detail_nav_title;
     RecyclerView channel_detail;
     List<HomePhoto> photos = new ArrayList<>();
+    HomePhotoAdapter photoAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +49,8 @@ public class ChannelDetailActivity extends AppCompatActivity {
 
         channel_detail_nav_title.setText(title);
 
-        initData();
-        HomePhotoAdapter photoAdapter = new HomePhotoAdapter(ChannelDetailActivity.this, photos, R.layout.item_home_photo);
+
+        photoAdapter = new HomePhotoAdapter(ChannelDetailActivity.this, photos, R.layout.item_home_photo);
         photoAdapter.setOnItemClickListener(new HomePhotoAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -61,6 +62,7 @@ public class ChannelDetailActivity extends AppCompatActivity {
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, RecyclerView.VERTICAL);
         channel_detail.setLayoutManager(staggeredGridLayoutManager);
         channel_detail.setAdapter(photoAdapter);
+        initData();
     }
 
     public void channel_back(View v) {
@@ -68,19 +70,23 @@ public class ChannelDetailActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        for (int i = 0; i < 50; i++) {
-            HomePhoto item = new HomePhoto();
-            item.setIconId("static/imgs/bg03.jpg");
-            item.setThumbSnail("static/imgs/bg03.jpg");
-//            if (i % 2 == 0)
-//                item.setId(R.drawable.nmsl);
-//            else
-//                item.setId(R.drawable.icon);
-            item.setStar("T");
-            item.setStarNum(666);
-            item.setTag("#休闲时光#");
-            item.setUsername("ZeroRains");
-            photos.add(item);
+        String user = getSharedPreferences("data", MODE_PRIVATE).getString("username", "");
+        if (!user.equals("")) {
+            new ChannelAsyncTask(ChannelDetailActivity.this, photoAdapter, photos).execute(title, user);
         }
+//        for (int i = 0; i < 50; i++) {
+//            HomePhoto item = new HomePhoto();
+//            item.setIconId("static/imgs/bg03.jpg");
+//            item.setThumbSnail("static/imgs/bg03.jpg");
+////            if (i % 2 == 0)
+////                item.setId(R.drawable.nmsl);
+////            else
+////                item.setId(R.drawable.icon);
+//            item.setStar("T");
+//            item.setStarNum(666);
+//            item.setTag("#休闲时光#");
+//            item.setUsername("ZeroRains");
+//            photos.add(item);
+//        }
     }
 }

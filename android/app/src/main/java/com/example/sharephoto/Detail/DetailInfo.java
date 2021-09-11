@@ -13,6 +13,16 @@ public class DetailInfo {
     private int zanNum;
     private String zanStatus;
 
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    private String uid;
+
     public String getDate() {
         return date;
     }

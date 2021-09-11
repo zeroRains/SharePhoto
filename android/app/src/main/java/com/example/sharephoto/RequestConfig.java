@@ -21,6 +21,7 @@ public class RequestConfig {
     public static String FOLLOW = URL + "shuoshuo/follow";                          //关注作者
     public static String FAVOR = URL + "shuoshuo/favor";                            //收藏
     public static String PUBLISH = URL + "shuoshuo/publish";                        //发布说说
+    public static String CATEGORY = URL + "shuoshuo/category";                      //分类
 
     //    图像
     public static String UPLOAD_IMAGES = URL + "images/upload_imgs";                //上传图像

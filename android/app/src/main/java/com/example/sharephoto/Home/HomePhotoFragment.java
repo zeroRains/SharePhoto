@@ -46,7 +46,7 @@ public class HomePhotoFragment extends Fragment {
         photoAdapter.setOnItemClickListener(new HomePhotoAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Toast.makeText(getContext(), "" + photos.get(position).getId(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(), "" + photos.get(position).getId(), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(view.getContext(), DetailActivity.class);
                 intent.putExtra("shuoshuoId", photos.get(position).getId());
                 startActivity(intent);
@@ -60,20 +60,20 @@ public class HomePhotoFragment extends Fragment {
     }
 
     private void initData() {
+        String id = getContext().getSharedPreferences("data", Context.MODE_PRIVATE).getString("username", "");
         switch (status) {
             case "推荐":
-                this.URL = RequestConfig.RECOMMEND;
+                this.URL = RequestConfig.RECOMMEND + "?user=" + id;
                 break;
             case "关注":
-                String id = getContext().getSharedPreferences("data", Context.MODE_PRIVATE).getString("username", "");
                 this.URL = RequestConfig.CONCERN + "?id=" + id;
                 break;
             default:
                 this.URL = null;
                 break;
         }
-        String id = getContext().getSharedPreferences("data", Context.MODE_PRIVATE).getString("username", "");
-        new RecommendAsyncTask(rootView.getContext(), URL, photoAdapter, photos).execute(id);
+
+        new RecommendAsyncTask(rootView.getContext(), URL, photoAdapter, photos).execute();
 //        for (int i = 0; i < 50; i++) {
 //            HomePhoto item = new HomePhoto();
 ////            item.setIconId(RequestConfig.URL+"static/imgs/bg03.jpg");
