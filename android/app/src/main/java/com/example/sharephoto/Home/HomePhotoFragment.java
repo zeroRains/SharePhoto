@@ -46,7 +46,7 @@ public class HomePhotoFragment extends Fragment {
         photoAdapter.setOnItemClickListener(new HomePhotoAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-//                Toast.makeText(getContext(), "" + position, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "" + photos.get(position).getId(), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(view.getContext(), DetailActivity.class);
                 intent.putExtra("shuoshuoId", photos.get(position).getId());
                 startActivity(intent);
@@ -72,7 +72,8 @@ public class HomePhotoFragment extends Fragment {
                 this.URL = null;
                 break;
         }
-        new RecommendAsyncTask(rootView.getContext(), URL, photoAdapter, photos).execute();
+        String id = getContext().getSharedPreferences("data", Context.MODE_PRIVATE).getString("username", "");
+        new RecommendAsyncTask(rootView.getContext(), URL, photoAdapter, photos).execute(id);
 //        for (int i = 0; i < 50; i++) {
 //            HomePhoto item = new HomePhoto();
 ////            item.setIconId(RequestConfig.URL+"static/imgs/bg03.jpg");

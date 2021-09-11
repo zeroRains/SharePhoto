@@ -90,7 +90,7 @@ public class HomePhotoAdapter extends RecyclerView.Adapter<HomePhotoAdapter.View
                     num += 1;
                     holder.img_star_num.setText("" + num);
                 }
-                Toast.makeText(v.getContext(), "click", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(v.getContext(), "click", Toast.LENGTH_SHORT).show();
             }
         });
     }
