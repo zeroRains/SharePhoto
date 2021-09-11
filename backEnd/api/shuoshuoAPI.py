@@ -33,15 +33,15 @@ def get_page_from_category():
                 continue
             shuoshuo["thumbnail"] = res1[0][0]
             cursor.execute(
-                f"select star from favor where shuoshuoId='{item[2]}' and user='{data_values.get('id')}'"
+                f"select star from favor where shuoshuoId='{item[2]}' and user='{data.get('id')}'"
             )
             res2 = cursor.fetchall()
             if len(res2) == 0:
                 shuoshuo["star"] = "F"
             else:
                 shuoshuo["star"] = res2[0][0]
-            data.append(shuoshuo)
-        return {"msg": "success", "data": data}
+            content.append(shuoshuo)
+        return {"msg": "success", "data": content}
     else:
         return {"msg": "failed", "data": []}
 
