@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.bumptech.glide.Glide;
 import com.example.sharephoto.R;
 import com.example.sharephoto.RequestConfig;
 import com.example.sharephoto.Response.BaseResponse;
@@ -20,31 +21,38 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class RemarkAsyncTask extends AsyncTask<String, Void, String> {
+public class RemarkAsyncTask extends AsyncTask<String, Void, String[]> {
     public static final String URL = RequestConfig.GET_COMMENT;
     private Context context;
     private List<Remark> remarks;
     private RemarkAdapter adapter;
+    DetailActivity.ViewHolder viewHolder;
 
-    public RemarkAsyncTask(Context context, List<Remark> remarks, RemarkAdapter adapter) {
+    public RemarkAsyncTask(Context context, List<Remark> remarks, RemarkAdapter adapter, DetailActivity.ViewHolder viewHolder) {
         this.context = context;
         this.remarks = remarks;
         this.adapter = adapter;
+        this.viewHolder = viewHolder;
     }
 
     @Override
-    protected String doInBackground(String... strings) {
+    protected String[] doInBackground(String... strings) {
         String id = strings[0];
         String user = strings[1];
         Request request = new Request.Builder()
                 .url(RemarkAsyncTask.URL + "?id=" + id + "&user=" + user)
                 .get()
                 .build();
+        Request request1 = new Request.Builder()
+                .url(RequestConfig.DETAIL + "?id=" + id + "&user=" + user)
+                .get()
+                .build();
         try {
             OkHttpClient client = new OkHttpClient();
             Response response = client.newCall(request).execute();
-            if (response.isSuccessful()) {
-                return response.body().string();
+            Response response1 = client.newCall(request1).execute();
+            if (response.isSuccessful() && response1.isSuccessful()) {
+                return new String[]{response.body().string(), response1.body().string()};
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -54,8 +62,11 @@ public class RemarkAsyncTask extends AsyncTask<String, Void, String> {
     }
 
     @Override
-    protected void onPostExecute(String s) {
+    protected void onPostExecute(String[] strings) {
+        String s = strings[0];
+        String s1 = strings[1];
         Gson gson = new Gson();
+        // 渲染评论信息
         Type type = new TypeToken<BaseResponse<List<Remark>>>() {
         }.getType();
         BaseResponse<List<Remark>> response = gson.fromJson(s, type);
@@ -64,6 +75,34 @@ public class RemarkAsyncTask extends AsyncTask<String, Void, String> {
         }
         adapter.setRemarks(remarks);
         adapter.notifyDataSetChanged();
-        super.onPostExecute(s);
+        // 渲染详细信息
+        type = new TypeToken<BaseResponse<List<DetailInfo>>>() {
+        }.getType();
+        BaseResponse<List<DetailInfo>> res = gson.fromJson(s1, type);
+        if (res.getMsg().equals("success")) {
+            DetailInfo info = res.getData().get(0);
+            Glide.with(context)
+                    .load(RequestConfig.URL + info.getIcon())
+                    .into(viewHolder.detail_icon);
+            viewHolder.detail_username.setText(info.getUsername());
+            viewHolder.detail_time.setText(info.getDate());
+            if (info.getFollow().equals("T")) {
+                viewHolder.detail_follow.setSelected(true);
+                viewHolder.detail_follow.setTextColor(context.getResources().getColor(R.color.white));
+            } else {
+                viewHolder.detail_follow.setSelected(false);
+                viewHolder.detail_follow.setTextColor(context.getResources().getColor(R.color.primary));
+            }
+            Glide.with(context)
+                    .load(RequestConfig.URL + info.getPhotos()[0])
+                    .into(viewHolder.detail_photo);
+            viewHolder.detail_zan_status.setSelected(info.getZanStatus().equals("T"));
+            viewHolder.detail_zan_num.setText("" + info.getZanNum());
+            viewHolder.detail_love_status.setSelected(info.getStarStatus().equals("T"));
+            viewHolder.detail_love_num.setText("" + info.getStarNum());
+            viewHolder.detail_description_title.setText(info.getTitle());
+            viewHolder.detail_description.setText(info.getDescription());
+        }
+        super.onPostExecute(strings);
     }
 }
