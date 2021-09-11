@@ -2,18 +2,17 @@ import os
 
 from flask import Blueprint, request
 
-from . import database_object
+from . import database_pool
 
 image_opt = Blueprint("image_opt", __name__)
 
-db = database_object
+dbp = database_pool
 img_save_path = "static/imgs"
 
 
 @image_opt.route("/upload_avatar", methods=["POST"])
 def upload_avatar():
     data = request.values
-    cursor = db.cursor()
     try:
         img = request.files.get('file')
         file_path = os.path.join(img_save_path, img.filename)
@@ -27,7 +26,6 @@ def upload_avatar():
 @image_opt.route("/upload_imgs", methods=["POST"])
 def upload_img():
     data = request.values
-    cursor = db.cursor()
     try:
         img = request.files.get('file')
         file_path = os.path.join(img_save_path, img.filename)

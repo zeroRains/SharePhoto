@@ -4,7 +4,7 @@ from api.commentsAPI import comment_opt
 from api.imagesAPI import image_opt
 from api.shuoshuoAPI import shuoshuo_opt
 from api.usersAPI import user_opt
-from api import database_object
+from api import database_pool
 
 app = Flask(__name__)
 
@@ -21,4 +21,4 @@ def hello_world():
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=9192, debug=False)
-    database_object.close()
+    database_pool.close()

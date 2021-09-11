@@ -3,9 +3,9 @@ from hashlib import md5
 
 from flask import Blueprint, request
 
-from . import database_object
+from . import database_pool
 
-db = database_object
+dbp = database_pool
 
 user_opt = Blueprint("user_opt", __name__)
 
@@ -22,6 +22,7 @@ def get_usernickname(bit: int):
 def login():
     m = md5()
     data = request.values
+    db = dbp.connection()
     cursor = db.cursor()
     cursor.execute(f"select passwd from users where uid='{data.get('id')}'")
     selected_data = cursor.fetchone()
@@ -30,10 +31,13 @@ def login():
     if selected_data is not None:
         isAuthorized = True if en_passwd.strip() == selected_data[0].strip() else False
         if isAuthorized:
+            cursor.close()
             return {"msg": "success", "data": []}
         else:
+            cursor.close()
             return {"msg": "failed", "data": []}
     else:
+        cursor.close()
         return {"msg": "failed", "data": []}
 
 
@@ -41,6 +45,7 @@ def login():
 def register():
     m = md5()
     data = request.values
+    db = dbp.connection()
     cursor = db.cursor()
 
     nickname = get_usernickname(bit=12)
@@ -53,33 +58,40 @@ def register():
             f"insert into users(uid, passwd, username) values ('{data.get('id')}', '{m.hexdigest()}', '{nickname}')")
         try:
             db.commit()
+            cursor.close()
             return {"msg": "success", "data": []}
         except:
             db.rollback()
+            cursor.close()
             return {"msg": "failed", "data": []}
     else:
+        cursor.close()
         return {"msg": "duplicated account", "data": []}
 
 
 @user_opt.route("/show_user_info", methods=["GET"])
 def show_user_info():
     data_args = request.args
+    db = dbp.connection()
     cursor = db.cursor()
 
     cursor.execute(
         f"select sex, thumbsup, star, fan, username, introduction, url from users where uid='{data_args.get('id')}'")
     res = cursor.fetchone()
     if res is not None:
+        cursor.close()
         return {"msg": "success",
                 "data": [{"sex": res[0], "great": res[1], "star": res[2], "fan": res[3], "username": res[4],
                           "introduction": res[5], "url": res[6]}]}
     else:
+        cursor.close()
         return {"msg": "failed", "data": []}
 
 
 @user_opt.route("/modify_user_info", methods=["POST"])
 def modify():
     data = request.values
+    db = dbp.connection()
     cursor = db.cursor()
 
     cursor.execute(
@@ -87,22 +99,27 @@ def modify():
 
     try:
         db.commit()
+        cursor.close()
         return {"msg": "success", "data": []}
     except:
         db.rollback()
+        cursor.close()
         return {"msg": "failed", "data": []}
 
 
 @user_opt.route("/modify_avatar", methods=["POST"])
 def modify_avatar():
     data = request.values
+    db = dbp.connection()
     cursor = db.cursor()
 
     cursor.execute(f"update sharingphoto.users set url='{data.get('url')}' where uid='{data.get('id')}'")
 
     try:
         db.commit()
+        cursor.close()
         return {"msg": "success", "data": []}
     except:
         db.rollback()
+        cursor.close()
         return {"msg": "failed", "data": []}

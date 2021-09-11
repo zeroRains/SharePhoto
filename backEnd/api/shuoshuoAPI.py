@@ -2,16 +2,107 @@ import time
 
 from flask import Blueprint, request
 
-from . import database_object
+from . import database_pool
 
 shuoshuo_opt = Blueprint("shuoshuo_opt", __name__)
 
-db = database_object
+dbp = database_pool
+
+
+@shuoshuo_opt.route("/thumbsuped_shuoshuo", methods=["GET"])
+def get_thumbsuped_shuoshuo():
+    content = []
+    data = request.values
+    db = dbp.connection()
+    cursor = db.cursor()
+    cursor.execute(
+        f"select s.id from favor join shuoshuo s on s.id=shuoshuoId join users u on u.uid = s.author where user='admin2' and favor.great='T';")
+    res = cursor.fetchall()
+    if res is not None:
+        if len(res) != 0:
+            for item in res:
+                shuoshuo = {}
+                cursor.execute(
+                    f"select url from photo where shuoshuoId='{item[0]}'")
+                res1 = cursor.fetchone()
+                shuoshuo["thumbnail"] = res1[0]
+                content.append(shuoshuo)
+            cursor.close()
+            db.close()
+            return {"msg": "success", "data": content}
+        else:
+            cursor.close()
+            db.close()
+            return {"msg": "no data", "data": []}
+    else:
+        cursor.close()
+        db.close()
+        return {"msg": "failed", "data": []}
+
+
+@shuoshuo_opt.route("/stared_shuoshuo", methods=["GET"])
+def get_stared_shuoshuo():
+    content = []
+    data = request.values
+    db = dbp.connection()
+    cursor = db.cursor()
+    cursor.execute(
+        f"select s.id from favor join shuoshuo s on s.id=shuoshuoId join users u on u.uid = s.author where user='admin2' and favor.star='T';")
+    res = cursor.fetchall()
+    if res is not None:
+        if len(res) != 0:
+            for item in res:
+                shuoshuo = {}
+                cursor.execute(
+                    f"select url from photo where shuoshuoId='{item[0]}'")
+                res1 = cursor.fetchone()
+                shuoshuo["thumbnail"] = res1[0]
+                content.append(shuoshuo)
+            cursor.close()
+            db.close()
+            return {"msg": "success", "data": content}
+        else:
+            cursor.close()
+            db.close()
+            return {"msg": "no data", "data": []}
+    else:
+        cursor.close()
+        db.close()
+        return {"msg": "failed", "data": []}
+
+
+@shuoshuo_opt.route("/self_published", methods=["GET"])
+def get_self_published_shuoshuo():
+    content = []
+    data = request.values
+    db = dbp.connection()
+    cursor = db.cursor()
+    cursor.execute(
+        f"select s.id from shuoshuo s " +
+        f"join users u on u.uid = s.author where s.author='{data.get('user')}'")
+    res = cursor.fetchall()
+    if res is not None:
+        for item in res:
+            shuoshuo = {}
+            cursor.execute(
+                f"select url from photo where shuoshuoId='{item[0]}'")
+            res1 = cursor.fetchone()
+            shuoshuo["thumbnail"] = res1[0]
+            content.append(shuoshuo)
+        cursor.close()
+        db.close()
+        return {"msg": "success", "data": content}
+    else:
+        cursor.close()
+        db.close()
+        return {"msg": "failed", "data": []}
+
 
 @shuoshuo_opt.route("/category", methods=["GET"])
 def get_page_from_category():
     content = []
     data = request.values
+    db = dbp.connection()
     cursor = db.cursor()
     cursor.execute(
         f"select s.author, u.url, s.id, s.star, s.topic from shuoshuo s " +
@@ -41,16 +132,20 @@ def get_page_from_category():
             else:
                 shuoshuo["star"] = res2[0][0]
             content.append(shuoshuo)
+        cursor.close()
+        db.close()
         return {"msg": "success", "data": content}
     else:
+        cursor.close()
+        db.close()
         return {"msg": "failed", "data": []}
-
 
 
 @shuoshuo_opt.route("/recommended", methods=["GET"])
 def show_recommend_page():
     data = []
     data_values = request.values
+    db = dbp.connection()
     cursor = db.cursor()
     cursor.execute(
         f"select s.author, u.url, s.id, s.star, s.topic from shuoshuo s " +
@@ -81,8 +176,12 @@ def show_recommend_page():
             else:
                 shuoshuo["star"] = res2[0][0]
             data.append(shuoshuo)
+        cursor.close()
+        db.close()
         return {"msg": "success", "data": data}
     else:
+        cursor.close()
+        db.close()
         return {"msg": "failed", "data": []}
 
 
@@ -90,6 +189,7 @@ def show_recommend_page():
 def show_follow_page():
     data = []
     data_values = request.values
+    db = dbp.connection()
     cursor = db.cursor()
     cursor.execute(
         f"select s.author, u.url, s.id, s.star, s.topic from shuoshuo s " +
@@ -108,32 +208,34 @@ def show_follow_page():
                 "starNum": item[3],
                 "title": item[4]
             }
-            # 不知道能不能复用上面的cursor，反正我再做一个
-            cursor2 = db.cursor()
-            cursor2.execute(
+            cursor.execute(
                 f"select url from photo where shuoshuoId='{item[2]}' limit 1")
-            res1 = cursor2.fetchall()
+            res1 = cursor.fetchall()
             if len(res1) == 0:
                 continue
             shuoshuo["thumbnail"] = res1[0][0]
-            cursor3 = db.cursor()
-            cursor3.execute(
+            cursor.execute(
                 f"select star from favor where shuoshuoId='{item[2]}' and user='{data_values.get('id')}'"
             )
-            res2 = cursor3.fetchall()
+            res2 = cursor.fetchall()
             if len(res2) == 0:
                 shuoshuo["star"] = "F"
             else:
                 shuoshuo["star"] = res2[0][0]
             data.append(shuoshuo)
+        cursor.close()
+        db.close()
         return {"msg": "success", "data": data}
     else:
+        cursor.close()
+        db.close()
         return {"msg": "failed", "data": []}
 
 
 @shuoshuo_opt.route("/detail", methods=["GET"])
 def show_shuoshuo_detail():
     data = request.args
+    db = dbp.connection()
     content = {
         "icon": "",
         "username": "",
@@ -153,6 +255,8 @@ def show_shuoshuo_detail():
         f"join sharingphoto.users u on u.uid = s.author where s.id='{data.get('id')}'")
     res = cursor.fetchone()
     if res is None:
+        cursor.close()
+        db.close()
         return {"msg": "failed1", "data": []}
     content["icon"] = res[0]
     content["username"] = res[1]
@@ -192,12 +296,15 @@ def show_shuoshuo_detail():
         image_list.append(image[0])
 
     content["photos"] = image_list
+    cursor.close()
+    db.close()
     return {"msg": "success", "data": [content]}
 
 
 @shuoshuo_opt.route("/thumbsup", methods=["POST"])
 def thumbsup_shuoshuo():
     data = request.values
+    db = dbp.connection()
     cursor = db.cursor()
     cursor.execute(f"select author from shuoshuo where id='{data.get('id')}'")
     author = cursor.fetchone()[0]
@@ -221,17 +328,23 @@ def thumbsup_shuoshuo():
 
     try:
         db.commit()
+        cursor.close()
+        db.close()
         return {"msg": "success", "data": []}
     except:
         db.rollback()
+        cursor.close()
+        db.close()
         return {"msg": "failed", "data": []}
 
 
 @shuoshuo_opt.route("/follow", methods=["POST"])
 def follow_person():
     data = request.values
+    db = dbp.connection()
     cursor = db.cursor()
     if data.get('user') == data.get('author'):
+        db.close()
         return {"msg": "You can't follow yourself.", "data": []}
 
     if data.get('add').lower() == "true":
@@ -241,6 +354,7 @@ def follow_person():
             cursor.execute(f"insert into concern values ('{data.get('user')}', '{data.get('author')}')")
             cursor.execute(f"update users set fan=fan+1 where uid='{data.get('author')}'")
         else:
+            db.close()
             return {"msg": "You can't follow again.", "data": []}
     else:
         cursor.execute(
@@ -249,15 +363,19 @@ def follow_person():
 
     try:
         db.commit()
+        cursor.close()
         return {"msg": "success", "data": []}
     except:
         db.rollback()
+        cursor.close()
+        db.close()
         return {"msg": "failed", "data": []}
 
 
 @shuoshuo_opt.route("/favor", methods=["POST"])
 def star_shuoshuo():
     data = request.values
+    db = dbp.connection()
     cursor = db.cursor()
     if data.get('add').lower() == "true":
         is_add = "T"
@@ -272,21 +390,27 @@ def star_shuoshuo():
         cursor.execute(f"update users set star=star+1 where uid='{data.get('user')}'")
     else:
         is_add = "F"
-        cursor.execute(f"update favor set star='{is_add}' where shuoshuoId='{data.get('id')}' and user='{data.get('user')}'")
+        cursor.execute(
+            f"update favor set star='{is_add}' where shuoshuoId='{data.get('id')}' and user='{data.get('user')}'")
         cursor.execute(f"update shuoshuo set star=star-1 where shuoshuo.id='{data.get('id')}'")
         cursor.execute(f"update users set star=star-1 where uid='{data.get('user')}'")
 
     try:
         db.commit()
+        cursor.close()
+        db.close()
         return {"msg": "success", "data": []}
     except:
         db.rollback()
+        cursor.close()
+        db.close()
         return {"msg": "failed", "data": []}
 
 
 @shuoshuo_opt.route("/publish", methods=["POST"])
 def publish_shuoshuo():
     data = request.values
+    db = dbp.connection()
     cursor = db.cursor()
 
     time_stamp = time.time()
@@ -309,9 +433,15 @@ def publish_shuoshuo():
             cursor.execute(f"insert into photo values ('{img}', '{shuoshuoId[0]}')")
         try:
             db.commit()
+            cursor.close()
+            db.close()
             return {"msg": "success", "data": []}
         except:
             db.rollback()
+            cursor.close()
+            db.close()
             return {"msg": "failed", "data": []}
     else:
+        cursor.close()
+        db.close()
         return {"msg": "failed", "data": []}
