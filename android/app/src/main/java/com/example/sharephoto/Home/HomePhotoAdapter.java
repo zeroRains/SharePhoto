@@ -75,6 +75,7 @@ public class HomePhotoAdapter extends RecyclerView.Adapter<HomePhotoAdapter.View
         holder.img_status.setSelected(item.isStar().equals("T"));
         holder.img_tag.setText(item.getTag());
         holder.img_star_num.setText("" + item.getStarNum());
+        holder.img_status.setSelected(photos.get(position).isStar().equals("T"));
         holder.img_status.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,7 +91,7 @@ public class HomePhotoAdapter extends RecyclerView.Adapter<HomePhotoAdapter.View
                     num += 1;
                     holder.img_star_num.setText("" + num);
                 }
-                Toast.makeText(v.getContext(), "click", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(v.getContext(), "click", Toast.LENGTH_SHORT).show();
             }
         });
     }

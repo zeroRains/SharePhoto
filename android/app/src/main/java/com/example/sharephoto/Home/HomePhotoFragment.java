@@ -46,7 +46,7 @@ public class HomePhotoFragment extends Fragment {
         photoAdapter.setOnItemClickListener(new HomePhotoAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-//                Toast.makeText(getContext(), "" + position, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "" + photos.get(position).getId(), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(view.getContext(), DetailActivity.class);
                 intent.putExtra("shuoshuoId", photos.get(position).getId());
                 startActivity(intent);

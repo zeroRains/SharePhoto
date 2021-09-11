@@ -198,7 +198,9 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                 Toast.makeText(DetailActivity.this, "可以转发了", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.detail_remark_submit:
-                Toast.makeText(DetailActivity.this, detail_remark_content.getText().toString(), Toast.LENGTH_SHORT).show();
+                if (shuoshuoId != -1 && !uid.equals("")) {
+                    new RemarkSubmitAsyncTask(DetailActivity.this).execute("" + shuoshuoId, uid, detail_remark_content.getText().toString());
+                }
                 break;
         }
 
