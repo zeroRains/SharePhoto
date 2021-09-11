@@ -9,6 +9,37 @@ shuoshuo_opt = Blueprint("shuoshuo_opt", __name__)
 dbp = database_pool
 
 
+@shuoshuo_opt.route("/stared_shuoshuo", methods=["GET"])
+def get_stared_shuoshuo():
+    content = []
+    data = request.values
+    db = dbp.connection()
+    cursor = db.cursor()
+    cursor.execute(
+        f"select s.id from favor join shuoshuo s on s.id=shuoshuoId join users u on u.uid = s.author where user='admin2' and favor.star='T';")
+    res = cursor.fetchall()
+    if res is not None:
+        if len(res) != 0:
+            for item in res:
+                shuoshuo = {}
+                cursor.execute(
+                    f"select url from photo where shuoshuoId='{item[0]}'")
+                res1 = cursor.fetchone()
+                shuoshuo["thumbnail"] = res1[0]
+                content.append(shuoshuo)
+            cursor.close()
+            db.close()
+            return {"msg": "success", "data": content}
+        else:
+            cursor.close()
+            db.close()
+            return {"msg": "no data", "data": []}
+    else:
+        cursor.close()
+        db.close()
+        return {"msg": "failed", "data": []}
+
+
 @shuoshuo_opt.route("/self_published", methods=["GET"])
 def get_self_published_shuoshuo():
     content = []
