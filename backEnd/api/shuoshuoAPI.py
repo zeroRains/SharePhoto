@@ -99,37 +99,27 @@ def show_follow_page():
 @shuoshuo_opt.route("/detail", methods=["GET"])
 def show_shuoshuo_detail():
     data = request.args
-    content = {"msg": "success",
-               "data": [{
-                   "icon": "",
-                   "username": "",
-                   "date": "",
-                   "follow": "",
-                   "photos": [],
-                   "zanStatus": "",
-                   "zanNum": "",
-                   "starStatus": "",
-                   "starNum": "",
-                   "title": "",
-                   "description": "",
-                   "comments": [
-                       {
-                           "rIcon": "",
-                           "rUsername": "",
-                           "rNum": "",
-                           "rContent": "",
-                           "rDate": "",
-                           "rStatus": "",
-                       }
-                   ],
-               }]}
+    content = {
+        "icon": "",
+        "username": "",
+        "date": "",
+        "follow": "",
+        "photos": [],
+        "zanStatus": "",
+        "zanNum": "",
+        "starStatus": "",
+        "starNum": "",
+        "title": "",
+        "description": ""
+    }
     cursor = db.cursor()
-
+    print(cursor)
     cursor.execute(
-        f"select u.url, u.username, shuoshuo.date, shuoshuo.great, shuoshuo.star, shuoshuo.title, shuoshuo.description from sharingphoto.shuoshuo "
-        f"join sharingphoto.users u on u.uid = shuoshuo.author where shuoshuo.id='{data.get('id')}'")
+        f"select u.url, u.username, s.date, s.great, s.star, s.title, s.description, u.uid from shuoshuo s "
+        f"join sharingphoto.users u on u.uid = s.author where s.id='{data.get('id')}'")
     res = cursor.fetchone()
-    if res is None: return {"msg": "failed", "data": []}
+    if res is None:
+        return {"msg": "failed1", "data": []}
     content["icon"] = res[0]
     content["username"] = res[1]
     content["date"] = res[2]
@@ -142,45 +132,32 @@ def show_shuoshuo_detail():
                    f"join sharingphoto.favor f on shuoshuo.id = f.shuoshuoId where shuoshuo.id='{data.get('id')}'")
 
     res2 = cursor.fetchone()
-    if res2 is None: return {"msg": "failed", "data": []}
-    content["zanStatus"] = res2[0]
-    content["starStatus"] = res2[1]
+    if res2 is not None:
+        content["zanStatus"] = res2[0]
+        content["starStatus"] = res2[1]
+    else:
+        content["zanStatus"] = "F"
+        content["starStatus"] = "F"
 
-    cursor.execute(
-        f"select c.followed from concern c " +
-        f"join users u on u.uid = c.user " +
-        f"join shuoshuo s on s.author = u.uid where s.id='{data.get('id')}'")
-
+    cursor.execute(f"select followed from concern where user='{data.get('user')}' and followed='{res[7]}'")
     res3 = cursor.fetchone()
-    if res3 is None: return {"msg": "failed", "data": []}
-    content["follow"] = res[0]
+    if res3 is not None:
+        content["follow"] = "T"
+    else:
+        content["follow"] = "F"
 
     cursor.execute(
         f"select photo.url from photo "
         f"join sharingphoto.shuoshuo s on s.id = photo.shuoshuoId where shuoshuoId='{data.get('id')}'")
     image_list = []
     res4 = cursor.fetchall()
-    if res4 is None: return {"msg": "failed", "data": []}
+    if len(res4) == 0:
+        return {"msg": "failed4", "data": []}
     for image in res4:
         image_list.append(image[0])
 
-    cursor.execute(
-        f"select u.url, u.username, comments.thumbsupNum, comments.content, comments.date, tc.great from sharingphoto.comments "
-        f"join users u on u.uid = comments.author "
-        f"join shuoshuo s on s.id = comments.shuoshuoId "
-        f"join thumbsup_comments tc on u.uid = tc.user where s.id='{data.get('id')}'")
-
-    res5 = cursor.fetchall()
-    if res5 is None: return {"msg": "failed", "data": []}
-    comments_list = []
-    for item in res5:
-        comments_list.append(
-            {"rIcon": item[0], "rUsername": item[1], "rNum": item[2], "rContent": item[3], "rDate": item[4],
-             "rStatus": item[5]})
-
     content["photos"] = image_list
-    content["comments"] = comments_list
-    return content
+    return {"msg": "success", "data": [content]}
 
 
 @shuoshuo_opt.route("/thumbsup", methods=["POST"])
@@ -202,7 +179,8 @@ def thumbsup_shuoshuo():
         cursor.execute(f"update users set thumbsup=thumbsup+1 where uid='{author}'")
     else:
         is_add = "F"
-        cursor.execute(f"update favor set great='{is_add}' where shuoshuoId='{data.get('id')}' and user='{data.get('user')}'")
+        cursor.execute(
+            f"update favor set great='{is_add}' where shuoshuoId='{data.get('id')}' and user='{data.get('user')}'")
         cursor.execute(f"update shuoshuo set great=great-1 where shuoshuo.id='{data.get('id')}'")
         cursor.execute(f"update users set thumbsup=thumbsup-1 where uid='{author}'")
 
