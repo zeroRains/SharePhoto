@@ -17,7 +17,7 @@ public class RequestConfig {
     public static String RECOMMEND = URL + "shuoshuo/recommended";                  //推荐列表
     public static String CONCERN = URL + "shuoshuo/concern";                        //关注列表
     public static String DETAIL = URL + "shuoshuo/detail";                          //说说内容
-    public static String THUMBSUP = URL + "shuoshuo/thumpsup";                      //点赞
+    public static String THUMBSUP = URL + "shuoshuo/thumbsup";                      //点赞
     public static String FOLLOW = URL + "shuoshuo/follow";                          //关注作者
     public static String FAVOR = URL + "shuoshuo/favor";                            //收藏
     public static String PUBLISH = URL + "shuoshuo/publish";                        //发布说说

@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -126,6 +127,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onClick(View v) {
         int id = v.getId();
+        String uid = getSharedPreferences("data", MODE_PRIVATE).getString("username", "");
         switch (id) {
             case R.id.detail_icon:
                 Toast.makeText(DetailActivity.this, "点击这个会到别人的主页去", Toast.LENGTH_SHORT).show();
@@ -145,23 +147,30 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                     status = "true";
 //                    Toast.makeText(DetailActivity.this, "关注成功", Toast.LENGTH_SHORT).show();
                 }
-                String uid = getSharedPreferences("data", MODE_PRIVATE).getString("username", "");
+
                 if (shuoshuoId != -1 && !uid.equals(""))
                     new FollowAuthorAsyncTask().execute(shuoshuoId + "", uid, viewHolder.detail_username.getText().toString(), status);
                 break;
             case R.id.detail_zan_status:
+                String status_zan;
                 if (viewHolder.detail_zan_status.isSelected()) {
                     viewHolder.detail_zan_status.setSelected(false);
                     int num = Integer.parseInt(viewHolder.detail_zan_num.getText().toString());
                     num = num - 1;
                     viewHolder.detail_zan_num.setText(num + "");
-                    Toast.makeText(DetailActivity.this, "取消点赞", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(DetailActivity.this, "取消点赞", Toast.LENGTH_SHORT).show();
+                    status_zan = "false";
                 } else {
                     viewHolder.detail_zan_status.setSelected(true);
                     int num = Integer.parseInt(viewHolder.detail_zan_num.getText().toString());
                     num = num + 1;
                     viewHolder.detail_zan_num.setText(num + "");
-                    Toast.makeText(DetailActivity.this, "点赞+1", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(DetailActivity.this, "点赞+1", Toast.LENGTH_SHORT).show();
+                    status_zan = "true";
+                }
+                if (shuoshuoId != -1 && !uid.equals("")) {
+//                    Log.d("zero", "onClick: " + shuoshuoId);
+                    new ThumbsupAsyncTask().execute(shuoshuoId + "", uid, status_zan);
                 }
                 break;
             case R.id.detail_love_status:
