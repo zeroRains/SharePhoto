@@ -34,7 +34,7 @@ public class RecommendAsyncTask extends AsyncTask<String, Void, String> {
     protected String doInBackground(String... strings) {
         String id = strings[0];
         Request request = new Request.Builder()
-                .url(url + "?id=" + id)
+                .url(url + "?user=" + id)
                 .get()
                 .build();
         Log.d("zero", "doInBackground: "+url+"?user=" + id);

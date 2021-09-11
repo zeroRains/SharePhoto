@@ -84,11 +84,13 @@ def get_self_published_shuoshuo():
     if res is not None:
         for item in res:
             shuoshuo = {}
+            shuoshuo["id"] = item[0]
             cursor.execute(
                 f"select url from photo where shuoshuoId='{item[0]}'")
             res1 = cursor.fetchone()
-            shuoshuo["thumbnail"] = res1[0]
-            content.append(shuoshuo)
+            if res1 is not None:
+                shuoshuo["thumbnail"] = res1[0]
+                content.append(shuoshuo)
         cursor.close()
         db.close()
         return {"msg": "success", "data": content}
