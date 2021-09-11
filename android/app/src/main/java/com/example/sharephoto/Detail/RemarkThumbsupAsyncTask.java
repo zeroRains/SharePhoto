@@ -63,11 +63,11 @@ public class RemarkThumbsupAsyncTask extends AsyncTask<String, Void, String> {
             Type type = new TypeToken<BaseResponse<List<Empty>>>() {
             }.getType();
             BaseResponse<List<Empty>> msg = gson.fromJson(s, type);
-            if (s.equals("true")) {
-                Toast.makeText(context, "点赞成功", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(context, "取消点赞", Toast.LENGTH_SHORT).show();
-            }
+//            if (s.equals("true")) {
+//                Toast.makeText(context, "点赞成功", Toast.LENGTH_SHORT).show();
+//            } else {
+//                Toast.makeText(context, "取消点赞", Toast.LENGTH_SHORT).show();
+//            }
         }
         super.onPostExecute(s);
     }
