@@ -124,7 +124,7 @@ def get_page_from_category():
                 continue
             shuoshuo["thumbnail"] = res1[0][0]
             cursor.execute(
-                f"select star from favor where shuoshuoId='{item[2]}' and user='{data.get('id')}'"
+                f"select star from favor where shuoshuoId='{item[2]}' and user='{data.get('user')}'"
             )
             res2 = cursor.fetchall()
             if len(res2) == 0:
@@ -168,7 +168,7 @@ def show_recommend_page():
                 continue
             shuoshuo["thumbnail"] = res1[0][0]
             cursor.execute(
-                f"select star from favor where shuoshuoId='{item[2]}' and user='{data_values.get('id')}'"
+                f"select star from favor where shuoshuoId='{item[2]}' and user='{data_values.get('user')}'"
             )
             res2 = cursor.fetchall()
             if len(res2) == 0:
@@ -215,7 +215,7 @@ def show_follow_page():
                 continue
             shuoshuo["thumbnail"] = res1[0][0]
             cursor.execute(
-                f"select star from favor where shuoshuoId='{item[2]}' and user='{data_values.get('id')}'"
+                f"select star from favor where shuoshuoId='{item[2]}' and user='{data_values.get('user')}'"
             )
             res2 = cursor.fetchall()
             if len(res2) == 0:
