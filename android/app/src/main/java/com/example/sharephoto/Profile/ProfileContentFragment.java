@@ -63,14 +63,17 @@ public class ProfileContentFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        profileContentView = inflater.inflate(R.layout.fragment_profile_content, container, false);
+        if (profileContentView == null) {
+            profileContentView = inflater.inflate(R.layout.fragment_profile_content, container, false);
+        }
+        View view = profileContentView;
         recyclerView = profileContentView.findViewById(R.id.content_list);
 
         contentAdapter = new ProfileContentAdapter(getContext(), contentList, R.layout.item_profile_content);
         contentAdapter.setOnItemClickListener(new ProfileContentAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Intent intent = new Intent(getContext(), DetailActivity.class);
+                Intent intent = new Intent(view.getContext(), DetailActivity.class);
                 intent.putExtra("shuoshuoId", contentList.get(position).getId());
                 startActivity(intent);
             }

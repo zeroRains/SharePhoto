@@ -22,6 +22,7 @@ def get_thumbsuped_shuoshuo():
         if len(res) != 0:
             for item in res:
                 shuoshuo = {}
+                shuoshuo["id"] = item[0]
                 cursor.execute(
                     f"select url from photo where shuoshuoId='{item[0]}'")
                 res1 = cursor.fetchone()
@@ -53,6 +54,7 @@ def get_stared_shuoshuo():
         if len(res) != 0:
             for item in res:
                 shuoshuo = {}
+                shuoshuo["id"] = item[0]
                 cursor.execute(
                     f"select url from photo where shuoshuoId='{item[0]}'")
                 res1 = cursor.fetchone()
@@ -430,16 +432,20 @@ def publish_shuoshuo():
         db.rollback()
     cursor.execute(f"select max(id) from shuoshuo where author='{data.get('id')}'")
     shuoshuoId = cursor.fetchone()
+    print(image_list)
     if shuoshuoId is not None:
         for img in image_list:
             cursor.execute(f"insert into photo values ('{img}', '{shuoshuoId[0]}')")
+            try:
+                db.commit()
+            except:
+                db.rollback()
+                return {"msg": "failed", "data": []}
         try:
-            db.commit()
             cursor.close()
             db.close()
             return {"msg": "success", "data": []}
         except:
-            db.rollback()
             cursor.close()
             db.close()
             return {"msg": "failed", "data": []}
