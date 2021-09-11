@@ -2,6 +2,7 @@ package com.example.sharephoto.Home;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.sharephoto.Response.BaseResponse;
@@ -16,7 +17,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class RecommendAsyncTask extends AsyncTask<Void, Void, String> {
+public class RecommendAsyncTask extends AsyncTask<String, Void, String> {
     private Context context;
     private String url;
     private HomePhotoAdapter adapter;
@@ -30,11 +31,13 @@ public class RecommendAsyncTask extends AsyncTask<Void, Void, String> {
     }
 
     @Override
-    protected String doInBackground(Void... voids) {
+    protected String doInBackground(String... strings) {
+        String id = strings[0];
         Request request = new Request.Builder()
-                .url(url)
+                .url(url + "?id=" + id)
                 .get()
                 .build();
+        Log.d("zero", "doInBackground: "+url+"?user=" + id);
         try {
             OkHttpClient client = new OkHttpClient();
             Response response = client.newCall(request).execute();

@@ -72,7 +72,8 @@ public class HomePhotoFragment extends Fragment {
                 this.URL = null;
                 break;
         }
-        new RecommendAsyncTask(rootView.getContext(), URL, photoAdapter, photos).execute();
+        String id = getContext().getSharedPreferences("data", Context.MODE_PRIVATE).getString("username", "");
+        new RecommendAsyncTask(rootView.getContext(), URL, photoAdapter, photos).execute(id);
 //        for (int i = 0; i < 50; i++) {
 //            HomePhoto item = new HomePhoto();
 ////            item.setIconId(RequestConfig.URL+"static/imgs/bg03.jpg");

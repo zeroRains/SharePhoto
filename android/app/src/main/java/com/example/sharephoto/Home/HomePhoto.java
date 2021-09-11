@@ -18,6 +18,9 @@ public class HomePhoto {
     @SerializedName("thumbnail")
     private String thumbSnail;
 
+    public String getStar() {
+        return star;
+    }
 
     public int getId() {
         return id;
