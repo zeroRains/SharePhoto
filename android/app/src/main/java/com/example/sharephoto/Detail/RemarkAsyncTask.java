@@ -3,6 +3,7 @@ package com.example.sharephoto.Detail;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
 
 import com.bumptech.glide.Glide;
 import com.example.sharephoto.R;
@@ -52,7 +53,7 @@ public class RemarkAsyncTask extends AsyncTask<String, Void, String[]> {
             Response response = client.newCall(request).execute();
             Response response1 = client.newCall(request1).execute();
             if (response.isSuccessful() && response1.isSuccessful()) {
-                return new String[]{response.body().string(), response1.body().string()};
+                return new String[]{response.body().string(), response1.body().string(), user};
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -65,6 +66,7 @@ public class RemarkAsyncTask extends AsyncTask<String, Void, String[]> {
     protected void onPostExecute(String[] strings) {
         String s = strings[0];
         String s1 = strings[1];
+        String user = strings[2];
         Gson gson = new Gson();
         // 渲染评论信息
         Type type = new TypeToken<BaseResponse<List<Remark>>>() {
@@ -86,7 +88,10 @@ public class RemarkAsyncTask extends AsyncTask<String, Void, String[]> {
                     .into(viewHolder.detail_icon);
             viewHolder.detail_username.setText(info.getUsername());
             viewHolder.detail_time.setText(info.getDate());
-            if (info.getFollow().equals("T")) {
+            if (user.equals(info.getUid())) {
+                viewHolder.detail_follow.setVisibility(View.GONE);
+            }
+            else if (info.getFollow().equals("T")) {
                 viewHolder.detail_follow.setSelected(true);
                 viewHolder.detail_follow.setTextColor(context.getResources().getColor(R.color.white));
                 viewHolder.detail_follow.setText("✓ 已关注");
