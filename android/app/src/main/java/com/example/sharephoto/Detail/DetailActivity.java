@@ -4,11 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -18,21 +16,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.example.sharephoto.R;
-import com.example.sharephoto.RequestConfig;
-import com.example.sharephoto.Response.BaseResponse;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 public class DetailActivity extends AppCompatActivity implements View.OnClickListener {
     // 说说内容
@@ -102,7 +89,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         setClickEvent();
 
         shuoshuoId = getIntent().getIntExtra("shuoshuoId", -1);
-        
+
     }
 
     private void initData() {
@@ -144,17 +131,23 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                 Toast.makeText(DetailActivity.this, "点击这个会到别人的主页去", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.detail_follow:
+                String status;
                 if (viewHolder.detail_follow.isSelected()) {
                     viewHolder.detail_follow.setSelected(false);
                     viewHolder.detail_follow.setText("+ 关注");
                     viewHolder.detail_follow.setTextColor(getResources().getColor(R.color.primary));
-                    Toast.makeText(DetailActivity.this, "已经取消关注了", Toast.LENGTH_SHORT).show();
+                    status = "false";
+//                    Toast.makeText(DetailActivity.this, "已经取消关注了", Toast.LENGTH_SHORT).show();
                 } else {
                     viewHolder.detail_follow.setSelected(true);
                     viewHolder.detail_follow.setText("✓ 已关注");
                     viewHolder.detail_follow.setTextColor(getResources().getColor(R.color.white));
-                    Toast.makeText(DetailActivity.this, "关注成功", Toast.LENGTH_SHORT).show();
+                    status = "true";
+//                    Toast.makeText(DetailActivity.this, "关注成功", Toast.LENGTH_SHORT).show();
                 }
+                String uid = getSharedPreferences("data", MODE_PRIVATE).getString("username", "");
+                if (shuoshuoId != -1 && !uid.equals(""))
+                    new FollowAuthorAsyncTask().execute(shuoshuoId + "", uid, viewHolder.detail_username.getText().toString(), status);
                 break;
             case R.id.detail_zan_status:
                 if (viewHolder.detail_zan_status.isSelected()) {

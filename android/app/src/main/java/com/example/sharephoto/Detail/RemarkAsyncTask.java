@@ -89,9 +89,11 @@ public class RemarkAsyncTask extends AsyncTask<String, Void, String[]> {
             if (info.getFollow().equals("T")) {
                 viewHolder.detail_follow.setSelected(true);
                 viewHolder.detail_follow.setTextColor(context.getResources().getColor(R.color.white));
+                viewHolder.detail_follow.setText("✓ 已关注");
             } else {
                 viewHolder.detail_follow.setSelected(false);
                 viewHolder.detail_follow.setTextColor(context.getResources().getColor(R.color.primary));
+                viewHolder.detail_follow.setText("+ 关注");
             }
             Glide.with(context)
                     .load(RequestConfig.URL + info.getPhotos()[0])
