@@ -9,9 +9,11 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.sharephoto.Home.HomePhoto;
 import com.example.sharephoto.Home.HomePhotoAdapter;
 import com.example.sharephoto.R;
+import com.example.sharephoto.RequestConfig;
 
 import java.util.List;
 import java.util.PrimitiveIterator;
@@ -26,6 +28,11 @@ class ProfileContentAdapter extends RecyclerView.Adapter<ProfileContentAdapter.V
     private ViewHolder vh;
 
     private ProfileContentAdapter.OnItemClickListener onItemClickListener;
+
+    public void setContentList(List<Profile> contentList) {
+        this.contentList = contentList;
+        this.notifyDataSetChanged();
+    }
 
     public ProfileContentAdapter(Context context, List<Profile> contentList, int resourceId) {
         this.context = context;
@@ -61,7 +68,8 @@ class ProfileContentAdapter extends RecyclerView.Adapter<ProfileContentAdapter.V
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         item = contentList.get(position);
         holder.profilePhoto.setTag(position);
-        holder.profilePhoto.setImageResource(item.getImageid());
+//        holder.profilePhoto.setImageResource(item.getImageid());
+        Glide.with(context).load(RequestConfig.URL+item.getThumbsnail()).into(holder.profilePhoto);
         holder.itemView.setTag(position);
     }
 
