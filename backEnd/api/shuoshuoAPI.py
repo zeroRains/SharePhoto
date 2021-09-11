@@ -225,17 +225,19 @@ def star_shuoshuo():
     data = request.values
     cursor = db.cursor()
     if data.get('add').lower() == "true":
+        is_add = "T"
         cursor.execute(f"select star from favor where shuoshuoId='{data.get('id')}'")
         if len(cursor.fetchone()) == 0 or cursor.fetchone() is None:
             cursor.execute(
-                f"insert into favor value ('{data.get('user')}', '{data.get('id')}', '{data.get('add')}', 'F')")
+                f"insert into favor value ('{data.get('user')}', '{data.get('id')}', '{is_add}', 'F')")
         else:
             cursor.execute(
-                f"update favor set star='{data.get('add')}' where shuoshuoId='{data.get('id')}'")
+                f"update favor set star='{is_add}' where shuoshuoId='{data.get('id')}'")
         cursor.execute(f"update shuoshuo set star=star+1 where shuoshuo.id='{data.get('id')}'")
         cursor.execute(f"update users set star=star+1 where uid='{data.get('user')}'")
     else:
-        cursor.execute(f"update favor set star='{data.get('add')}' where shuoshuoId='{data.get('id')}'")
+        is_add = "F"
+        cursor.execute(f"update favor set star='{is_add}' where shuoshuoId='{data.get('id')}'")
         cursor.execute(f"update shuoshuo set star=star-1 where shuoshuo.id='{data.get('id')}'")
         cursor.execute(f"update users set star=star-1 where uid='{data.get('user')}'")
 
