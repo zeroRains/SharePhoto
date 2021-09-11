@@ -2,11 +2,11 @@ import time
 
 from flask import Blueprint, request
 
-from . import database_object
+from . import database_pool
 
 comment_opt = Blueprint("comment_opt", __name__)
 
-db = database_object
+dbp = database_pool
 
 
 def get_timestamp():
@@ -19,6 +19,7 @@ def get_timestamp():
 @comment_opt.route("/publish_comments", methods=["POST"])
 def publish_comments():
     data = request.values
+    db = dbp.connection()
     cursor = db.cursor()
     time_stamp = get_timestamp()
 
@@ -27,10 +28,12 @@ def publish_comments():
     try:
         db.commit()
         cursor.close()
+        db.close()
         return {"msg": "success", "data": []}
     except:
         db.rollback()
         cursor.close()
+        db.close()
         return {"msg": "failed", "data": []}
 
 
@@ -38,6 +41,7 @@ def publish_comments():
 def get_comments():
     comments_list = list()
     data = request.args
+    db = dbp.connection()
     cursor = db.cursor()
     cursor.execute(
         f"select date, thumbsupNum, content, u.username, u.url, tc.great, comments.id from sharingphoto.comments "
@@ -50,14 +54,17 @@ def get_comments():
             it = {"date": item[0], "thumbsupNum": item[1], "content": item[2], "username": item[3], "iconId": item[4],
                   "isThumbsup": item[5], "commentId": item[6]}
             comments_list.append(it)
+        db.close()
         return {"msg": "success", "data": comments_list}
     else:
+        db.close()
         return {"msg": "failed", "data": []}
 
 
 @comment_opt.route("/thumbsup_comments", methods=["POST", "GET"])
 def thumbsup_comments():
     data = request.values
+    db = dbp.connection()
     cursor = db.cursor()
     if data.get('add').lower() == "true":
         is_add = "T"
@@ -81,8 +88,10 @@ def thumbsup_comments():
     try:
         db.commit()
         cursor.close()
+        db.close()
         return {"msg": "success", "data": []}
     except:
         db.rollback()
         cursor.close()
+        db.close()
         return {"msg": "failed", "data": []}

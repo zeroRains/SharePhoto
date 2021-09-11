@@ -2,11 +2,11 @@ import os
 
 from flask import Blueprint, request
 
-from . import database_object
+from . import database_pool
 
 image_opt = Blueprint("image_opt", __name__)
 
-db = database_object
+dbp = database_pool
 img_save_path = "static/imgs"
 
 

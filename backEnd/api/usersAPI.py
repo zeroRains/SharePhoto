@@ -3,9 +3,9 @@ from hashlib import md5
 
 from flask import Blueprint, request
 
-from . import database_object
+from . import database_pool
 
-db = database_object
+dbp = database_pool
 
 user_opt = Blueprint("user_opt", __name__)
 
@@ -22,6 +22,7 @@ def get_usernickname(bit: int):
 def login():
     m = md5()
     data = request.values
+    db = dbp.connection()
     cursor = db.cursor()
     cursor.execute(f"select passwd from users where uid='{data.get('id')}'")
     selected_data = cursor.fetchone()
@@ -44,6 +45,7 @@ def login():
 def register():
     m = md5()
     data = request.values
+    db = dbp.connection()
     cursor = db.cursor()
 
     nickname = get_usernickname(bit=12)
@@ -70,6 +72,7 @@ def register():
 @user_opt.route("/show_user_info", methods=["GET"])
 def show_user_info():
     data_args = request.args
+    db = dbp.connection()
     cursor = db.cursor()
 
     cursor.execute(
@@ -88,6 +91,7 @@ def show_user_info():
 @user_opt.route("/modify_user_info", methods=["POST"])
 def modify():
     data = request.values
+    db = dbp.connection()
     cursor = db.cursor()
 
     cursor.execute(
@@ -106,6 +110,7 @@ def modify():
 @user_opt.route("/modify_avatar", methods=["POST"])
 def modify_avatar():
     data = request.values
+    db = dbp.connection()
     cursor = db.cursor()
 
     cursor.execute(f"update sharingphoto.users set url='{data.get('url')}' where uid='{data.get('id')}'")
