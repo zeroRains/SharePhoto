@@ -8,6 +8,48 @@ shuoshuo_opt = Blueprint("shuoshuo_opt", __name__)
 
 dbp = database_pool
 
+@shuoshuo_opt.route("/self_published", methods=["GET"])
+def get_self_published_shuoshuo():
+    content = []
+    data = request.values
+    db = dbp.connection()
+    cursor = db.cursor()
+    cursor.execute(
+        f"select s.author, u.url, s.id, s.star, s.topic from shuoshuo s " +
+        f"join users u on u.uid = s.author where s.author='{data.get('user')}'")
+    res = cursor.fetchall()
+    if res is not None:
+        for item in res:
+            shuoshuo = {
+                "author": item[0],
+                "iconId": item[1],
+                "id": item[2],
+                "starNum": item[3],
+                "title": item[4]
+            }
+            cursor.execute(
+                f"select url from photo where shuoshuoId='{item[2]}' limit 1")
+            res1 = cursor.fetchall()
+            if len(res1) == 0:
+                continue
+            shuoshuo["thumbnail"] = res1[0][0]
+            cursor.execute(
+                f"select star from favor where shuoshuoId='{item[2]}' and user='{data.get('id')}'"
+            )
+            res2 = cursor.fetchall()
+            if len(res2) == 0:
+                shuoshuo["star"] = "F"
+            else:
+                shuoshuo["star"] = res2[0][0]
+            content.append(shuoshuo)
+        cursor.close()
+        db.close()
+        return {"msg": "success", "data": content}
+    else:
+        cursor.close()
+        db.close()
+        return {"msg": "failed", "data": []}
+
 @shuoshuo_opt.route("/category", methods=["GET"])
 def get_page_from_category():
     content = []

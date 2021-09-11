@@ -24,7 +24,17 @@ def publish_comments():
     time_stamp = get_timestamp()
 
     cursor.execute(
-        f"insert into sharingphoto.comments values ('{time_stamp}', 0, '{data.get('content')}', '{data.get('user')}', '{data.get('id')}')")
+        f"insert into sharingphoto.comments values (default, '{time_stamp}', 0, '{data.get('content')}', '{data.get('user')}', '{data.get('id')}')")
+    try:
+        db.commit()
+    except:
+        db.rollback()
+        return {"msg": "failed", "data": []}
+    cursor.execute(
+        f"select max(id) from sharingphoto.comments where author='{data.get('user')}' and shuoshuoId='{data.get('id')}'")
+    commentId = cursor.fetchone()[0]
+    cursor.execute(f"insert into sharingphoto.thumbsup_comments values ('{data.get('user')}','{commentId}','F')")
+
     try:
         db.commit()
         cursor.close()
