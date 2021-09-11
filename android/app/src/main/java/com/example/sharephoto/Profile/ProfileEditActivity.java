@@ -1,13 +1,19 @@
 package com.example.sharephoto.Profile;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatSpinner;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DownloadManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,21 +28,29 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.sharephoto.Publication.PublishActivity;
+import com.example.sharephoto.Publication.PublishPhoto;
 import com.example.sharephoto.R;
 import com.example.sharephoto.RequestConfig;
 import com.example.sharephoto.Response.BaseResponse;
 import com.example.sharephoto.Response.Empty;
+import com.example.sharephoto.Utils.RealPathFromUriUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class ProfileEditActivity extends AppCompatActivity {
@@ -53,6 +67,7 @@ public class ProfileEditActivity extends AppCompatActivity {
     public static final String INFO = "info";
     public static final int LOGOUT = 886;
 
+    public static final int CHOOSE_PHOTO = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,12 +124,34 @@ public class ProfileEditActivity extends AppCompatActivity {
         }
     }
 
+    private void openAlbum() {
+        Intent intent = new Intent("android.intent.action.GET_CONTENT");
+        intent.setType("image/*");
+        startActivityForResult(intent, CHOOSE_PHOTO);
+    }
+
     private void initView() {
         edit_icon = findViewById(R.id.profile_edit_icon);
         edit_username = findViewById(R.id.profile_edit_username);
         edit_sex = findViewById(R.id.profile_edit_sex);
         edit_info = findViewById(R.id.profile_edit_info);
         logout = findViewById(R.id.logout);
+
+        edit_icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(ProfileEditActivity.this, "点了啊", Toast.LENGTH_SHORT).show();
+                if (ContextCompat.checkSelfPermission(ProfileEditActivity.this,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(ProfileEditActivity.this, new String[]{
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1
+                    );
+                } else {
+                    openAlbum();
+                }
+            }
+        });
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -184,5 +221,75 @@ public class ProfileEditActivity extends AppCompatActivity {
             }
         }).start();
 
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case 1:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    openAlbum();
+                } else {
+                    Toast.makeText(this, "拒绝访问图片", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case CHOOSE_PHOTO:
+                String photo;
+                if (data == null)
+                    break;
+                photo = RealPathFromUriUtils.getRealPathFromUri(this, data.getData());
+                File file = new File(photo);
+                RequestBody fileBody = RequestBody.create(MediaType.parse("application/octet-stream"), file);
+                RequestBody requestBody = new MultipartBody.Builder()
+                        .setType(MultipartBody.FORM)
+                        .addFormDataPart("file", file.getName(), fileBody)
+                        .build();
+                Request request = new Request.Builder()
+                        .url(RequestConfig.UPLOAD_AVATAR)
+                        .post(requestBody)
+                        .build();
+                OkHttpClient client = new OkHttpClient();
+                Call call = client.newCall(request);
+                call.enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(ProfileEditActivity.this, "添加失败！", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        final String s = response.body().toString();
+                        Gson gson = new Gson();
+                        Type type = new TypeToken<BaseResponse<List<PublishPhoto>>>() {
+                        }.getType();
+                        BaseResponse<List<PublishPhoto>> res = gson.fromJson(s, type);
+                        String path = res.getData().get(0).getPhoto_uri();
+                        if (res.getMsg().equals("success")) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    icon = RequestConfig.URL + path;
+                                    Glide.with(ProfileEditActivity.this).load(icon).into(edit_icon);
+                                }
+                            });
+                        }
+                    }
+                });
+        }
     }
 }

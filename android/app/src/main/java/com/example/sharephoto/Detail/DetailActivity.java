@@ -174,18 +174,24 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                 }
                 break;
             case R.id.detail_love_status:
+                String status_star;
                 if (viewHolder.detail_love_status.isSelected()) {
                     viewHolder.detail_love_status.setSelected(false);
                     int num = Integer.parseInt(viewHolder.detail_love_num.getText().toString());
                     num -= 1;
                     viewHolder.detail_love_num.setText("" + num);
-                    Toast.makeText(DetailActivity.this, "取消收藏", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(DetailActivity.this, "取消收藏", Toast.LENGTH_SHORT).show();
+                    status_star = "false";
                 } else {
                     viewHolder.detail_love_status.setSelected(true);
                     int num = Integer.parseInt(viewHolder.detail_love_num.getText().toString());
                     num += 1;
                     viewHolder.detail_love_num.setText("" + num);
-                    Toast.makeText(DetailActivity.this, "收藏成功", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(DetailActivity.this, "收藏成功", Toast.LENGTH_SHORT).show();
+                    status_star = "true";
+                }
+                if (shuoshuoId != -1 && !uid.equals("")) {
+                    new StarAsyncTask().execute("" + shuoshuoId, uid, status_star);
                 }
                 break;
             case R.id.detail_transition:
