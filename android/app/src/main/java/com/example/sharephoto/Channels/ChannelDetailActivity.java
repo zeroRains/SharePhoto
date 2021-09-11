@@ -56,6 +56,7 @@ public class ChannelDetailActivity extends AppCompatActivity {
             public void onItemClick(View view, int position) {
 //                Toast.makeText(getContext(), "" + position, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(view.getContext(), DetailActivity.class);
+                intent.putExtra("shuoshuoId", photos.get(position).getId());
                 startActivity(intent);
             }
         });

@@ -13,6 +13,7 @@ public class RequestConfig {
     public static String SHOW_USER = URL + "users/show_user_info";                   //用户信息
     public static String MODIFY_INFO = URL + "users/modify_user_info";               //修改用户信息
 
+
     //说说
     public static String RECOMMEND = URL + "shuoshuo/recommended";                  //推荐列表
     public static String CONCERN = URL + "shuoshuo/concern";                        //关注列表
@@ -22,6 +23,9 @@ public class RequestConfig {
     public static String FAVOR = URL + "shuoshuo/favor";                            //收藏
     public static String PUBLISH = URL + "shuoshuo/publish";                        //发布说说
     public static String CATEGORY = URL + "shuoshuo/category";                      //分类
+    public static String THUMBSUP_SHUOSHUO = URL + "shuoshuo/thumbsuped_shuoshuo";  //赞过说说
+    public static String STARTED_SHUOSHUO = URL + "shuoshuo/stared_shuoshuo";       //收藏说说
+    public static String SELF_PUBLISH = URL + "shuoshuo/self_published";              //自己说说
 
     //    图像
     public static String UPLOAD_IMAGES = URL + "images/upload_imgs";                //上传图像

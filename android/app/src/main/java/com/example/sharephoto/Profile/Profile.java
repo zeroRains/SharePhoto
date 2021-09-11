@@ -1,11 +1,25 @@
 package com.example.sharephoto.Profile;
 
+import com.google.gson.annotations.SerializedName;
+
 class Profile {
     private int Imageid;
     private String category;
     private String tag;
     private String username;
+    @SerializedName("thumbnail")
     private String thumbsnail;
+    @SerializedName("id")
+    private String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
 
     Profile() {
     }
