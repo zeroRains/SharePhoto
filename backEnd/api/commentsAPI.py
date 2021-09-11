@@ -12,7 +12,7 @@ dbp = database_pool
 def get_timestamp():
     time_stamp = time.time()
     time_stamp = time.localtime(time_stamp)
-    formated_time_stamp = time.strftime("%Y-%m-%d %H:%M:%S", time_stamp)
+    formated_time_stamp = time.strftime("%Y-%m-%d", time_stamp)
     return formated_time_stamp
 
 
