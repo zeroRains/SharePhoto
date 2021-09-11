@@ -39,6 +39,7 @@ public class RecommendAsyncTask extends AsyncTask<Void, Void, String> {
             OkHttpClient client = new OkHttpClient();
             Response response = client.newCall(request).execute();
             if (response.isSuccessful()) {
+                assert response.body() != null;
                 return response.body().string();
             }
         } catch (Exception e) {

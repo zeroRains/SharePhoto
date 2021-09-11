@@ -41,6 +41,7 @@ public class LoginAsyncTask extends AsyncTask<String, Void, String> {
             OkHttpClient client = new OkHttpClient();
             Response response = client.newCall(request).execute();
             if (response.isSuccessful()) {
+                assert response.body() != null;
                 String s = response.body().string();
                 Gson gson = new Gson();
                 EmptyResponse response1s = gson.fromJson(s, EmptyResponse.class);

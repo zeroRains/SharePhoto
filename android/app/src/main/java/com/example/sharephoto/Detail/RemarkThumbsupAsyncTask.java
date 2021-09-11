@@ -39,8 +39,6 @@ public class RemarkThumbsupAsyncTask extends AsyncTask<String, Void, String> {
         body.addFormDataPart("id", id)
                 .addFormDataPart("user", user)
                 .addFormDataPart("add", add);
-        Log.d("pommespeter", "doInBackground: " + body.toString());
-        Log.d("zerorains", "id:" + id + ",user:" + user + ",add:" + add);
         Request request = new Request.Builder()
                 .post(body.build())
                 .url(RemarkThumbsupAsyncTask.URL)
@@ -49,8 +47,8 @@ public class RemarkThumbsupAsyncTask extends AsyncTask<String, Void, String> {
             OkHttpClient client = new OkHttpClient();
             Response response = client.newCall(request).execute();
             if (response.isSuccessful()) {
-                Log.d("pommespeter", "doInBackground return " + response.body().toString());
-//                return response.body().toString();
+                assert response.body() != null;
+                return response.body().string();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -60,18 +58,17 @@ public class RemarkThumbsupAsyncTask extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String s) {
-        // todo: bugs to fix
-//        if (s != null) {
-//            Gson gson = new Gson();
-//            Type type = new TypeToken<BaseResponse<List<Empty>>>() {
-//            }.getType();
-//            BaseResponse<List<Empty>> msg = gson.fromJson(s, type);
-//            if (s.equals("true")) {
-//                Toast.makeText(context, "点赞成功", Toast.LENGTH_SHORT).show();
-//            } else {
-//                Toast.makeText(context, "取消点赞", Toast.LENGTH_SHORT).show();
-//            }
-//        }
+        if (s != null) {
+            Gson gson = new Gson();
+            Type type = new TypeToken<BaseResponse<List<Empty>>>() {
+            }.getType();
+            BaseResponse<List<Empty>> msg = gson.fromJson(s, type);
+            if (s.equals("true")) {
+                Toast.makeText(context, "点赞成功", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(context, "取消点赞", Toast.LENGTH_SHORT).show();
+            }
+        }
         super.onPostExecute(s);
     }
 }

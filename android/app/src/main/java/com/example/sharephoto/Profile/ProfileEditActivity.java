@@ -273,7 +273,7 @@ public class ProfileEditActivity extends AppCompatActivity {
 
                     @Override
                     public void onResponse(Call call, Response response) throws IOException {
-                        final String s = response.body().toString();
+                        final String s = response.body().string();
                         Gson gson = new Gson();
                         Type type = new TypeToken<BaseResponse<List<PublishPhoto>>>() {
                         }.getType();
