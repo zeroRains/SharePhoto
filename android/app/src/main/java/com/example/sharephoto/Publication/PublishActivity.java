@@ -164,8 +164,9 @@ public class PublishActivity extends AppCompatActivity implements View.OnClickLi
                 List<PublishPhoto> photos = adapter.getPhotos();
                 String photo = "";
                 for (PublishPhoto item : photos) {
-                    photo = photo + item.getPhoto_uri();
+                    photo = photo + item.getPhoto_uri() + ",";
                 }
+                photo = photo.substring(0, photo.length() - 1);
                 String title = publish_title.getText().toString();
                 String description = publish_content.getText().toString();
                 String topic = publish_topic.getText().toString();
