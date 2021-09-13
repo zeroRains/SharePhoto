@@ -23,10 +23,9 @@
             android:layout_margin="5dp"
             android:layout_toEndOf="@id/zuoimg"
             android:layout_toRightOf="@id/zuoimg"
-
-            android:text="1234567891234568976545678231231231231231231231239231456"
+            android:background="@drawable/rounded_background_gray"
+            android:text="1234567891234568976541456"
             android:textSize="20sp" />
-        <!--        android:background="@mipmap/qp2"-->
     </RelativeLayout>
 
 
@@ -49,11 +48,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
+            android:layout_marginLeft="10dp"
             android:layout_toStartOf="@id/youimg"
             android:layout_toLeftOf="@id/youimg"
+            android:background="@drawable/rounded_background_gray"
             android:text="1234567890123413123123123123123568901236547890"
             android:textSize="20sp" />
-        <!--        android:background="@mipmap/qqq"-->
 
     </RelativeLayout>
 
