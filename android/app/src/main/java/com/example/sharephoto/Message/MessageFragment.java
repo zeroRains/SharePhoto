@@ -96,7 +96,7 @@ public class MessageFragment extends Fragment {
         recyclerView = messageView.findViewById(R.id.chat_content);
 
         chatorList = new ArrayList<>();
-        chatTools = new ChatTools(this, "");
+        chatTools = new ChatTools(this, "pan.kexie.space");
         adapter = new MessageAdapter(getContext(), chatorList, R.layout.item_chat_box);
         layoutManager = new LinearLayoutManager(requireContext().getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
