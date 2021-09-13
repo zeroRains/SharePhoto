@@ -36,6 +36,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
 
     private RemarkAdapter adapter;
+    private DetailImageAdapter imageAdapter;
     private int shuoshuoId = -1;
 
     @Override
@@ -59,7 +60,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         viewHolder.detail_follow = findViewById(R.id.detail_follow);
 
 //        图片
-        viewHolder.detail_photo = findViewById(R.id.detail_photo);
+        viewHolder.detail_photo = findViewById(R.id.detail_img_list);
 
 //        状态
         viewHolder.detail_zan_status = findViewById(R.id.detail_zan_status);
@@ -80,6 +81,10 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         adapter = new RemarkAdapter(DetailActivity.this, R.layout.item_remark);
         detail_remark.setAdapter(adapter);
 
+        imageAdapter = new DetailImageAdapter(DetailActivity.this, new String[]{}, R.layout.item_detail_img);
+        StaggeredGridLayoutManager imgLayoutManager = new StaggeredGridLayoutManager(1, RecyclerView.HORIZONTAL);
+        viewHolder.detail_photo.setAdapter(imageAdapter);
+        viewHolder.detail_photo.setLayoutManager(imgLayoutManager);
 //        adapter.setRemarks(remarks);
 
 
@@ -96,7 +101,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     private void initData() {
         String id = getSharedPreferences("data", MODE_PRIVATE).getString("username", "");
         if (!id.equals("") && shuoshuoId != -1) {
-            new RemarkAsyncTask(this, remarks, adapter, viewHolder).execute(shuoshuoId + "", id);
+            new RemarkAsyncTask(this, remarks, adapter, viewHolder, imageAdapter).execute(shuoshuoId + "", id);
         }
 //        for (int i = 0; i < 10; i++) {
 //            Remark remark = new Remark();
@@ -214,7 +219,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         Button detail_follow;
 
         //    图片区
-        ImageView detail_photo;
+        RecyclerView detail_photo;
 
         //    状态区
         ImageView detail_zan_status;

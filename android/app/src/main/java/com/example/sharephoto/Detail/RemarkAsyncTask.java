@@ -28,12 +28,14 @@ public class RemarkAsyncTask extends AsyncTask<String, Void, String[]> {
     private List<Remark> remarks;
     private RemarkAdapter adapter;
     DetailActivity.ViewHolder viewHolder;
+    private DetailImageAdapter imageAdapter;
 
-    public RemarkAsyncTask(Context context, List<Remark> remarks, RemarkAdapter adapter, DetailActivity.ViewHolder viewHolder) {
+    public RemarkAsyncTask(Context context, List<Remark> remarks, RemarkAdapter adapter, DetailActivity.ViewHolder viewHolder, DetailImageAdapter imageAdapter) {
         this.context = context;
         this.remarks = remarks;
         this.adapter = adapter;
         this.viewHolder = viewHolder;
+        this.imageAdapter = imageAdapter;
     }
 
     @Override
@@ -90,8 +92,7 @@ public class RemarkAsyncTask extends AsyncTask<String, Void, String[]> {
             viewHolder.detail_time.setText(info.getDate());
             if (user.equals(info.getUid())) {
                 viewHolder.detail_follow.setVisibility(View.GONE);
-            }
-            else if (info.getFollow().equals("T")) {
+            } else if (info.getFollow().equals("T")) {
                 viewHolder.detail_follow.setSelected(true);
                 viewHolder.detail_follow.setTextColor(context.getResources().getColor(R.color.white));
                 viewHolder.detail_follow.setText("✓ 已关注");
@@ -100,9 +101,10 @@ public class RemarkAsyncTask extends AsyncTask<String, Void, String[]> {
                 viewHolder.detail_follow.setTextColor(context.getResources().getColor(R.color.primary));
                 viewHolder.detail_follow.setText("+ 关注");
             }
-            Glide.with(context)
-                    .load(RequestConfig.URL + info.getPhotos()[0])
-                    .into(viewHolder.detail_photo);
+//            Glide.with(context)
+//                    .load(RequestConfig.URL + info.getPhotos()[0])
+//                    .into(viewHolder.detail_photo);
+            imageAdapter.setPhotos(info.getPhotos());
             viewHolder.detail_zan_status.setSelected(info.getZanStatus().equals("T"));
             viewHolder.detail_zan_num.setText("" + info.getZanNum());
             viewHolder.detail_love_status.setSelected(info.getStarStatus().equals("T"));

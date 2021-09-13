@@ -72,11 +72,11 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-<!--    <View-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="0.5dp"-->
-<!--        android:background="#F8F7F7"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/detail_info" />-->
+    <!--    <View-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="0.5dp"-->
+    <!--        android:background="#F8F7F7"-->
+    <!--        app:layout_constraintTop_toBottomOf="@id/detail_info" />-->
 
     <ScrollView
         android:layout_width="match_parent"
@@ -90,26 +90,29 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:background="#FFFFFF"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="#FFFFFF">
 
             <LinearLayout
                 android:id="@+id/detail_photo_container"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:gravity="center_horizontal"
+                android:layout_height="300dp"
                 android:background="#FFFFFF"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <ImageView
-                    android:id="@+id/detail_photo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="300dp"
-                    android:layout_marginTop="5dp"
-                    android:adjustViewBounds="true"
-                    android:src="@drawable/icon" />
+                <!--                <ImageView-->
+                <!--                    android:id="@+id/detail_photo"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="300dp"-->
+                <!--                    android:layout_marginTop="5dp"-->
+                <!--                    android:adjustViewBounds="true"-->
+                <!--                    android:src="@drawable/icon" />-->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/detail_img_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
             </LinearLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -236,8 +239,8 @@
                 android:id="@+id/detail_remark"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false"
                 android:layout_marginTop="8dp"
+                android:nestedScrollingEnabled="false"
                 android:scrollbars="none"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/detail_remark_title" />
@@ -248,8 +251,8 @@
         android:id="@+id/detail_do_remark"
         android:layout_width="match_parent"
         android:layout_height="46dp"
-        android:paddingBottom="4dp"
         android:background="#ECEDF1"
+        android:paddingBottom="4dp"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <EditText
@@ -261,8 +264,8 @@
             android:layout_marginBottom="2dp"
             android:background="@drawable/rounded_background"
             android:hint="发表评论..."
-            android:textSize="18sp"
             android:singleLine="false"
+            android:textSize="18sp"
             app:layout_constraintEnd_toStartOf="@id/detail_remark_submit"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -276,12 +279,12 @@
             android:layout_marginBottom="5dp"
             android:background="@drawable/send_button_background"
             android:clickable="true"
+            android:focusable="true"
             android:text="发 送"
             android:textColor="@color/white"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/detail_remark_content"
-            android:focusable="true" />
+            app:layout_constraintStart_toEndOf="@id/detail_remark_content" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
