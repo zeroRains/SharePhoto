@@ -1,4 +1,5 @@
 import pymysql
+from dbutils.pooled_db import PooledDB
 
 server_info = {
     "db_url": "pan.kexie.space",
@@ -8,5 +9,14 @@ server_info = {
     "db_name": "sharingphoto"
 }
 
-database_object = pymysql.connect(host=server_info["db_url"], user=server_info["db_user"], password=server_info["passwd"],
-                                  database=server_info["db_name"], charset="utf8")
+database_pool = PooledDB(
+    creator=pymysql,
+    maxconnections=10,
+    maxcached=10,
+    mincached=4,
+    host=server_info["db_url"],
+    user=server_info["db_user"],
+    password=server_info["passwd"],
+    database=server_info["db_name"],
+    charset="utf8"
+)
