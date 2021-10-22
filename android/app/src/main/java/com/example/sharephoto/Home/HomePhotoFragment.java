@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,9 +25,11 @@ import java.util.List;
 
 public class HomePhotoFragment extends Fragment {
     List<HomePhoto> photos = new ArrayList<>();
+    private Integer shuoNum = 10;
     private String status;
     private String URL;
     private HomePhotoAdapter photoAdapter;
+    private SwipeRefreshLayout photoSwipeRefresh;
     private View rootView;
 
     public HomePhotoFragment(String status) {
@@ -55,6 +58,15 @@ public class HomePhotoFragment extends Fragment {
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(staggeredGridLayoutManager);
         recyclerView.setAdapter(photoAdapter);
+
+        photoSwipeRefresh = view.findViewById(R.id.home_photo_swipe);
+        photoSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new RecommendAsyncTask(rootView.getContext(), URL, photoAdapter, photos, photoSwipeRefresh, shuoNum).execute();
+            }
+        });
+
         initData();
         return view;
     }
