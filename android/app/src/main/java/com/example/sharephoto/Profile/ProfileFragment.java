@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,12 +69,16 @@ public class ProfileFragment extends Fragment {
             vh.profileTab = profileView.findViewById(R.id.profile_tab);
             vh.viewPager = profileView.findViewById(R.id.profile_view_pager);
 
-            for (String t : tabTitle) {
-                vh.profileTab.addTab(vh.profileTab.newTab().setText(t));
-                fragmentList.add(ProfileContentFragment.newInstance(t));
+            for (int i = 0 ; i < tabTitle.length; i++) {
+                fragmentList.add(ProfileContentFragment.newInstance(tabTitle[i]));
+                vh.profileTab.addTab(vh.profileTab.newTab());
+                vh.profileTab.getTabAt(i).setText(tabTitle[i]);
             }
-            adapter = new ProfileContentFragmentAdapter(requireActivity().getSupportFragmentManager(), fragmentList, tabTitle);
+
+            adapter = new ProfileContentFragmentAdapter(getActivity().getSupportFragmentManager(), fragmentList, tabTitle);
+            adapter.notifyDataSetChanged();
             vh.viewPager.setAdapter(adapter);
+            vh.viewPager.setOffscreenPageLimit(3);
 
 //            个人资料绑定
             vh.profile_user_name = profileView.findViewById(R.id.profile_user_name);
@@ -98,7 +103,7 @@ public class ProfileFragment extends Fragment {
             });
         }
         initData(vh);
-        vh.profileTab.setupWithViewPager(vh.viewPager, false);
+        vh.profileTab.setupWithViewPager(vh.viewPager, true);
         return profileView;
     }
 
@@ -136,6 +141,14 @@ public class ProfileFragment extends Fragment {
                 break;
         }
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d("profilefragement", "onResume: " + adapter.fragmentList.get(0).getLabel());
+        Log.d("profilefragement", "onResume: " + adapter.fragmentList.get(1).getLabel());
+        Log.d("profilefragement", "onResume: " + adapter.fragmentList.get(2).getLabel());
     }
 
     static class ViewHolder {

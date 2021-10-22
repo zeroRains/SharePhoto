@@ -4,10 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +30,10 @@ import java.util.List;
  */
 public class ProfileContentFragment extends Fragment {
 
+    public String getLabel() {
+        return label;
+    }
+
     private String label;
     private Profile item;
     private List<Profile> contentList = new ArrayList<>();
@@ -38,12 +44,13 @@ public class ProfileContentFragment extends Fragment {
 
     private ProfileContentAdapter contentAdapter;
 
-    public ProfileContentFragment() {
+    public ProfileContentFragment(String label) {
         // Required empty public constructor
+        this.label = label;
     }
 
     public static ProfileContentFragment newInstance(String label) {
-        ProfileContentFragment fragment = new ProfileContentFragment();
+        ProfileContentFragment fragment = new ProfileContentFragment(label);
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, label);
         fragment.setArguments(args);
@@ -54,7 +61,7 @@ public class ProfileContentFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            label = getArguments().getString(ARG_PARAM1);
+//            label = getArguments().getString(ARG_PARAM1);
         }
     }
 
@@ -102,6 +109,7 @@ public class ProfileContentFragment extends Fragment {
         }
         String id = getContext().getSharedPreferences("data", Context.MODE_PRIVATE).getString("username", "");
         if (!URL.equals("") && !id.equals("")) {
+            Log.d("xxxxx", "initData: " + URL + " " + label);
             new GetPhotoAsyncTask(URL, contentList, contentAdapter).execute(id);
         }
 //        for (int i = 0; i < 20; i++) {
@@ -113,5 +121,17 @@ public class ProfileContentFragment extends Fragment {
 //            }
 //            contentList.add(item);
 //        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d("xxxxx", "resume: " + " " + label);
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        Log.d("xxxxx", "attach : " + " " + label);
     }
 }
