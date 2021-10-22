@@ -109,7 +109,7 @@ def get_page_from_category():
     db = dbp.connection()
     cursor = db.cursor()
     cursor.execute(
-        f"select s.author, u.url, s.id, s.star, s.topic, u.username from shuoshuo s " +
+        f"select s.author, u.url, s.id, s.star, s.topic from shuoshuo s " +
         f"join users u on u.uid = s.author where s.category='{data.get('category')}'")
     res = cursor.fetchall()
     if res is not None:
@@ -119,8 +119,7 @@ def get_page_from_category():
                 "iconId": item[1],
                 "id": item[2],
                 "starNum": item[3],
-                "title": item[4],
-                "username": item[5]
+                "title": item[4]
             }
             cursor.execute(
                 f"select url from photo where shuoshuoId='{item[2]}' limit 1")
@@ -153,7 +152,7 @@ def show_recommend_page():
     db = dbp.connection()
     cursor = db.cursor()
     cursor.execute(
-        f"select s.author, u.url, s.id, s.star, s.topic, u.username from shuoshuo s " +
+        f"select s.author, u.url, s.id, s.star, s.topic from shuoshuo s " +
         f"join users u on u.uid = s.author"
     )
     res = cursor.fetchall()
@@ -164,8 +163,7 @@ def show_recommend_page():
                 "iconId": item[1],
                 "id": item[2],
                 "starNum": item[3],
-                "title": item[4],
-                "username": item[5]
+                "title": item[4]
             }
             cursor.execute(
                 f"select url from photo where shuoshuoId='{item[2]}' limit 1")
@@ -198,7 +196,7 @@ def show_follow_page():
     db = dbp.connection()
     cursor = db.cursor()
     cursor.execute(
-        f"select s.author, u.url, s.id, s.star, s.topic, u.username from shuoshuo s " +
+        f"select s.author, u.url, s.id, s.star, s.topic from shuoshuo s " +
         f"join users u on u.uid = s.author " +
         f"where s.author in (select followed from concern where user='{data_values.get('id')}')"
     )
@@ -212,8 +210,7 @@ def show_follow_page():
                 "iconId": item[1],
                 "id": item[2],
                 "starNum": item[3],
-                "title": item[4],
-                "username": item[5]
+                "title": item[4]
             }
             cursor.execute(
                 f"select url from photo where shuoshuoId='{item[2]}' limit 1")

@@ -7,8 +7,6 @@
             <solid android:color="#48ae89" />
             <!--梯度-->
             <gradient android:endColor="#48ae89" android:startColor="#48ae89" />
-            <!--边框-->
-            <stroke android:width="2dp" android:color="#7E222323" />
             <!--圆角-->
             <corners android:radius="30dp" />
             <!--边距-->
@@ -16,13 +14,11 @@
         </shape>
     </item>
     <item android:state_pressed="true">
-        <shape >
+        <shape>
             <!--背景-->
             <solid android:color="#2C9972" />
             <!--梯度-->
             <gradient android:endColor="#2C9972" android:startColor="#2C9972" />
-            <!--边框-->
-            <stroke android:width="2dp" android:color="#7E222323" />
             <!--圆角-->
             <corners android:radius="30dp" />
             <!--边距-->

@@ -2,15 +2,14 @@ package com.example.sharephoto.Profile;
 
 import static android.app.Activity.RESULT_OK;
 
+import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,13 +18,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.sharephoto.LoginActivity;
+import com.bumptech.glide.Glide;
+import com.example.sharephoto.Login.LoginActivity;
 import com.example.sharephoto.R;
+import com.example.sharephoto.RequestConfig;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -97,8 +97,17 @@ public class ProfileFragment extends Fragment {
                 }
             });
         }
+        initData(vh);
         vh.profileTab.setupWithViewPager(vh.viewPager, false);
         return profileView;
+    }
+
+    private void initData(ViewHolder vh) {
+        String id = getContext().getSharedPreferences("data", Context.MODE_PRIVATE).getString("username", "");
+        if (!id.equals("")) {
+            vh.profile_user_id.setText(id);
+            new GetInfoAsyncTask(getContext(), vh).execute(id);
+        }
     }
 
     @Override
@@ -107,15 +116,17 @@ public class ProfileFragment extends Fragment {
             case EDIT_INFO:
                 if (resultCode == RESULT_OK) {
                     assert data != null;
-                    int icon = data.getIntExtra(ProfileEditActivity.ICON, R.drawable.icon);
+                    String icon = data.getStringExtra(ProfileEditActivity.ICON);
                     String username = data.getStringExtra(ProfileEditActivity.USERNAME);
                     String sex = data.getStringExtra(ProfileEditActivity.SEX);
                     String info = data.getStringExtra(ProfileEditActivity.INFO);
 
-                    vh.profile_avatar_icon.setImageResource(icon);
+//                    vh.profile_avatar_icon.setImageResource(icon);
+                    Glide.with(getContext()).load(RequestConfig.URL + icon).into(vh.profile_avatar_icon);
                     vh.profile_user_name.setText(username);
                     vh.profile_personal_description.setText(info);
-                    Toast.makeText(getContext(), sex, Toast.LENGTH_SHORT).show();
+                    vh.profile_sex.setSelected(sex.equals("女"));
+//                    Toast.makeText(getContext(), sex, Toast.LENGTH_SHORT).show();
                 } else if (resultCode == ProfileEditActivity.LOGOUT) {
                     Intent intent = new Intent(getContext(), LoginActivity.class);
                     startActivity(intent);

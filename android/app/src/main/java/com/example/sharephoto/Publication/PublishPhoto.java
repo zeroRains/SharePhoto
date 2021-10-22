@@ -2,8 +2,11 @@ package com.example.sharephoto.Publication;
 
 import android.graphics.Bitmap;
 
+import com.google.gson.annotations.SerializedName;
+
 public class PublishPhoto {
     private int id;
+    @SerializedName("url")
     private String photo_uri;
 
     public String getPhoto_uri() {

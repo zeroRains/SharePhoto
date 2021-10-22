@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -22,25 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DetailActivity extends AppCompatActivity implements View.OnClickListener {
-    //    作者栏
-    ImageView detail_icon;
-    TextView detail_username;
-    TextView detail_time;
-    Button detail_follow;
-
-    //    图片区
-    ImageView detail_photo;
-
-    //    状态区
-    ImageView detail_zan_status;
-    TextView detail_zan_num;
-    ImageView detail_love_status;
-    TextView detail_love_num;
-    ImageView detail_transition;
-
-    // 描述区
-    TextView detail_description_title;
-    TextView detail_description;
+    // 说说内容
+    ViewHolder viewHolder = new ViewHolder();
 
     //    评论区
     RecyclerView detail_remark;
@@ -50,6 +34,10 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     EditText detail_remark_content;
     Button detail_remark_submit;
 
+
+    private RemarkAdapter adapter;
+    private DetailImageAdapter imageAdapter;
+    private int shuoshuoId = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,63 +49,78 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
             window.setStatusBarColor(getResources().getColor(R.color.primary));
         }
         initView();
+        initData();
     }
 
     private void initView() {
 //        作者
-        detail_icon = findViewById(R.id.detail_icon);
-        detail_username = findViewById(R.id.detail_username);
-        detail_time = findViewById(R.id.detail_time);
-        detail_follow = findViewById(R.id.detail_follow);
+        viewHolder.detail_icon = findViewById(R.id.detail_icon);
+        viewHolder.detail_username = findViewById(R.id.detail_username);
+        viewHolder.detail_time = findViewById(R.id.detail_time);
+        viewHolder.detail_follow = findViewById(R.id.detail_follow);
 
 //        图片
-        detail_photo = findViewById(R.id.detail_photo);
+        viewHolder.detail_photo = findViewById(R.id.detail_img_list);
 
 //        状态
-        detail_zan_status = findViewById(R.id.detail_zan_status);
-        detail_zan_num = findViewById(R.id.detail_zan_num);
-        detail_love_status = findViewById(R.id.detail_love_status);
-        detail_love_num = findViewById(R.id.detail_love_num);
-        detail_transition = findViewById(R.id.detail_transition);
+        viewHolder.detail_zan_status = findViewById(R.id.detail_zan_status);
+        viewHolder.detail_zan_num = findViewById(R.id.detail_zan_num);
+        viewHolder.detail_love_status = findViewById(R.id.detail_love_status);
+        viewHolder.detail_love_num = findViewById(R.id.detail_love_num);
+        viewHolder.detail_transition = findViewById(R.id.detail_transition);
 
 //        描述
-        detail_description_title = findViewById(R.id.detail_description_title);
-        detail_description = findViewById(R.id.detail_description);
+        viewHolder.detail_description_title = findViewById(R.id.detail_description_title);
+        viewHolder.detail_description = findViewById(R.id.detail_description);
 
 //        评论
         detail_remark = findViewById(R.id.detail_remark);
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         detail_remark.setLayoutManager(staggeredGridLayoutManager);
-        initData();
-        RemarkAdapter adapter = new RemarkAdapter(DetailActivity.this, remarks, R.layout.item_remark);
+
+        adapter = new RemarkAdapter(DetailActivity.this, R.layout.item_remark);
         detail_remark.setAdapter(adapter);
+
+        imageAdapter = new DetailImageAdapter(DetailActivity.this, new String[]{}, R.layout.item_detail_img);
+        StaggeredGridLayoutManager imgLayoutManager = new StaggeredGridLayoutManager(1, RecyclerView.HORIZONTAL);
+        viewHolder.detail_photo.setAdapter(imageAdapter);
+        viewHolder.detail_photo.setLayoutManager(imgLayoutManager);
+//        adapter.setRemarks(remarks);
+
 
 //        发表评论
         detail_remark_content = findViewById(R.id.detail_remark_content);
         detail_remark_submit = findViewById(R.id.detail_remark_submit);
 
         setClickEvent();
+
+        shuoshuoId = getIntent().getIntExtra("shuoshuoId", -1);
+
     }
 
     private void initData() {
-        for (int i = 0; i < 10; i++) {
-            Remark remark = new Remark();
-            remark.setIcon(R.drawable.icon);
-            remark.setUsername("ZeroRains");
-            remark.setContent("这是很多中肯的评论集合，这是很多中肯的评论集合，这是很多中肯的评论集合，这是很多中肯的评论集合");
-            remark.setDate("2021-8-24");
-            remark.setNum(666);
-            remark.setStatus(false);
-            remarks.add(remark);
+        String id = getSharedPreferences("data", MODE_PRIVATE).getString("username", "");
+        if (!id.equals("") && shuoshuoId != -1) {
+            new RemarkAsyncTask(this, remarks, adapter, viewHolder, imageAdapter).execute(shuoshuoId + "", id);
         }
+//        for (int i = 0; i < 10; i++) {
+//            Remark remark = new Remark();
+//            remark.setIcon(R.drawable.icon);
+//            remark.setUsername("ZeroRains");
+//            remark.setContent("这是很多中肯的评论集合，这是很多中肯的评论集合，这是很多中肯的评论集合，这是很多中肯的评论集合");
+//            remark.setDate("2021-8-24");
+//            remark.setNum(666);
+//            remark.setStatus(false);
+//            remarks.add(remark);
+//        }
     }
 
     private void setClickEvent() {
-        detail_icon.setOnClickListener(this);
-        detail_follow.setOnClickListener(this);
-        detail_zan_status.setOnClickListener(this);
-        detail_love_status.setOnClickListener(this);
-        detail_transition.setOnClickListener(this);
+        viewHolder.detail_icon.setOnClickListener(this);
+        viewHolder.detail_follow.setOnClickListener(this);
+        viewHolder.detail_zan_status.setOnClickListener(this);
+        viewHolder.detail_love_status.setOnClickListener(this);
+        viewHolder.detail_transition.setOnClickListener(this);
         detail_remark_submit.setOnClickListener(this);
     }
 
@@ -129,60 +132,104 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onClick(View v) {
         int id = v.getId();
+        String uid = getSharedPreferences("data", MODE_PRIVATE).getString("username", "");
         switch (id) {
             case R.id.detail_icon:
                 Toast.makeText(DetailActivity.this, "点击这个会到别人的主页去", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.detail_follow:
-                if (detail_follow.isSelected()) {
-                    detail_follow.setSelected(false);
-                    detail_follow.setText("+ 关注");
-                    detail_follow.setTextColor(getResources().getColor(R.color.primary));
-                    Toast.makeText(DetailActivity.this, "已经取消关注了", Toast.LENGTH_SHORT).show();
+                String status;
+                if (viewHolder.detail_follow.isSelected()) {
+                    viewHolder.detail_follow.setSelected(false);
+                    viewHolder.detail_follow.setText("+ 关注");
+                    viewHolder.detail_follow.setTextColor(getResources().getColor(R.color.primary));
+                    status = "false";
+//                    Toast.makeText(DetailActivity.this, "已经取消关注了", Toast.LENGTH_SHORT).show();
                 } else {
-                    detail_follow.setSelected(true);
-                    detail_follow.setText("✓ 已关注");
-                    detail_follow.setTextColor(getResources().getColor(R.color.white));
-                    Toast.makeText(DetailActivity.this, "关注成功", Toast.LENGTH_SHORT).show();
+                    viewHolder.detail_follow.setSelected(true);
+                    viewHolder.detail_follow.setText("✓ 已关注");
+                    viewHolder.detail_follow.setTextColor(getResources().getColor(R.color.white));
+                    status = "true";
+//                    Toast.makeText(DetailActivity.this, "关注成功", Toast.LENGTH_SHORT).show();
                 }
+
+                if (shuoshuoId != -1 && !uid.equals(""))
+                    new FollowAuthorAsyncTask().execute(shuoshuoId + "", uid, viewHolder.detail_username.getText().toString(), status);
                 break;
             case R.id.detail_zan_status:
-                if (detail_zan_status.isSelected()) {
-                    detail_zan_status.setSelected(false);
-                    int num = Integer.parseInt(detail_zan_num.getText().toString());
+                String status_zan;
+                if (viewHolder.detail_zan_status.isSelected()) {
+                    viewHolder.detail_zan_status.setSelected(false);
+                    int num = Integer.parseInt(viewHolder.detail_zan_num.getText().toString());
                     num = num - 1;
-                    detail_zan_num.setText(num + "");
-                    Toast.makeText(DetailActivity.this, "取消点赞", Toast.LENGTH_SHORT).show();
+                    viewHolder.detail_zan_num.setText(num + "");
+//                    Toast.makeText(DetailActivity.this, "取消点赞", Toast.LENGTH_SHORT).show();
+                    status_zan = "false";
                 } else {
-                    detail_zan_status.setSelected(true);
-                    int num = Integer.parseInt(detail_zan_num.getText().toString());
+                    viewHolder.detail_zan_status.setSelected(true);
+                    int num = Integer.parseInt(viewHolder.detail_zan_num.getText().toString());
                     num = num + 1;
-                    detail_zan_num.setText(num + "");
-                    Toast.makeText(DetailActivity.this, "点赞+1", Toast.LENGTH_SHORT).show();
+                    viewHolder.detail_zan_num.setText(num + "");
+//                    Toast.makeText(DetailActivity.this, "点赞+1", Toast.LENGTH_SHORT).show();
+                    status_zan = "true";
+                }
+                if (shuoshuoId != -1 && !uid.equals("")) {
+//                    Log.d("zero", "onClick: " + shuoshuoId);
+                    new ThumbsupAsyncTask().execute(shuoshuoId + "", uid, status_zan);
                 }
                 break;
             case R.id.detail_love_status:
-                if (detail_love_status.isSelected()) {
-                    detail_love_status.setSelected(false);
-                    int num = Integer.parseInt(detail_love_num.getText().toString());
+                String status_star;
+                if (viewHolder.detail_love_status.isSelected()) {
+                    viewHolder.detail_love_status.setSelected(false);
+                    int num = Integer.parseInt(viewHolder.detail_love_num.getText().toString());
                     num -= 1;
-                    detail_love_num.setText("" + num);
-                    Toast.makeText(DetailActivity.this, "取消收藏", Toast.LENGTH_SHORT).show();
+                    viewHolder.detail_love_num.setText("" + num);
+//                    Toast.makeText(DetailActivity.this, "取消收藏", Toast.LENGTH_SHORT).show();
+                    status_star = "false";
                 } else {
-                    detail_love_status.setSelected(true);
-                    int num = Integer.parseInt(detail_love_num.getText().toString());
+                    viewHolder.detail_love_status.setSelected(true);
+                    int num = Integer.parseInt(viewHolder.detail_love_num.getText().toString());
                     num += 1;
-                    detail_love_num.setText("" + num);
-                    Toast.makeText(DetailActivity.this, "收藏成功", Toast.LENGTH_SHORT).show();
+                    viewHolder.detail_love_num.setText("" + num);
+//                    Toast.makeText(DetailActivity.this, "收藏成功", Toast.LENGTH_SHORT).show();
+                    status_star = "true";
+                }
+                if (shuoshuoId != -1 && !uid.equals("")) {
+                    new StarAsyncTask().execute("" + shuoshuoId, uid, status_star);
                 }
                 break;
             case R.id.detail_transition:
                 Toast.makeText(DetailActivity.this, "可以转发了", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.detail_remark_submit:
-                Toast.makeText(DetailActivity.this, detail_remark_content.getText().toString(), Toast.LENGTH_SHORT).show();
+                if (shuoshuoId != -1 && !uid.equals("")) {
+                    new RemarkSubmitAsyncTask(DetailActivity.this).execute("" + shuoshuoId, uid, detail_remark_content.getText().toString());
+                }
                 break;
         }
 
+    }
+
+    public class ViewHolder {
+        //    作者栏
+        ImageView detail_icon;
+        TextView detail_username;
+        TextView detail_time;
+        Button detail_follow;
+
+        //    图片区
+        RecyclerView detail_photo;
+
+        //    状态区
+        ImageView detail_zan_status;
+        TextView detail_zan_num;
+        ImageView detail_love_status;
+        TextView detail_love_num;
+        ImageView detail_transition;
+
+        // 描述区
+        TextView detail_description_title;
+        TextView detail_description;
     }
 }

@@ -12,7 +12,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.sharephoto.R;
+import com.example.sharephoto.RequestConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +35,10 @@ public class PublishPhotoAdapter extends RecyclerView.Adapter<PublishPhotoAdapte
         this.notifyDataSetChanged();
     }
 
+    public List<PublishPhoto> getPhotos() {
+        return photos;
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -44,7 +50,8 @@ public class PublishPhotoAdapter extends RecyclerView.Adapter<PublishPhotoAdapte
     @Override
     public void onBindViewHolder(@NonNull PublishPhotoAdapter.ViewHolder holder, int position) {
         PublishPhoto item = photos.get(position);
-        holder.publish_photo_item.setImageBitmap(displayImage(item.getPhoto_uri()));
+//        holder.publish_photo_item.setImageBitmap(displayImage(item.getPhoto_uri()));
+        Glide.with(context).load(RequestConfig.URL + item.getPhoto_uri()).into(holder.publish_photo_item);
     }
 
     @Override

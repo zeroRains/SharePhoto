@@ -23,6 +23,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -32,9 +33,26 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.sharephoto.R;
+import com.example.sharephoto.Response.BaseResponse;
+import com.example.sharephoto.Utils.RealPathFromUriUtils;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 
 public class PublishActivity extends AppCompatActivity implements View.OnClickListener {
@@ -48,6 +66,8 @@ public class PublishActivity extends AppCompatActivity implements View.OnClickLi
     private EditText publish_content;
     //    话题
     private EditText publish_topic;
+    //    分类
+    private RecyclerView publish_category;
 
     //    提交栏
     private Button publish_submit;
@@ -55,9 +75,12 @@ public class PublishActivity extends AppCompatActivity implements View.OnClickLi
 
     //    候选图片
     private List<PublishPhoto> photos = new ArrayList<>();
+    private List<PublishSelection> selections = new ArrayList<>();
 
     public static final int CHOOSE_PHOTO = 2;
     private PublishPhotoAdapter adapter;
+    private PublishCategoryAdapter select_adapter;
+    private static String[] category;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +95,9 @@ public class PublishActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void initView() {
+//        获取频道
+        category = getResources().getStringArray(R.array.titles);
+
 //        图像选择
         publish_photo = findViewById(R.id.publish_photo);
         publish_add = findViewById(R.id.publish_add);
@@ -80,6 +106,7 @@ public class PublishActivity extends AppCompatActivity implements View.OnClickLi
         publish_title = findViewById(R.id.publish_title);
         publish_content = findViewById(R.id.publish_content);
         publish_topic = findViewById(R.id.publish_topic);
+        publish_category = findViewById(R.id.publish_category_selection);
 
 //        提交栏
         publish_submit = findViewById(R.id.publish_submit);
@@ -90,18 +117,27 @@ public class PublishActivity extends AppCompatActivity implements View.OnClickLi
         publish_cancel.setOnClickListener(this);
         publish_submit.setOnClickListener(this);
 
-//        initData();
+        initData();
+//        上传图像
         adapter = new PublishPhotoAdapter(PublishActivity.this, R.layout.item_publication_photo);
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(1, RecyclerView.HORIZONTAL);
         publish_photo.setAdapter(adapter);
         publish_photo.setLayoutManager(staggeredGridLayoutManager);
+//       选择类型
+        StaggeredGridLayoutManager staggeredGridLayoutManager1 = new StaggeredGridLayoutManager(1, RecyclerView.HORIZONTAL);
+        select_adapter = new PublishCategoryAdapter(PublishActivity.this, R.layout.item_publish);
+        select_adapter.setSelections(selections);
+        publish_category.setAdapter(select_adapter);
+        publish_category.setLayoutManager(staggeredGridLayoutManager1);
+
     }
 
     private void initData() {
-        for (int i = 0; i < 7; i++) {
-            PublishPhoto photo = new PublishPhoto();
-            photo.setId(R.drawable.icon);
-            photos.add(photo);
+        for (String name : category) {
+            PublishSelection item = new PublishSelection();
+            item.setTitle(name);
+            item.setSelected(false);
+            selections.add(item);
         }
     }
 
@@ -124,7 +160,18 @@ public class PublishActivity extends AppCompatActivity implements View.OnClickLi
                 }
                 break;
             case R.id.publish_submit:
-                Toast.makeText(PublishActivity.this, "点击这个发布图片分享", Toast.LENGTH_SHORT).show();
+                String id = "admin2";
+                List<PublishPhoto> photos = adapter.getPhotos();
+                String photo = "";
+                for (PublishPhoto item : photos) {
+                    photo = photo + item.getPhoto_uri() + ",";
+                }
+                photo = photo.substring(0, photo.length() - 1);
+                String title = publish_title.getText().toString();
+                String description = publish_content.getText().toString();
+                String topic = publish_topic.getText().toString();
+                new PublishSubmitAsyncTask(this).execute(id, photo, title, description, topic, category[select_adapter.getNow()]);
+//                Toast.makeText(PublishActivity.this, "点击这个发布图片分享" + category[select_adapter.getNow()], Toast.LENGTH_SHORT).show();
                 break;
             case R.id.publish_cancel:
                 publish_back(v);
@@ -161,20 +208,69 @@ public class PublishActivity extends AppCompatActivity implements View.OnClickLi
         switch (requestCode) {
             case CHOOSE_PHOTO:
                 String photo = null;
-                if(data ==null)
+                if (data == null)
                     break;
-                if (requestCode == RESULT_OK) {
-                    if (Build.VERSION.SDK_INT >= 19) {
-                        photo = handleImageOnKitKat(data);
+//                if (requestCode == RESULT_OK) {
+//                    if (Build.VERSION.SDK_INT >= 19) {
+//                        photo = handleImageOnKitKat(data);
+//                    }
+//                } else {
+//                    photo = handleImageBeforeKitKat(data);
+//                }
+                photo = RealPathFromUriUtils.getRealPathFromUri(this, data.getData());
+                File file = new File(photo);
+                RequestBody fileBody = RequestBody.create(MediaType.parse("application/octet-stream"), file);
+                RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                        .addFormDataPart("file", file.getName(), fileBody)
+                        .build();
+                Request request = new Request.Builder()
+                        .url(PublishAsyncTask.URL)
+                        .post(requestBody)
+                        .build();
+
+//                Log.d("zerorains", "onActivityResult: " + file.getName());
+                OkHttpClient client = new OkHttpClient();
+                Call call = client.newCall(request);
+                call.enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+//                        Log.d("zerorains", "onResponse: " + e);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(PublishActivity.this, "添加失败！", Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
-                } else {
-                    photo = handleImageBeforeKitKat(data);
-                }
-//                这里可以添加
-                PublishPhoto item = new PublishPhoto();
-                item.setPhoto_uri(photo);
-                photos.add(item);
-                adapter.setPhotos(photos);
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        final String s = response.body().string();
+                        Gson gson = new Gson();
+                        Type type = new TypeToken<BaseResponse<List<PublishPhoto>>>() {
+                        }.getType();
+                        BaseResponse<List<PublishPhoto>> response1 = gson.fromJson(s, type);
+//                        Log.d("zerorains", "onResponse: " + response1.getData().size());
+                        if (response1.getMsg().equals("success")) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    photos.addAll(response1.getData());
+                                    adapter.setPhotos(photos);
+                                    adapter.notifyDataSetChanged();
+                                }
+                            });
+                        } else {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(PublishActivity.this, "上传失败", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    }
+                });
+
                 break;
             default:
                 break;
