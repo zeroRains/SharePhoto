@@ -1,4 +1,4 @@
-# SharePhoto
+# PhotographicSharing
 
 - 开发者：1900300819卢林军、1900301236谢浚霖、1900301502黄元炫
 
