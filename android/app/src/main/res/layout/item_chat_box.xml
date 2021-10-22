@@ -10,23 +10,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/zuoimg"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_margin="5dp" />
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp" />
 
         <TextView
             android:id="@+id/zuotext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
+            android:padding="5dp"
             android:layout_toEndOf="@id/zuoimg"
             android:layout_toRightOf="@id/zuoimg"
-
-            android:text="1234567891234568976545678231231231231231231231239231456"
+            android:background="@drawable/rounded_background_gray"
+            android:text="1234567891234568976541456"
             android:textSize="20sp" />
-        <!--        android:background="@mipmap/qp2"-->
     </RelativeLayout>
 
 
@@ -35,25 +40,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/youimg"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_margin="5dp" />
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_margin="5dp"/>
 
         <TextView
             android:id="@+id/youtext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
+            android:padding="5dp"
             android:layout_toStartOf="@id/youimg"
             android:layout_toLeftOf="@id/youimg"
+            android:background="@drawable/rounded_background_gray"
             android:text="1234567890123413123123123123123568901236547890"
             android:textSize="20sp" />
-        <!--        android:background="@mipmap/qqq"-->
 
     </RelativeLayout>
 
