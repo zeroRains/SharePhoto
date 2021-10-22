@@ -1,6 +1,7 @@
 package com.example.sharephoto.Profile;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.example.sharephoto.Response.BaseResponse;
 import com.google.gson.Gson;
@@ -34,6 +35,7 @@ public class GetPhotoAsyncTask extends AsyncTask<String, Void, String> {
                 .url(URL + "?user=" + user)
                 .get()
                 .build();
+        Log.d("zerorains", "get Photo doInBackground: "+URL + "?user=" + user);
         OkHttpClient client = new OkHttpClient();
         try {
             Response response = client.newCall(request).execute();
@@ -57,6 +59,7 @@ public class GetPhotoAsyncTask extends AsyncTask<String, Void, String> {
                 photos.add(0, item);
             }
             adapter.setContentList(photos);
+//            adapter.notifyDataSetChanged();
         }
         super.onPostExecute(s);
     }

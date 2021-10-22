@@ -60,6 +60,7 @@ public class ProfileEditActivity extends AppCompatActivity {
     private EditText edit_info;
     private Button logout;
     private String icon;
+    private static String url;
 
     public static final String ICON = "icon";
     public static final String USERNAME = "username";
@@ -187,8 +188,9 @@ public class ProfileEditActivity extends AppCompatActivity {
                     body.addFormDataPart("id", id)
                             .addFormDataPart("username", username)
                             .addFormDataPart("sex", sex)
-                            .addFormDataPart("introduction", introduction);
-                    Log.d("pommeseter", "edit profile " + body.toString());
+                            .addFormDataPart("introduction", introduction)
+                            .addFormDataPart("url",icon);
+//                    Log.d("pommeseter", "edit profile " + body.toString());
                     Request request = new Request.Builder()
                             .url(RequestConfig.MODIFY_INFO)
                             .post(body.build())
@@ -258,6 +260,7 @@ public class ProfileEditActivity extends AppCompatActivity {
                         .url(RequestConfig.UPLOAD_AVATAR)
                         .post(requestBody)
                         .build();
+//                Log.d("zerorains", "onActivityResult: "+RequestConfig.UPLOAD_AVATAR);
                 OkHttpClient client = new OkHttpClient();
                 Call call = client.newCall(request);
                 call.enqueue(new Callback() {
@@ -283,8 +286,9 @@ public class ProfileEditActivity extends AppCompatActivity {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    icon = RequestConfig.URL + path;
-                                    Glide.with(ProfileEditActivity.this).load(icon).into(edit_icon);
+                                    icon =  path;
+//                                    Log.d("zerorains", "run: "+icon);
+                                    Glide.with(ProfileEditActivity.this).load(RequestConfig.URL +icon).into(edit_icon);
                                 }
                             });
                         }

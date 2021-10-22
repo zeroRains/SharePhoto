@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,24 +39,16 @@ public class ProfileContentFragment extends Fragment {
 
     private ProfileContentAdapter contentAdapter;
 
-    public ProfileContentFragment() {
+    public ProfileContentFragment(String label) {
+        this.label = label;
         // Required empty public constructor
     }
 
-    public static ProfileContentFragment newInstance(String label) {
-        ProfileContentFragment fragment = new ProfileContentFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, label);
-        fragment.setArguments(args);
-        return fragment;
-    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            label = getArguments().getString(ARG_PARAM1);
-        }
     }
 
     @Override
@@ -101,6 +94,7 @@ public class ProfileContentFragment extends Fragment {
                 break;
         }
         String id = getContext().getSharedPreferences("data", Context.MODE_PRIVATE).getString("username", "");
+//        Log.d(TAG, "initData: ");
         if (!URL.equals("") && !id.equals("")) {
             new GetPhotoAsyncTask(URL, contentList, contentAdapter).execute(id);
         }

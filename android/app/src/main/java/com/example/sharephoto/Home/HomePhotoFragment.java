@@ -63,7 +63,7 @@ public class HomePhotoFragment extends Fragment {
         String id = getContext().getSharedPreferences("data", Context.MODE_PRIVATE).getString("username", "");
         switch (status) {
             case "推荐":
-                this.URL = RequestConfig.RECOMMEND + "?user=" + id;
+                this.URL = RequestConfig.RECOMMEND + "?shuoNum=" + 10;
                 break;
             case "关注":
                 this.URL = RequestConfig.CONCERN + "?id=" + id;

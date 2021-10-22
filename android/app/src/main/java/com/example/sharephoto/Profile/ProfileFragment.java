@@ -70,9 +70,9 @@ public class ProfileFragment extends Fragment {
 
             for (String t : tabTitle) {
                 vh.profileTab.addTab(vh.profileTab.newTab().setText(t));
-                fragmentList.add(ProfileContentFragment.newInstance(t));
+                fragmentList.add(new ProfileContentFragment(t));
             }
-            adapter = new ProfileContentFragmentAdapter(requireActivity().getSupportFragmentManager(), fragmentList, tabTitle);
+            adapter = new ProfileContentFragmentAdapter(getActivity().getSupportFragmentManager(), fragmentList, tabTitle);
             vh.viewPager.setAdapter(adapter);
 
 //            个人资料绑定
