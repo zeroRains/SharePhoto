@@ -12,12 +12,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:alpha="0.3"
-        android:background="@drawable/nmsl" />
+        android:background="@drawable/background" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/AppTitle"
+        android:text="看 看"
         android:id="@+id/app_title"
         android:textSize="45sp"
         android:textColor="@color/white"
@@ -39,7 +39,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Register"
+        android:text="注 册"
         android:textSize="30sp"
         android:textColor="@color/white"
         android:id="@+id/register_statue"
