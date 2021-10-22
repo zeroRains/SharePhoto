@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 public class RequestConfig {
-    public static String URL = "http://172.16.75.73:9192/";                      //url
+    public static String URL = "http://pan.kexie.space:9192/";                      //url
 
     //    用户
     public static String LOGIN = URL + "users/login";                               //登录

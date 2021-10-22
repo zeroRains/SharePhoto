@@ -37,6 +37,7 @@ public class RecommendAsyncTask extends AsyncTask<String, Void, String> {
                 .url(url)
                 .get()
                 .build();
+//        Log.d("zerorains", "doInBackground: "+url);
         try {
             OkHttpClient client = new OkHttpClient();
             Response response = client.newCall(request).execute();
