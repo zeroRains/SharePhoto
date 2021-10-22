@@ -9,7 +9,7 @@ import java.util.List;
 
 class ProfileContentFragmentAdapter extends FragmentPagerAdapter {
 
-    private List<ProfileContentFragment> fragmentList;
+    public List<ProfileContentFragment> fragmentList;
     private String[] tabTitle;
     private FragmentManager fm;
 
@@ -23,6 +23,7 @@ class ProfileContentFragmentAdapter extends FragmentPagerAdapter {
     @NonNull
     @Override
     public Fragment getItem(int position) {
+
         return fragmentList.get(position);
     }
 

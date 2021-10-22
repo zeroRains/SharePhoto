@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -12,11 +13,14 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.sharephoto.Detail.DetailActivity;
 import com.example.sharephoto.R;
 import com.example.sharephoto.RequestConfig;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
+import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 
 
 import java.util.ArrayList;
@@ -29,7 +33,8 @@ public class HomePhotoFragment extends Fragment {
     private String status;
     private String URL;
     private HomePhotoAdapter photoAdapter;
-    private SwipeRefreshLayout photoSwipeRefresh;
+//    private SmartRefreshLayout photoSmartRefresh;
+    private SwipeRefreshLayout photoSmartRefresh;
     private View rootView;
 
     public HomePhotoFragment(String status) {
@@ -59,13 +64,16 @@ public class HomePhotoFragment extends Fragment {
         recyclerView.setLayoutManager(staggeredGridLayoutManager);
         recyclerView.setAdapter(photoAdapter);
 
-        photoSwipeRefresh = view.findViewById(R.id.home_photo_swipe);
-        photoSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                new RecommendAsyncTask(rootView.getContext(), URL, photoAdapter, photos, photoSwipeRefresh, shuoNum).execute();
-            }
-        });
+        photoSmartRefresh = view.findViewById(R.id.home_photo_smart);
+        photoSmartRefresh.setOnRefreshListener(() -> new RecommendAsyncTask(rootView.getContext(), URL, photoAdapter, photos, photoSmartRefresh, shuoNum).execute());
+//        photoSmartRefresh.setOnLoadMoreListener(new OnLoadMoreListener() {
+//            @Override
+//            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+//                shuoNum += 10;
+//                new RecommendAsyncTask(rootView.getContext(), URL, photoAdapter, photos, photoSmartRefresh, shuoNum).execute();
+//            }
+//        });
+//        photoSmartRefresh.
 
         initData();
         return view;

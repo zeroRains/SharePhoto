@@ -33,7 +33,7 @@
 
         <LinearLayout
             android:id="@+id/remark_status_container"
-            android:layout_width="75dp"
+            android:layout_width="80dp"
             android:layout_height="40dp"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
@@ -74,8 +74,8 @@
             android:id="@+id/remark_content"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
             android:text="这是很多中肯的评论集合，这是很多中肯的评论集合，这是很多中肯的评论集合，这是很多中肯的评论集合"
             android:textSize="16sp"
             app:layout_constraintEnd_toStartOf="@+id/remark_status_container"

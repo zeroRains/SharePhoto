@@ -12,6 +12,7 @@ import com.example.sharephoto.RequestConfig;
 import com.example.sharephoto.Response.BaseResponse;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -25,8 +26,8 @@ public class RecommendAsyncTask extends AsyncTask<String, Void, String> {
     private Context context;
     private String url;
     private HomePhotoAdapter adapter;
-    private SwipeRefreshLayout swipe;
-    private Integer shuoNum = 10;
+    private SwipeRefreshLayout smart;
+    private Integer shuoNum;
     List<HomePhoto> photos;
 
     public RecommendAsyncTask(Context context, String url, HomePhotoAdapter adapter, List<HomePhoto> photos, SwipeRefreshLayout swipeRefreshLayout, Integer shuoNum) {
@@ -34,7 +35,7 @@ public class RecommendAsyncTask extends AsyncTask<String, Void, String> {
         this.url = url;
         this.adapter = adapter;
         this.photos = photos;
-        this.swipe = swipeRefreshLayout;
+        this.smart = swipeRefreshLayout;
         this.shuoNum = shuoNum;
     }
 
@@ -47,6 +48,7 @@ public class RecommendAsyncTask extends AsyncTask<String, Void, String> {
 
     @Override
     protected String doInBackground(String... strings) {
+        if (shuoNum == null) shuoNum = 10;
 
         Request request = new Request.Builder()
                 .url(url + "?shuoNum=" + shuoNum)
@@ -77,9 +79,6 @@ public class RecommendAsyncTask extends AsyncTask<String, Void, String> {
                 photos.add(0, item);
             }
             adapter.setPhotos(photos);
-            if (swipe != null) {
-                swipe.setRefreshing(false);
-            }
         } else {
             Toast.makeText(context, "请检查网络状态", Toast.LENGTH_SHORT).show();
             try {
@@ -87,7 +86,6 @@ public class RecommendAsyncTask extends AsyncTask<String, Void, String> {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            swipe.setRefreshing(false);
         }
 //        notify();
         super.onPostExecute(s);
