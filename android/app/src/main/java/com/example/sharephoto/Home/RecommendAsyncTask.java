@@ -1,10 +1,14 @@
 package com.example.sharephoto.Home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import com.example.sharephoto.RequestConfig;
 import com.example.sharephoto.Response.BaseResponse;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -21,7 +25,18 @@ public class RecommendAsyncTask extends AsyncTask<String, Void, String> {
     private Context context;
     private String url;
     private HomePhotoAdapter adapter;
+    private SwipeRefreshLayout swipe;
+    private Integer shuoNum = 10;
     List<HomePhoto> photos;
+
+    public RecommendAsyncTask(Context context, String url, HomePhotoAdapter adapter, List<HomePhoto> photos, SwipeRefreshLayout swipeRefreshLayout, Integer shuoNum) {
+        this.context = context;
+        this.url = url;
+        this.adapter = adapter;
+        this.photos = photos;
+        this.swipe = swipeRefreshLayout;
+        this.shuoNum = shuoNum;
+    }
 
     public RecommendAsyncTask(Context context, String url, HomePhotoAdapter adapter, List<HomePhoto> photos) {
         this.context = context;
@@ -34,7 +49,7 @@ public class RecommendAsyncTask extends AsyncTask<String, Void, String> {
     protected String doInBackground(String... strings) {
 
         Request request = new Request.Builder()
-                .url(url)
+                .url(url + "?shuoNum=" + shuoNum)
                 .get()
                 .build();
         try {
@@ -61,8 +76,17 @@ public class RecommendAsyncTask extends AsyncTask<String, Void, String> {
                 photos.add(0, item);
             }
             adapter.setPhotos(photos);
+            if (swipe != null) {
+                swipe.setRefreshing(false);
+            }
         } else {
             Toast.makeText(context, "请检查网络状态", Toast.LENGTH_SHORT).show();
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            swipe.setRefreshing(false);
         }
 //        notify();
         super.onPostExecute(s);

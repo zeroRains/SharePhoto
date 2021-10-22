@@ -30,7 +30,7 @@ public class ChatTools implements Runnable {
     public void run() {
         try {
             Log.e("socket", ipAddress);
-            socket = new Socket(ipAddress, 8088);//第一个参数是你服务器的ip，第二个参数是端口号
+            socket = new Socket(ipAddress, 9193);//第一个参数是你服务器的ip，第二个参数是端口号
             //服务器连接成功的话则发一个Message给UI线程 跳到ChatActivity.java的第37行
             Message msg = new Message();
             msg.what = 1;
