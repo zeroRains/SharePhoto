@@ -26,7 +26,7 @@ public class RecommendAsyncTask extends AsyncTask<String, Void, String> {
     private String url;
     private HomePhotoAdapter adapter;
     private SwipeRefreshLayout swipe;
-    private Integer shuoNum = 10;
+    private Integer shuoNum;
     List<HomePhoto> photos;
 
     public RecommendAsyncTask(Context context, String url, HomePhotoAdapter adapter, List<HomePhoto> photos, SwipeRefreshLayout swipeRefreshLayout, Integer shuoNum) {
@@ -47,6 +47,7 @@ public class RecommendAsyncTask extends AsyncTask<String, Void, String> {
 
     @Override
     protected String doInBackground(String... strings) {
+        if (shuoNum == null) shuoNum = 10;
 
         Request request = new Request.Builder()
                 .url(url + "?shuoNum=" + shuoNum)
