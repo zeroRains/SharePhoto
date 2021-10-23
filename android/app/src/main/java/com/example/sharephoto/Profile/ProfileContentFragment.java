@@ -108,6 +108,7 @@ public class ProfileContentFragment extends Fragment {
                 break;
         }
         String id = getContext().getSharedPreferences("data", Context.MODE_PRIVATE).getString("username", "");
+//        Log.d(TAG, "initData: ");
         if (!URL.equals("") && !id.equals("")) {
             Log.d("xxxxx", "initData: " + URL + " " + label);
             new GetPhotoAsyncTask(URL, contentList, contentAdapter).execute(id);
