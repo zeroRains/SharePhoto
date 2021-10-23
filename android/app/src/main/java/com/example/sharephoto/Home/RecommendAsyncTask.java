@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.sharephoto.RequestConfig;
@@ -46,8 +47,14 @@ public class RecommendAsyncTask extends AsyncTask<String, Void, String> {
         else if (strings.length == 1)
             shuoNum = Integer.valueOf(strings[0]);
 
+        if (url.contains("concern")) {
+            url = url + "&shuoNum=" + shuoNum;
+        } else {
+            url = url + "?shuoNum=" + shuoNum;
+        }
+
         Request request = new Request.Builder()
-                .url(url + "?shuoNum=" + shuoNum)
+                .url(url)
                 .get()
                 .build();
 //        Log.d("zerorains", "doInBackground: "+url);
@@ -79,9 +86,10 @@ public class RecommendAsyncTask extends AsyncTask<String, Void, String> {
                 }
                 adapter.setPhotos(photos);
                 smart.finishRefresh(1000, true, false);
+                smart.finishLoadMore(1000, true, false);
             } else {
                 for (HomePhoto item : response.getData()) {
-                    photos.add(0, item);
+                    photos.add(item);
                 }
                 adapter.setPhotos(photos);
                 smart.finishLoadMore(1000, true, false);

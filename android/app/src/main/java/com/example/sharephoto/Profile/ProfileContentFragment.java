@@ -19,6 +19,10 @@ import android.widget.Toast;
 import com.example.sharephoto.Detail.DetailActivity;
 import com.example.sharephoto.R;
 import com.example.sharephoto.RequestConfig;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
+import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,11 +39,14 @@ public class ProfileContentFragment extends Fragment {
     }
 
     private String label;
-    private Profile item;
+    private String URL;
+    private String localUsername;
+    private Integer currentNum = 10;
     private List<Profile> contentList = new ArrayList<>();
     private static final String ARG_PARAM1 = "ARG_LABEL";
 
     private RecyclerView recyclerView;
+    private SmartRefreshLayout profileContentSmart;
     private View profileContentView;
 
     private ProfileContentAdapter contentAdapter;
@@ -86,14 +93,36 @@ public class ProfileContentFragment extends Fragment {
             }
         });
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, RecyclerView.VERTICAL);
+
         recyclerView.setLayoutManager(staggeredGridLayoutManager);
         recyclerView.setAdapter(contentAdapter);
+
+        profileContentSmart = view.findViewById(R.id.profile_content_smart);
+        profileContentSmart.requestLayout();
+        profileContentSmart.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                if (!URL.equals("") && !localUsername.equals("")) {
+                    new GetPhotoAsyncTask(profileContentView.getContext(), URL, contentList, contentAdapter, currentNum, "refresh", profileContentSmart).execute(localUsername);
+                }
+            }
+        });
+
+        profileContentSmart.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                currentNum += 10;
+                if (!URL.equals("") && !localUsername.equals("")) {
+                    new GetPhotoAsyncTask(profileContentView.getContext(), URL, contentList, contentAdapter, currentNum, "loadMore", profileContentSmart).execute(localUsername);
+                }
+            }
+        });
+
         initData();
         return view;
     }
 
     private void initData() {
-        String URL = "";
         switch (label) {
             case "动态":
                 URL = RequestConfig.SELF_PUBLISH;
@@ -108,10 +137,10 @@ public class ProfileContentFragment extends Fragment {
                 break;
         }
         String id = getContext().getSharedPreferences("data", Context.MODE_PRIVATE).getString("username", "");
+        localUsername = id;
 //        Log.d(TAG, "initData: ");
         if (!URL.equals("") && !id.equals("")) {
-            Log.d("xxxxx", "initData: " + URL + " " + label);
-            new GetPhotoAsyncTask(URL, contentList, contentAdapter).execute(id);
+            new GetPhotoAsyncTask(profileContentView.getContext(), URL, contentList, contentAdapter, currentNum, "refresh", profileContentSmart).execute(id);
         }
 //        for (int i = 0; i < 20; i++) {
 //            item = new Profile();
