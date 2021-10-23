@@ -49,7 +49,7 @@ public class RecommendAsyncTask extends AsyncTask<String, Void, String> {
     protected String doInBackground(String... strings) {
 
         Request request = new Request.Builder()
-                .url(url + "?shuoNum=" + shuoNum)
+                .url(url)
                 .get()
                 .build();
 //        Log.d("zerorains", "doInBackground: "+url);

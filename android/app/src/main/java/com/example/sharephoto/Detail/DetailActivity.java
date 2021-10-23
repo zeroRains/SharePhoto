@@ -206,6 +206,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                 if (shuoshuoId != -1 && !uid.equals("")) {
                     new RemarkSubmitAsyncTask(DetailActivity.this).execute("" + shuoshuoId, uid, detail_remark_content.getText().toString());
                 }
+                detail_remark_content.setText("");
                 break;
         }
 

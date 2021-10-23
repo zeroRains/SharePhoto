@@ -160,7 +160,7 @@ public class PublishActivity extends AppCompatActivity implements View.OnClickLi
                 }
                 break;
             case R.id.publish_submit:
-                String id = "admin2";
+                String id = getSharedPreferences("data", MODE_PRIVATE).getString("username", "");
                 List<PublishPhoto> photos = adapter.getPhotos();
                 String photo = "";
                 for (PublishPhoto item : photos) {

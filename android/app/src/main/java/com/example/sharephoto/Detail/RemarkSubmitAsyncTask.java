@@ -60,6 +60,7 @@ public class RemarkSubmitAsyncTask extends AsyncTask<String, Void, String> {
         BaseResponse<List<Empty>> res = gson.fromJson(s, type);
         if (res.getMsg().equals("success")) {
             Toast.makeText(context, "发表成功！", Toast.LENGTH_SHORT).show();
+
         }
         super.onPostExecute(s);
     }

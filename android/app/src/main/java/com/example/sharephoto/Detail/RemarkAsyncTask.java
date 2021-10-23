@@ -46,6 +46,7 @@ public class RemarkAsyncTask extends AsyncTask<String, Void, String[]> {
                 .url(RemarkAsyncTask.URL + "?id=" + id + "&user=" + user)
                 .get()
                 .build();
+        Log.d("123", "doInBackground: "+RemarkAsyncTask.URL + "?id=" + id + "&user=" + user);
         Request request1 = new Request.Builder()
                 .url(RequestConfig.DETAIL + "?id=" + id + "&user=" + user)
                 .get()

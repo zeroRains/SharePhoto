@@ -37,6 +37,10 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 account_text = account.getText().toString();
                 password_text = password.getText().toString();
+                if(account_text.equals(""))
+                    Toast.makeText(LoginActivity.this,"用户名为空",Toast.LENGTH_SHORT).show();
+                else if(password_text.equals(""))
+                    Toast.makeText(LoginActivity.this,"密码为空",Toast.LENGTH_SHORT).show();
 //                if (check()) {
 //                    Toast.makeText(LoginActivity.this, "登录成功，欢迎您" + account_text, Toast.LENGTH_SHORT).show();
 //                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
@@ -44,11 +48,11 @@ public class LoginActivity extends AppCompatActivity {
 //                } else {
 //                    Toast.makeText(LoginActivity.this, "登录失败，请检查好用户名和密码", Toast.LENGTH_SHORT).show();
 //                }
-                check();
+                else check();
             }
 
             private void check() {
-                Toast.makeText(LoginActivity.this, "进来1", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(LoginActivity.this, "进来1", Toast.LENGTH_SHORT).show();
                 new LoginAsyncTask(LoginActivity.this, account_text).execute(
                         account_text,
                         password_text);
