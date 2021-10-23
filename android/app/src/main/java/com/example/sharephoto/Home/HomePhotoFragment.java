@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import android.view.ViewGroup;
 import com.example.sharephoto.Detail.DetailActivity;
 import com.example.sharephoto.R;
 import com.example.sharephoto.RequestConfig;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
@@ -87,10 +89,10 @@ public class HomePhotoFragment extends Fragment {
         String id = getContext().getSharedPreferences("data", Context.MODE_PRIVATE).getString("username", "");
         switch (status) {
             case "推荐":
-                URL = RequestConfig.RECOMMEND;
+                this.URL = RequestConfig.RECOMMEND+"?";
                 break;
             case "关注":
-                URL = RequestConfig.CONCERN + "?id=" + id;
+                this.URL = RequestConfig.CONCERN + "?id=" + id+"&";
                 break;
             default:
                 URL = null;

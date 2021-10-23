@@ -16,6 +16,7 @@ import com.google.gson.reflect.TypeToken;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
 
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,9 +55,10 @@ public class RecommendAsyncTask extends AsyncTask<String, Void, String> {
         }
 
         Request request = new Request.Builder()
-                .url(url)
+                .url(url+"shuoNum="+shuoNum)
                 .get()
                 .build();
+        Log.d("recommend", "doInBackground: "+request.toString());
 //        Log.d("zerorains", "doInBackground: "+url);
         try {
             OkHttpClient client = new OkHttpClient();
