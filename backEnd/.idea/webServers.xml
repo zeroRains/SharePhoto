@@ -3,7 +3,7 @@
   <component name="WebServers">
     <option name="servers">
       <webServer id="0fb69112-9710-4406-9342-1800b39755c6" name="vd-server">
-        <fileTransfer rootFolder="/home/visualdust" accessType="SFTP" host="172.16.75.73" port="22" sshConfigId="e2810987-5d4b-4055-9a5c-c0566036c85b" sshConfig="visualdust@172.16.75.73:22 password">
+        <fileTransfer rootFolder="/home/visualdust" accessType="SFTP" host="pan.kexie.space" port="22" sshConfigId="e2810987-5d4b-4055-9a5c-c0566036c85b" sshConfig="visualdust@pan.kexie.space:22 password">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
           </advancedOptions>

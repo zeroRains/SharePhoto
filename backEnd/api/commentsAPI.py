@@ -54,16 +54,21 @@ def get_comments():
     db = dbp.connection()
     cursor = db.cursor()
     cursor.execute(
-        f"select date, thumbsupNum, content, u.username, u.url, tc.great, comments.id from sharingphoto.comments "
-        f"join sharingphoto.users u on comments.author = u.uid "
-        f"join sharingphoto.thumbsup_comments tc on tc.commentsId=comments.id and tc.user='{data.get('user')}' where shuoshuoId='{data.get('id')}'")
+        f"select date, thumbsupNum, content, u.username, u.url, c.id from sharingphoto.comments c "
+        f"join sharingphoto.users u on c.author = u.uid where shuoshuoId='{data.get('id')}'")
     res = cursor.fetchall()
-    cursor.close()
     if res is not None:
         for item in res:
+            cursor.execute(f"select great from sharingphoto.thumbsup_comments tc where user='{data.get('user')}' and commentsId='{data.get('id')}'")
+            tc_res = cursor.fetchall()
+            if len(tc_res) == 0:
+                tmp = "F"
+            else:
+                tmp = tc_res[0]
             it = {"date": item[0], "thumbsupNum": item[1], "content": item[2], "username": item[3], "iconId": item[4],
-                  "isThumbsup": item[5], "commentId": item[6]}
+                  "isThumbsup": tmp, "commentId": item[5]}
             comments_list.append(it)
+        cursor.close()
         db.close()
         return {"msg": "success", "data": comments_list}
     else:

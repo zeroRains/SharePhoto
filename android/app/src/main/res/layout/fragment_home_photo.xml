@@ -6,31 +6,57 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Home.HomePhotoFragment">
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    <com.scwang.smart.refresh.layout.SmartRefreshLayout
         android:id="@+id/home_photo_smart"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="4dp"
+        android:layout_height="match_parent"
+        android:layout_margin="8dp"
         app:layout_constraintTop_toTopOf="parent"
-        app:srlEnableRefresh="true"
-        app:srlEnableLoadMore="true"
         app:srlAccentColor="@color/profile_start_green"
-        app:srlPrimaryColor="@color/primary"
-        app:srlReboundDuration="300"
-        app:srlDragRate="0.5"
-        app:srlHeaderHeight="40dp"
-        app:srlFooterHeight="40dp"
+        app:srlPrimaryColor="@color/white"
+        app:srlReboundDuration="350"
+        app:srlHeaderHeight="60dp"
+        app:srlFooterHeight="60dp"
         >
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/home_photo_show"
+        <com.scwang.smart.refresh.header.ClassicsHeader
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="wrap_content"
+            app:srlTextSizeTitle="16sp"
+            app:srlEnableRefresh="true"
+            app:srlTextPulling="上拉加载更多"
+            app:srlTextFinish="加载成功"
+            app:srlTextRefreshing="正在刷新..."
+            app:srlTextLoading="正在加载..."
+            app:srlTextRelease="释放立即加载"
+            app:srlTextFailed="加载失败"
+            app:srlClassicsSpinnerStyle="Translate"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/home_photo_show"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </LinearLayout>
+
+        <com.scwang.smart.refresh.footer.ClassicsFooter
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srlAccentColor="@color/profile_start_green"
+            app:srlPrimaryColor="@color/white"
+            app:srlTextPulling="下拉加载更多"
+            app:srlTextFinish="加载成功"
+            app:srlEnableLoadMore="true"
+            app:srlTextRefreshing="正在刷新..."
+            app:srlTextLoading="正在加载..."
+            app:srlTextRelease="释放立即加载"
+            app:srlTextFailed="加载失败"/>
+
+    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
