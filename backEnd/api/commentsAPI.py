@@ -54,8 +54,8 @@ def get_comments():
     db = dbp.connection()
     cursor = db.cursor()
     cursor.execute(
-        f"select date, thumbsupNum, content, u.username, u.url, c.id from sharingphoto.comments c"
-        f"join sharingphoto.users u on comments.author = u.uid where shuoshuoId='{data.get('id')}'")
+        f"select date, thumbsupNum, content, u.username, u.url, c.id from sharingphoto.comments c "
+        f"join sharingphoto.users u on c.author = u.uid where shuoshuoId='{data.get('id')}'")
     res = cursor.fetchall()
     if res is not None:
         for item in res:
