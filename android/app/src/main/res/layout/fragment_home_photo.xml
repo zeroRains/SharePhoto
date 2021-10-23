@@ -7,12 +7,20 @@
     tools:context=".Home.HomePhotoFragment">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/home_photo_swipe"
+        android:id="@+id/home_photo_smart"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="4dp"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="4dp">
+        app:srlEnableRefresh="true"
+        app:srlEnableLoadMore="true"
+        app:srlAccentColor="@color/profile_start_green"
+        app:srlPrimaryColor="@color/primary"
+        app:srlReboundDuration="300"
+        app:srlDragRate="0.5"
+        app:srlHeaderHeight="40dp"
+        app:srlFooterHeight="40dp"
+        >
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/home_photo_show"
