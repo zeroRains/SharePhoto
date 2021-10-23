@@ -13,6 +13,7 @@ import com.example.sharephoto.Response.BaseResponse;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -26,29 +27,24 @@ public class RecommendAsyncTask extends AsyncTask<String, Void, String> {
     private Context context;
     private String url;
     private HomePhotoAdapter adapter;
-    private SwipeRefreshLayout smart;
+    private SmartRefreshLayout smart;
     private Integer shuoNum;
     List<HomePhoto> photos;
 
-    public RecommendAsyncTask(Context context, String url, HomePhotoAdapter adapter, List<HomePhoto> photos, SwipeRefreshLayout swipeRefreshLayout, Integer shuoNum) {
+    public RecommendAsyncTask(Context context, String url, HomePhotoAdapter adapter, List<HomePhoto> photos, SmartRefreshLayout swipeRefreshLayout) {
         this.context = context;
         this.url = url;
         this.adapter = adapter;
         this.photos = photos;
         this.smart = swipeRefreshLayout;
-        this.shuoNum = shuoNum;
-    }
-
-    public RecommendAsyncTask(Context context, String url, HomePhotoAdapter adapter, List<HomePhoto> photos) {
-        this.context = context;
-        this.url = url;
-        this.adapter = adapter;
-        this.photos = photos;
     }
 
     @Override
     protected String doInBackground(String... strings) {
-        if (shuoNum == null) shuoNum = 10;
+        if (strings.length == 0)
+            shuoNum = 10;
+        else if (strings.length == 1)
+            shuoNum = Integer.valueOf(strings[0]);
 
         Request request = new Request.Builder()
                 .url(url + "?shuoNum=" + shuoNum)
@@ -74,10 +70,21 @@ public class RecommendAsyncTask extends AsyncTask<String, Void, String> {
         }.getType();
         BaseResponse<List<HomePhoto>> response = gson.fromJson(s, type);
         if (response.getMsg().equals("success")) {
-            for (HomePhoto item : response.getData()) {
-                photos.add(0, item);
+            Log.d("pommespeter", "onPostExecute: " + response.getData().size());
+            if (response.getData().size() <= 10) {
+                photos.clear();
+                for (HomePhoto item : response.getData()) {
+                    photos.add(0, item);
+                }
+                adapter.setPhotos(photos);
+                smart.finishRefresh(1000, true, false);
+            } else {
+                for (HomePhoto item : response.getData()) {
+                    photos.add(0, item);
+                }
+                adapter.setPhotos(photos);
+                smart.finishLoadMore(1000, true, false);
             }
-            adapter.setPhotos(photos);
         } else {
             Toast.makeText(context, "请检查网络状态", Toast.LENGTH_SHORT).show();
             try {
@@ -85,6 +92,8 @@ public class RecommendAsyncTask extends AsyncTask<String, Void, String> {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            smart.finishRefresh(1500, true, true);
+            smart.finishLoadMore(1500, true, true);
         }
 //        notify();
         super.onPostExecute(s);

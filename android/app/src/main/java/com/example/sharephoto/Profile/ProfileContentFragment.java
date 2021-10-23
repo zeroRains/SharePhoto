@@ -74,7 +74,7 @@ public class ProfileContentFragment extends Fragment {
             profileContentView = inflater.inflate(R.layout.fragment_profile_content, container, false);
         }
         View view = profileContentView;
-        recyclerView = profileContentView.findViewById(R.id.content_list);
+        recyclerView = view.findViewById(R.id.content_list);
 
         contentAdapter = new ProfileContentAdapter(getContext(), contentList, R.layout.item_profile_content);
         contentAdapter.setOnItemClickListener(new ProfileContentAdapter.OnItemClickListener() {
@@ -89,7 +89,7 @@ public class ProfileContentFragment extends Fragment {
         recyclerView.setLayoutManager(staggeredGridLayoutManager);
         recyclerView.setAdapter(contentAdapter);
         initData();
-        return profileContentView;
+        return view;
     }
 
     private void initData() {

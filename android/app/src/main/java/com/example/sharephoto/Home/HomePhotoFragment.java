@@ -33,8 +33,7 @@ public class HomePhotoFragment extends Fragment {
     private String status;
     private String URL;
     private HomePhotoAdapter photoAdapter;
-//    private SmartRefreshLayout photoSmartRefresh;
-    private SwipeRefreshLayout photoSmartRefresh;
+    private SmartRefreshLayout photoSmartRefresh;
     private View rootView;
 
     public HomePhotoFragment(String status) {
@@ -65,15 +64,20 @@ public class HomePhotoFragment extends Fragment {
         recyclerView.setAdapter(photoAdapter);
 
         photoSmartRefresh = view.findViewById(R.id.home_photo_smart);
-        photoSmartRefresh.setOnRefreshListener(() -> new RecommendAsyncTask(rootView.getContext(), URL, photoAdapter, photos, photoSmartRefresh, shuoNum).execute());
-//        photoSmartRefresh.setOnLoadMoreListener(new OnLoadMoreListener() {
-//            @Override
-//            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-//                shuoNum += 10;
-//                new RecommendAsyncTask(rootView.getContext(), URL, photoAdapter, photos, photoSmartRefresh, shuoNum).execute();
-//            }
-//        });
-//        photoSmartRefresh.
+        photoSmartRefresh.requestLayout();
+        photoSmartRefresh.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                new RecommendAsyncTask(rootView.getContext(), URL, photoAdapter, photos, photoSmartRefresh).execute();
+            }
+        });
+        photoSmartRefresh.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                shuoNum += 10;
+                new RecommendAsyncTask(rootView.getContext(), URL, photoAdapter, photos, photoSmartRefresh).execute(shuoNum.toString());
+            }
+        });
 
         initData();
         return view;
@@ -93,7 +97,7 @@ public class HomePhotoFragment extends Fragment {
                 break;
         }
 
-        new RecommendAsyncTask(rootView.getContext(), URL, photoAdapter, photos).execute();
+        new RecommendAsyncTask(rootView.getContext(), URL, photoAdapter, photos, photoSmartRefresh).execute();
 //        for (int i = 0; i < 50; i++) {
 //            HomePhoto item = new HomePhoto();
 ////            item.setIconId(RequestConfig.URL+"static/imgs/bg03.jpg");

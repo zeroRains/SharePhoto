@@ -3,15 +3,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Profile.ProfileContentFragment">
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/content_list"
+    <com.scwang.smart.refresh.layout.SmartRefreshLayout
+        android:id="@+id/profile_conetnt_smart"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="8dp"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="8dp"
-        android:scrollbars="none" />
+        app:srlAccentColor="@color/profile_start_green"
+        app:srlPrimaryColor="@color/primary"
+
+        app:srlHeaderHeight="100dp"
+        app:srlFooterHeight="100dp"
+
+
+        >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/content_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="8dp"
+            android:scrollbars="none" />
+
+    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
 
 </FrameLayout>
