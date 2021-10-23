@@ -12,7 +12,7 @@ import com.example.sharephoto.RequestConfig;
 import com.example.sharephoto.Response.BaseResponse;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.scwang.smart.refresh.layout.SmartRefreshLayout;
+//import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -51,9 +51,10 @@ public class RecommendAsyncTask extends AsyncTask<String, Void, String> {
         if (shuoNum == null) shuoNum = 10;
 
         Request request = new Request.Builder()
-                .url(url)
+                .url(url+"shuoNum="+shuoNum)
                 .get()
                 .build();
+        Log.d("recommend", "doInBackground: "+request.toString());
 //        Log.d("zerorains", "doInBackground: "+url);
         try {
             OkHttpClient client = new OkHttpClient();

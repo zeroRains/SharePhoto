@@ -18,10 +18,10 @@ import android.view.ViewGroup;
 import com.example.sharephoto.Detail.DetailActivity;
 import com.example.sharephoto.R;
 import com.example.sharephoto.RequestConfig;
-import com.scwang.smart.refresh.layout.SmartRefreshLayout;
-import com.scwang.smart.refresh.layout.api.RefreshLayout;
-import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
-import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
+//import com.scwang.smart.refresh.layout.SmartRefreshLayout;
+//import com.scwang.smart.refresh.layout.api.RefreshLayout;
+//import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
+//import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 
 
 import java.util.ArrayList;
@@ -84,10 +84,10 @@ public class HomePhotoFragment extends Fragment {
         String id = getContext().getSharedPreferences("data", Context.MODE_PRIVATE).getString("username", "");
         switch (status) {
             case "推荐":
-                this.URL = RequestConfig.RECOMMEND + "?shuoNum=" + 10;
+                this.URL = RequestConfig.RECOMMEND+"?";
                 break;
             case "关注":
-                this.URL = RequestConfig.CONCERN + "?id=" + id;
+                this.URL = RequestConfig.CONCERN + "?id=" + id+"&";
                 break;
             default:
                 this.URL = null;
