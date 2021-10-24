@@ -153,7 +153,7 @@ def show_recommend_page():
     cursor = db.cursor()
     cursor.execute(
         f"select s.author, u.url, s.id, s.star, s.topic from shuoshuo s " +
-        f"join users u on u.uid = s.author"
+        f"join users u on u.uid = s.author order by rand() limit {data_values.get('shuoNum')}"
     )
     res = cursor.fetchall()
     if res is not None:
@@ -166,7 +166,7 @@ def show_recommend_page():
                 "title": item[4]
             }
             cursor.execute(
-                f"select url from photo where shuoshuoId='{item[2]}' limit 1")
+                f"select url from photo where shuoshuoId='{item[2]}'")
             res1 = cursor.fetchall()
             if len(res1) == 0:
                 continue
@@ -198,7 +198,7 @@ def show_follow_page():
     cursor.execute(
         f"select s.author, u.url, s.id, s.star, s.topic from shuoshuo s " +
         f"join users u on u.uid = s.author " +
-        f"where s.author in (select followed from concern where user='{data_values.get('id')}')"
+        f"where s.author in (select followed from concern where user='{data_values.get('id')}') limit {data_values.get('shuoNum')}"
     )
 
     res = cursor.fetchall()

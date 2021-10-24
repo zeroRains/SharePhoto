@@ -55,7 +55,7 @@ public class RecommendAsyncTask extends AsyncTask<String, Void, String> {
 //        }
 
         Request request = new Request.Builder()
-                .url(url+"shuoNum="+shuoNum)
+                .url(url)
                 .get()
                 .build();
         Log.d("recommend", "doInBackground: "+request.toString());

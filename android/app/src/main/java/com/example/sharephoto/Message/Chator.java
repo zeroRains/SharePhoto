@@ -10,10 +10,10 @@ public class Chator {
         this.avatarId = i;
     }
 
-    public Chator(String s, int i, boolean b) {
+    public Chator(String s, int i, boolean isReceived) {
         this.text = s;
         this.avatarId = i;
-        this.isReceived = b;
+        this.isReceived = isReceived;
     }
 
     public boolean isReceived() {

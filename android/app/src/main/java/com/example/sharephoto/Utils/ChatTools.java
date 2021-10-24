@@ -31,7 +31,7 @@ public class ChatTools implements Runnable {
         try {
             Log.e("socket", ipAddress);
             socket = new Socket(ipAddress, 9193);//第一个参数是你服务器的ip，第二个参数是端口号
-            //服务器连接成功的话则发一个Message给UI线程 跳到ChatActivity.java的第37行
+            //服务器连接成功的话则发一个Message给UI线程 跳到MessageFragment.java的第37行
             Message msg = new Message();
             msg.what = 1;
             messageFragment.getHandler().sendMessage(msg);
@@ -41,7 +41,7 @@ public class ChatTools implements Runnable {
         }
 
         //连接服务器成功之后开始接受消息
-        BufferedReader in = null;
+        BufferedReader in;
         try {
             in = new BufferedReader(new InputStreamReader(socket.getInputStream(), "UTF-8"));
             while (true) {
@@ -62,12 +62,12 @@ public class ChatTools implements Runnable {
         }
     }
 
-    public void sendMessage(final String s) {//发送消息
+    public void sendMessage(String s) {//发送消息
         new Thread(new Runnable() {
             @Override
             public void run() {//我发现有的手机在UI线程发消息会崩溃，而有的不会
                 // 在一个新的线程发消息
-                BufferedWriter out = null;
+                BufferedWriter out;
                 try {
                     out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), "UTF-8"));
                     out.write(s + "\r\n");
