@@ -63,6 +63,7 @@ public class GetInfoAsyncTask extends AsyncTask<String, Void, String> {
             vh.profile_fan_number.setText("" + info.getFan());
             vh.profile_subscription_number.setText("" + info.getStart());
             vh.profile_sex.setSelected(info.getSex().equals("F"));
+            vh.profile_personal_description.setText(info.getIntroduction());
         }
         super.onPostExecute(s);
     }

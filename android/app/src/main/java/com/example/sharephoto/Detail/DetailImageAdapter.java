@@ -17,8 +17,10 @@ import com.example.sharephoto.RequestConfig;
 import java.util.List;
 
 public class DetailImageAdapter extends RecyclerView.Adapter<DetailImageAdapter.ViewHolder> {
-    Context context;
-    String[] photos;
+    private Context context;
+
+
+    private String[] photos;
     private int resourceId;
     ;
 
@@ -31,6 +33,10 @@ public class DetailImageAdapter extends RecyclerView.Adapter<DetailImageAdapter.
     public void setPhotos(String[] photos) {
         this.photos = photos;
         this.notifyDataSetChanged();
+    }
+
+    public String[] getPhotos() {
+        return photos;
     }
 
     @NonNull

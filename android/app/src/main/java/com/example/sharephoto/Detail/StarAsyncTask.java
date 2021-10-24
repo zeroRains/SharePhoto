@@ -26,7 +26,6 @@ public class StarAsyncTask extends AsyncTask<String, Void, String> {
                 .url(RequestConfig.FAVOR)
                 .post(body.build())
                 .build();
-        Log.d("request_debug", "doInBackground: "+request.toString());
         OkHttpClient client = new OkHttpClient();
         try {
             client.newCall(request).execute();

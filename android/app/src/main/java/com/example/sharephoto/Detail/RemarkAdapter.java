@@ -37,7 +37,7 @@ public class RemarkAdapter extends RecyclerView.Adapter<RemarkAdapter.ViewHolder
 
     public void setRemarks(List<Remark> remarks) {
         this.remarks = remarks;
-//        this.notifyDataSetChanged();
+        this.notifyDataSetChanged();
     }
 
     @NonNull

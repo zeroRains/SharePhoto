@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,6 +24,7 @@ import android.widget.Toast;
 import com.example.sharephoto.Home.DeleteAsyncTask;
 import com.example.sharephoto.R;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -208,6 +211,12 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                 break;
             case R.id.detail_transition:
                 Toast.makeText(DetailActivity.this, "可以转发了", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(imageAdapter.getPhotos()[0])));
+                intent.setType("*/*");
+                context.startActivity(Intent.createChooser(intent, "分享"));
+
                 break;
             case R.id.detail_remark_submit:
                 if (shuoshuoId != -1 && !uid.equals("")) {
