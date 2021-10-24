@@ -1,5 +1,7 @@
 package com.example.sharephoto.Detail;
 
+import static java.security.AccessController.getContext;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -17,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.sharephoto.Home.DeleteAsyncTask;
 import com.example.sharephoto.R;
 
 import java.util.ArrayList;
@@ -33,6 +36,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     //    发表评论区
     EditText detail_remark_content;
     Button detail_remark_submit;
+    Activity context;
 
 
     private RemarkAdapter adapter;
@@ -50,6 +54,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         }
         initView();
         initData();
+        context = this;
     }
 
     private void initView() {
@@ -58,6 +63,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         viewHolder.detail_username = findViewById(R.id.detail_username);
         viewHolder.detail_time = findViewById(R.id.detail_time);
         viewHolder.detail_follow = findViewById(R.id.detail_follow);
+        viewHolder.detail_delete = findViewById(R.id.detail_delete);
 
 //        图片
         viewHolder.detail_photo = findViewById(R.id.detail_img_list);
@@ -118,6 +124,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     private void setClickEvent() {
         viewHolder.detail_icon.setOnClickListener(this);
         viewHolder.detail_follow.setOnClickListener(this);
+        viewHolder.detail_delete.setOnClickListener(this);
         viewHolder.detail_zan_status.setOnClickListener(this);
         viewHolder.detail_love_status.setOnClickListener(this);
         viewHolder.detail_transition.setOnClickListener(this);
@@ -208,6 +215,11 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                 }
                 detail_remark_content.setText("");
                 break;
+            case R.id.detail_delete:
+                Toast.makeText(DetailActivity.this,"删除",Toast.LENGTH_SHORT).show();
+                new DeleteAsyncTask(DetailActivity.this).execute(String.valueOf(shuoshuoId));
+//                context.finish();
+                break;
         }
 
     }
@@ -218,6 +230,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         TextView detail_username;
         TextView detail_time;
         Button detail_follow;
+        Button detail_delete;
 
         //    图片区
         RecyclerView detail_photo;

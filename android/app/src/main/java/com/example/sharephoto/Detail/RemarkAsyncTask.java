@@ -93,6 +93,7 @@ public class RemarkAsyncTask extends AsyncTask<String, Void, String[]> {
             viewHolder.detail_time.setText(info.getDate());
             if (user.equals(info.getUid())) {
                 viewHolder.detail_follow.setVisibility(View.GONE);
+                viewHolder.detail_delete.setVisibility(View.VISIBLE);
             } else if (info.getFollow().equals("T")) {
                 viewHolder.detail_follow.setSelected(true);
                 viewHolder.detail_follow.setTextColor(context.getResources().getColor(R.color.white));

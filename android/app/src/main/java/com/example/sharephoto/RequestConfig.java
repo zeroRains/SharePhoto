@@ -26,6 +26,7 @@ public class RequestConfig {
     public static String THUMBSUP_SHUOSHUO = URL + "shuoshuo/thumbsuped_shuoshuo";  //赞过说说
     public static String STARTED_SHUOSHUO = URL + "shuoshuo/stared_shuoshuo";       //收藏说说
     public static String SELF_PUBLISH = URL + "shuoshuo/self_published";              //自己说说
+    public static String SHUOSHUO_DELETE = URL + "shuoshuo/delete";
 
     //    图像
     public static String UPLOAD_IMAGES = URL + "images/upload_imgs";                //上传图像

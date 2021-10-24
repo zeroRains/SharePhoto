@@ -47,7 +47,7 @@ public class RecommendAsyncTask extends AsyncTask<String, Void, String> {
             shuoNum = 10;
         else if (strings.length == 1)
             shuoNum = Integer.valueOf(strings[0]);
-
+        url = url + "&shuoNum=" + shuoNum;
 //        if (url.contains("concern")) {
 //            url = url + "&shuoNum=" + shuoNum;
 //        } else {
@@ -58,7 +58,7 @@ public class RecommendAsyncTask extends AsyncTask<String, Void, String> {
                 .url(url)
                 .get()
                 .build();
-        Log.d("recommend", "doInBackground: "+request.toString());
+        Log.d("recommend", "doInBackground: " + request.toString());
 //        Log.d("zerorains", "doInBackground: "+url);
         try {
             OkHttpClient client = new OkHttpClient();
@@ -70,7 +70,7 @@ public class RecommendAsyncTask extends AsyncTask<String, Void, String> {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return request.toString();
     }
 
     @Override
