@@ -29,14 +29,14 @@ class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHolder> {
     @NonNull
     @Override
     public MessageAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(resourceId, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(resourceId, parent, false);
         ViewHolder holder = new ViewHolder(view);
         return holder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        // todo: process data
+        // todo: process data12
         Chator chator = list.get(position);
         if (chator.isReceived()) {
             holder.leftChatBox.setVisibility(View.VISIBLE);
@@ -52,7 +52,6 @@ class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHolder> {
     }
 
 
-
     @Override
     public int getItemCount() {
         return list.size();
@@ -63,7 +62,7 @@ class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHolder> {
         TextView leftText, rightText;
         ViewGroup leftChatBox, rightChatBox;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(View itemView) {
             super(itemView);
             leftChatBox = itemView.findViewById(R.id.zuo);
             leftAvatar = itemView.findViewById(R.id.zuoimg);
