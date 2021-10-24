@@ -172,7 +172,7 @@ def show_recommend_page():
                 continue
             shuoshuo["thumbnail"] = res1[0][0]
             cursor.execute(
-                f"select star from favor where shuoshuoId='{item[2]}' and user='{data_values.get('user')}'"
+                f"select star from favor where shuoshuoId='{item[2]}' and user='{data_values.get('id')}'"
             )
             res2 = cursor.fetchall()
             if len(res2) == 0:
@@ -453,3 +453,37 @@ def publish_shuoshuo():
         cursor.close()
         db.close()
         return {"msg": "failed", "data": []}
+
+@shuoshuo_opt.route("/delete", methods=["POST"])
+def delete_shuoshuo():
+    data = request.values
+    db = dbp.connection()
+    cursor = db.cursor()
+
+    shuoshuoId = data.get('id')
+
+    # 删除相关联的评论
+    cursor.execute(f"select id from sharingphoto.comments where shuoshuoId='{shuoshuoId}'")
+    comment_id_list = cursor.fetchall()
+
+    for comment_id in comment_id_list:
+        cursor.execute(f"delete from sharingphoto.thumbsup_comments where commentsId='{comment_id}'")
+
+    cursor.execute(f"delete from sharingphoto.comments where shuoshuoId='{shuoshuoId}'")
+    cursor.execute(f"delete from sharingphoto.favor where shuoshuoId='{shuoshuoId}'")
+    cursor.execute(f"delete from sharingphoto.photo where shuoshuoId='{shuoshuoId}'")
+    cursor.execute(f"delete from sharingphoto.shuoshuo where id='{shuoshuoId}'")
+
+    try:
+        db.commit()
+        cursor.close()
+        db.close()
+        return {"msg": "success", "data": []}
+    except:
+        db.rollback()
+        cursor.close()
+        db.close()
+        return {"msg": "failed", "data": []}
+
+
+

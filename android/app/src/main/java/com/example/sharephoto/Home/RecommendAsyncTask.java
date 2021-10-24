@@ -48,11 +48,7 @@ public class RecommendAsyncTask extends AsyncTask<String, Void, String> {
         else if (strings.length == 1)
             shuoNum = Integer.valueOf(strings[0]);
         url = url + "&shuoNum=" + shuoNum;
-//        if (url.contains("concern")) {
-//            url = url + "&shuoNum=" + shuoNum;
-//        } else {
-//            url = url + "?shuoNum=" + shuoNum;
-//        }
+
 
         Request request = new Request.Builder()
                 .url(url)
