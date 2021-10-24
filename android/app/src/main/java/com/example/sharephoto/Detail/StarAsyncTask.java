@@ -1,6 +1,7 @@
 package com.example.sharephoto.Detail;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.example.sharephoto.RequestConfig;
 
@@ -25,6 +26,7 @@ public class StarAsyncTask extends AsyncTask<String, Void, String> {
                 .url(RequestConfig.FAVOR)
                 .post(body.build())
                 .build();
+        Log.d("request_debug", "doInBackground: "+request.toString());
         OkHttpClient client = new OkHttpClient();
         try {
             client.newCall(request).execute();
