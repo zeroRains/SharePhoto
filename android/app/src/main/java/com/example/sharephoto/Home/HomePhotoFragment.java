@@ -92,7 +92,7 @@ public class HomePhotoFragment extends Fragment {
                 this.URL = RequestConfig.RECOMMEND+"?";
                 break;
             case "关注":
-                this.URL = RequestConfig.CONCERN + "?id=" + id+"&";
+                this.URL = RequestConfig.CONCERN + "?id=" + id;
                 break;
             default:
                 URL = null;
