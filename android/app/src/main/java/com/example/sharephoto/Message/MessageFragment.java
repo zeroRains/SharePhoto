@@ -109,7 +109,7 @@ public class MessageFragment extends Fragment {
                 if (chatContent.length() == 0) {
                     Toast.makeText(requireContext().getApplicationContext(), "发送消息不能为空", Toast.LENGTH_SHORT).show();
                 } else {
-                    chatorList.add(new Chator(chatContent, R.drawable.nmsl, false));
+                    chatorList.add(new Chator(chatContent, R.drawable.duifang, false));
 
                     chatTools.sendMessage(chatContent);
                     recyclerView.setAdapter(adapter);

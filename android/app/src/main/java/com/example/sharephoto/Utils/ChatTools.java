@@ -51,7 +51,7 @@ public class ChatTools implements Runnable {
                 //第三个参数显示在左边还是右边，没有第三个参数的话默认显示在左边
                 //事先准备了两张头像
                 //最后将他添加到list里
-                messageFragment.getChatorList().add(new Chator(s, R.drawable.icon));
+                messageFragment.getChatorList().add(new Chator(s, R.drawable.bg03));
                 //收到消息后就要更新RecyclerView将他们显示出来，跳到MainActivity.java的第37行
                 Message msg = new Message();
                 msg.what = 2;
