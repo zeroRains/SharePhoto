@@ -16,7 +16,7 @@ def get_thumbsuped_shuoshuo():
     db = dbp.connection()
     cursor = db.cursor()
     cursor.execute(
-        f"select s.id from favor join shuoshuo s on s.id=shuoshuoId join users u on u.uid = s.author where user='admin2' and favor.great='T';")
+        f"select s.id from favor join shuoshuo s on s.id=shuoshuoId join users u on u.uid = s.author where user='{data.get('user')}' and favor.great='T';")
     res = cursor.fetchall()
     if res is not None:
         if len(res) != 0:
@@ -48,7 +48,7 @@ def get_stared_shuoshuo():
     db = dbp.connection()
     cursor = db.cursor()
     cursor.execute(
-        f"select s.id from favor join shuoshuo s on s.id=shuoshuoId join users u on u.uid = s.author where user='admin2' and favor.star='T';")
+        f"select s.id from favor join shuoshuo s on s.id=shuoshuoId join users u on u.uid = s.author where user='{data.get('user')}' and favor.star='T';")
     res = cursor.fetchall()
     if res is not None:
         if len(res) != 0:
@@ -271,8 +271,8 @@ def show_shuoshuo_detail():
     content["description"] = res[6]
     content["uid"] = res[7]
 
-    cursor.execute(f"select f.great, f.star from sharingphoto.shuoshuo " +
-                   f"join sharingphoto.favor f on shuoshuo.id = f.shuoshuoId where shuoshuo.id='{data.get('id')}'")
+    cursor.execute(f"select f.great, f.star from sharingphoto.shuoshuo s" +
+                   f" join sharingphoto.favor f on s.id = f.shuoshuoId where s.id='{data.get('id')}' and f.user='{data.get('user')}'")
 
     res2 = cursor.fetchone()
     if res2 is not None:
@@ -347,23 +347,31 @@ def follow_person():
     data = request.values
     db = dbp.connection()
     cursor = db.cursor()
-    if data.get('user') == data.get('author'):
+
+    cursor.execute(f"select author from sharingphoto.shuoshuo s where s.id='{data.get('id')}'")
+    author = cursor.fetchone()
+    if author is not None:
+        author_uid = author[0]
+    else:
+        return {"msg": "failed", "data": []}
+
+    if data.get('user') == author:
         db.close()
         return {"msg": "You can't follow yourself.", "data": []}
 
     if data.get('add').lower() == "true":
         cursor.execute(
-            f"select * from concern where user='{data.get('user')}' and followed='{data.get('author')}'")
+            f"select * from sharingphoto.concern where user='{data.get('user')}' and followed='{author_uid}'")
         if cursor.fetchone() is None:
-            cursor.execute(f"insert into concern values ('{data.get('user')}', '{data.get('author')}')")
-            cursor.execute(f"update users set fan=fan+1 where uid='{data.get('author')}'")
+            cursor.execute(f"insert into sharingphoto.concern values ('{data.get('user')}', '{author_uid}')")
+            cursor.execute(f"update sharingphoto.users set fan=fan+1 where uid='{author_uid}'")
         else:
             db.close()
             return {"msg": "You can't follow again.", "data": []}
     else:
         cursor.execute(
-            f"delete from concern where user='{data.get('user')}' and followed='{data.get('author')}'")
-        cursor.execute(f"update users set fan=fan-1 where uid='{data.get('author')}'")
+            f"delete from sharingphoto.concern where user='{data.get('user')}' and followed='{author_uid}'")
+        cursor.execute(f"update sharingphoto.users set fan=fan-1 where uid='{author_uid}'")
 
     try:
         db.commit()
@@ -381,9 +389,13 @@ def star_shuoshuo():
     data = request.values
     db = dbp.connection()
     cursor = db.cursor()
+    id = data.get("id")
+    user = data.get("user")
+    add = data.get("add")
+    print(id, user, add, "=="* 20)
     if data.get('add').lower() == "true":
         is_add = "T"
-        cursor.execute(f"select star from favor where shuoshuoId='{data.get('id')}'")
+        cursor.execute(f"select star from favor where shuoshuoId='{data.get('id')}' and user='{data.get('user')}'")
         if cursor.fetchone() is None:
             cursor.execute(
                 f"insert into favor value ('{data.get('user')}', '{data.get('id')}', '{is_add}', 'F')")
@@ -463,16 +475,15 @@ def delete_shuoshuo():
     shuoshuoId = data.get('id')
 
     # 删除相关联的评论
-    cursor.execute(f"select id from sharingphoto.comments where shuoshuoId='{shuoshuoId}'")
+    cursor.execute(f"select id from sharingphoto.comments where shuoshuoId={shuoshuoId}")
     comment_id_list = cursor.fetchall()
-
     for comment_id in comment_id_list:
-        cursor.execute(f"delete from sharingphoto.thumbsup_comments where commentsId='{comment_id}'")
+        cursor.execute(f"delete from sharingphoto.thumbsup_comments where commentsId={comment_id[0]}")
 
-    cursor.execute(f"delete from sharingphoto.comments where shuoshuoId='{shuoshuoId}'")
-    cursor.execute(f"delete from sharingphoto.favor where shuoshuoId='{shuoshuoId}'")
-    cursor.execute(f"delete from sharingphoto.photo where shuoshuoId='{shuoshuoId}'")
-    cursor.execute(f"delete from sharingphoto.shuoshuo where id='{shuoshuoId}'")
+    cursor.execute(f"delete from sharingphoto.comments where shuoshuoId={shuoshuoId}")
+    cursor.execute(f"delete from sharingphoto.favor where shuoshuoId={shuoshuoId}")
+    cursor.execute(f"delete from sharingphoto.photo where shuoshuoId={shuoshuoId}")
+    cursor.execute(f"delete from sharingphoto.shuoshuo where id={shuoshuoId}")
 
     try:
         db.commit()
